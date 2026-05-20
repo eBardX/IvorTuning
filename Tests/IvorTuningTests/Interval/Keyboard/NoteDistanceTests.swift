@@ -1,3 +1,5 @@
+// © 2025–2026 John Gary Pusey (see LICENSE.md)
+
 @testable import IvorTuning
 import Testing
 import XestiNumbers

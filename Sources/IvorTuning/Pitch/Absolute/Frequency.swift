@@ -1,15 +1,28 @@
+// © 2025–2026 John Gary Pusey (see LICENSE.md)
+
 public import XestiNumbers
 
+/// A positive rational frequency value representing an absolute pitch.
 public struct Frequency: NumberRepresentable {
 
     // MARK: Public Type Methods
 
+    /// Returns a Boolean value indicating whether the given number is a valid frequency.
+    ///
+    /// - Parameter numberValue:    The number to validate.
+    ///
+    /// - Returns:  `true` if `numberValue` is rational and positive; otherwise, `false`.
     public static func isValid(_ numberValue: Number) -> Bool {
         numberValue.isRational && numberValue.isPositive
     }
 
     // MARK: Public Initializers
 
+    /// Creates a frequency from a number value.
+    ///
+    /// - Parameter numberValue:    A rational, positive number representing the frequency in hertz.
+    ///
+    /// - Returns:  `nil` if `numberValue` is not rational or not positive.
     public init?(numberValue: Number) {
         guard Self.isValid(numberValue)
         else { return nil }
@@ -19,6 +32,7 @@ public struct Frequency: NumberRepresentable {
 
     // MARK: Public Instance Properties
 
+    /// The numeric value of this frequency.
     public let numberValue: Number
 }
 
@@ -26,42 +40,43 @@ public struct Frequency: NumberRepresentable {
 
 extension Frequency: PitchProtocol {
 
-    // MARK: Public Type Properties
-
-    public static let `default`: Self = 1
-
     // MARK: Public Instance Methods
 
-    public func interval(to pitch: Self) -> (interval: Ratio,
-                                             direction: IntervalDirection)? {
+    /// Returns the directed interval from this frequency to another frequency.
+    ///
+    /// - Parameter pitch:  The target frequency.
+    ///
+    /// - Returns:  The directed interval, containing the frequency ratio and direction.
+    public func interval(to pitch: Self) -> DirectedInterval<Ratio>? {
         let val1 = numberValue
         let val2 = pitch.numberValue
 
         if val1 < val2 {
-            return (Ratio(val2 / val1), .ascending)
+            return DirectedInterval(interval: Ratio(val2 / val1), direction: .ascending)
         }
 
         if val1 > val2 {
-            return (Ratio(val1 / val2), .descending)
+            return DirectedInterval(interval: Ratio(val1 / val2), direction: .descending)
         }
 
-        return (.unison, .same)
+        return DirectedInterval(interval: .unison, direction: .same)
     }
 
-    public func transposed(by interval: Ratio,
-                           direction: IntervalDirection) -> Self? {
-        switch direction {
+    /// Returns this frequency transposed by the given directed interval.
+    ///
+    /// - Parameter directedInterval:   The directed interval to transpose by.
+    ///
+    /// - Returns:  The transposed frequency, or `nil` if the result is out of range.
+    public func transposed(by directedInterval: DirectedInterval<Ratio>) -> Self? {
+        switch directedInterval.direction {
         case .ascending:
-            return Self(numberValue: numberValue * interval.numberValue)
+            Self(numberValue: numberValue * directedInterval.interval.numberValue)
 
         case .descending:
-            return Self(numberValue: numberValue / interval.numberValue)
+            Self(numberValue: numberValue / directedInterval.interval.numberValue)
 
         case .same:
-            guard interval == .unison
-            else { return nil }
-
-            return self
+            self
         }
     }
 }

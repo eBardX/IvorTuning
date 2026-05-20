@@ -1,3 +1,5 @@
+// © 2025–2026 John Gary Pusey (see LICENSE.md)
+
 import IvorTuning
 import XestiNumbers
 
@@ -332,13 +334,13 @@ enum Fixtures {
 private func _makeFrequency(_ base: Number,
                             _ cents: Number) -> Frequency {
     if cents < 0 {
-        return Frequency(base).transposed(by: Ratio(cents: abs(cents)),
-                                          direction: .descending)!  // swiftlint:disable:this force_unwrapping
+        return Frequency(base).transposed(by: DirectedInterval(interval: Ratio(cents: abs(cents)),
+                                                               direction: .descending))!  // swiftlint:disable:this force_unwrapping
     }
 
     if cents > 0 {
-        return Frequency(base).transposed(by: Ratio(cents: cents),
-                                          direction: .ascending)!  // swiftlint:disable:this force_unwrapping
+        return Frequency(base).transposed(by: DirectedInterval(interval: Ratio(cents: cents),
+                                                               direction: .ascending))!  // swiftlint:disable:this force_unwrapping
     }
 
     return Frequency(base)

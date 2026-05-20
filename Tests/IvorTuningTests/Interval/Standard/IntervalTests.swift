@@ -1,3 +1,5 @@
+// © 2025–2026 John Gary Pusey (see LICENSE.md)
+
 @testable import IvorTuning
 import Testing
 import XestiTools
@@ -305,69 +307,54 @@ extension IntervalTests {
 
     @Test
     func init_failure() {
-        #expect(Interval(quality: .diminished,
-                         size: 1) == nil)
-
-        #expect(Interval(quality: .major,
-                         size: 4) == nil)
-        #expect(Interval(quality: .major,
-                         size: 18) == nil)
-
-        #expect(Interval(quality: .minor,
-                         size: 5) == nil)
-        #expect(Interval(quality: .minor,
-                         size: 12) == nil)
-
-        #expect(Interval(quality: .perfect,
-                         size: 3) == nil)
-        #expect(Interval(quality: .perfect,
-                         size: 10) == nil)
+        #expect(throws: Interval.InvalidCombinationError.self) {
+            try Interval(quality: .diminished, size: 1)
+        }
+        #expect(throws: Interval.InvalidCombinationError.self) {
+            try Interval(quality: .major, size: 4)
+        }
+        #expect(throws: Interval.InvalidCombinationError.self) {
+            try Interval(quality: .major, size: 18)
+        }
+        #expect(throws: Interval.InvalidCombinationError.self) {
+            try Interval(quality: .minor, size: 5)
+        }
+        #expect(throws: Interval.InvalidCombinationError.self) {
+            try Interval(quality: .minor, size: 12)
+        }
+        #expect(throws: Interval.InvalidCombinationError.self) {
+            try Interval(quality: .perfect, size: 3)
+        }
+        #expect(throws: Interval.InvalidCombinationError.self) {
+            try Interval(quality: .perfect, size: 10)
+        }
     }
 
     @Test
-    func init_success() {
-        #expect(Interval(quality: .augmented,
-                         size: 1) != nil)
-        #expect(Interval(quality: .augmented,
-                         size: 8) != nil)
+    func init_success() throws {
+        _ = try Interval(quality: .augmented, size: 1)
+        _ = try Interval(quality: .augmented, size: 8)
 
-        #expect(Interval(quality: .diminished,
-                         size: 2) != nil)
-        #expect(Interval(quality: .diminished,
-                         size: 8) != nil)
+        _ = try Interval(quality: .diminished, size: 2)
+        _ = try Interval(quality: .diminished, size: 8)
 
-        #expect(Interval(quality: .major,
-                         size: 2) != nil)
-        #expect(Interval(quality: .major,
-                         size: 3) != nil)
-        #expect(Interval(quality: .major,
-                         size: 6) != nil)
-        #expect(Interval(quality: .major,
-                         size: 7) != nil)
-        #expect(Interval(quality: .major,
-                         size: 9) != nil)
+        _ = try Interval(quality: .major, size: 2)
+        _ = try Interval(quality: .major, size: 3)
+        _ = try Interval(quality: .major, size: 6)
+        _ = try Interval(quality: .major, size: 7)
+        _ = try Interval(quality: .major, size: 9)
 
-        #expect(Interval(quality: .minor,
-                         size: 2) != nil)
-        #expect(Interval(quality: .minor,
-                         size: 3) != nil)
-        #expect(Interval(quality: .minor,
-                         size: 6) != nil)
-        #expect(Interval(quality: .minor,
-                         size: 7) != nil)
-        #expect(Interval(quality: .minor,
-                         size: 9) != nil)
+        _ = try Interval(quality: .minor, size: 2)
+        _ = try Interval(quality: .minor, size: 3)
+        _ = try Interval(quality: .minor, size: 6)
+        _ = try Interval(quality: .minor, size: 7)
+        _ = try Interval(quality: .minor, size: 9)
 
-        #expect(Interval(quality: .perfect,
-                         size: 1) != nil)
-        #expect(Interval(quality: .perfect,
-                         size: 4) != nil)
-        #expect(Interval(quality: .perfect,
-                         size: 5) != nil)
-        #expect(Interval(quality: .perfect,
-                         size: 8) != nil)
-        #expect(Interval(quality: .perfect,
-                         size: 11) != nil)
+        _ = try Interval(quality: .perfect, size: 1)
+        _ = try Interval(quality: .perfect, size: 4)
+        _ = try Interval(quality: .perfect, size: 5)
+        _ = try Interval(quality: .perfect, size: 8)
+        _ = try Interval(quality: .perfect, size: 11)
     }
 
     @Test

@@ -1,3 +1,5 @@
+// © 2025–2026 John Gary Pusey (see LICENSE.md)
+
 import Foundation
 @testable import IvorTuning
 import Testing
@@ -27,13 +29,6 @@ extension PitchClassTests {
     }
 
     @Test
-    func description_omitNatural() {
-        #expect(PitchClass.c.description(omitNatural: true) == "C")
-        #expect(PitchClass.cSharp.description(omitNatural: true) == "C♯")
-        #expect(PitchClass.d.description(omitNatural: false) == "D♮")
-    }
-
-    @Test
     func equatable() {
         #expect(PitchClass.c == PitchClass.c)   // swiftlint:disable:this identical_operands
         #expect(PitchClass.c != PitchClass.cSharp)
@@ -49,17 +44,17 @@ extension PitchClassTests {
 
     @Test
     func init_invalid() {
-        #expect(PitchClass(stringValue: "X") == nil)
-        #expect(PitchClass(stringValue: "") == nil)
-        #expect(PitchClass(stringValue: "1") == nil)
+        #expect(throws: ParseError.self) { try PitchClass(stringValue: "X") }
+        #expect(throws: ParseError.self) { try PitchClass(stringValue: "") }
+        #expect(throws: ParseError.self) { try PitchClass(stringValue: "1") }
     }
 
     @Test
     func init_valid() throws {
-        let cNat = try #require(PitchClass(stringValue: "C"))
-        let cSharp = try #require(PitchClass(stringValue: "C♯"))
-        let aFlat = try #require(PitchClass(stringValue: "A♭"))
-        let bFlat = try #require(PitchClass(stringValue: "Bb"))
+        let cNat = try PitchClass(stringValue: "C")
+        let cSharp = try PitchClass(stringValue: "C♯")
+        let aFlat = try PitchClass(stringValue: "A♭")
+        let bFlat = try PitchClass(stringValue: "Bb")
 
         #expect(cNat == .c)
         #expect(cSharp == .cSharp)
@@ -73,5 +68,12 @@ extension PitchClassTests {
 
         #expect(pc.letter == .g)
         #expect(pc.accidental == .sharp)
+    }
+
+    @Test
+    func stringValue_omitNatural() {
+        #expect(PitchClass.c.stringValue(omitNatural: true) == "C")
+        #expect(PitchClass.cSharp.stringValue(omitNatural: true) == "C♯")
+        #expect(PitchClass.d.stringValue(omitNatural: false) == "D♮")
     }
 }

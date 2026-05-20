@@ -1,8 +1,17 @@
+// © 2025–2026 John Gary Pusey (see LICENSE.md)
+
 private import XestiTools
 
+/// The notation system used to represent a pitch.
 public enum PitchNotation {
+
+    /// A pitch expressed as a frequency value.
     case absolute
+
+    /// A pitch expressed as a MIDI note number.
     case keyboard
+
+    /// A pitch expressed as a letter, accidental, and octave.
     case standard
 }
 
@@ -12,11 +21,16 @@ extension PitchNotation {
 
     // MARK: Public Initializers
 
-    public init?(stringValue: String) {
-        guard let pitchNotations = Self.pitchNotations[stringValue]
-        else { return nil }
+    /// Creates a pitch notation from its string representation.
+    ///
+    /// - Parameter stringValue:    The string representation of the pitch notation.
+    ///
+    /// - Throws:   `ParseError` if `stringValue` does not match a known pitch notation.
+    public init(stringValue: String) throws {
+        guard let pitchNotation = Self.pitchNotations[stringValue]
+        else { throw ParseError.invalidPitchNotation(stringValue) }
 
-        self = pitchNotations
+        self = pitchNotation
     }
 
     // MARK: Private Type Properties
@@ -36,19 +50,31 @@ extension PitchNotation: Codable {
 
     // MARK: Public Initializers
 
+    /// Creates a pitch notation by decoding from the provided decoder.
+    ///
+    /// - Parameter decoder:    The decoder to read from.
+    ///
+    /// - Throws:   `DecodingError.dataCorruptedError` if the decoded value is
+    ///             not a valid pitch notation string.
     public init(from decoder: any Decoder) throws {
         let container = try decoder.singleValueContainer()
         let stringValue = try container.decode(String.self)
 
-        guard let pitchNotation = Self.pitchNotations[stringValue]
-        else { throw DecodingError.dataCorruptedError(in: container,
-                                                      debugDescription: "Invalid pitch notation value") }
-
-        self = pitchNotation
+        do {
+            try self.init(stringValue: stringValue)
+        } catch {
+            throw DecodingError.dataCorruptedError(in: container,
+                                                   debugDescription: "Invalid pitch notation value")
+        }
     }
 
     // MARK: Public Instance Methods
 
+    /// Encodes this pitch notation into the provided encoder.
+    ///
+    /// - Parameter encoder:    The encoder to write to.
+    ///
+    /// - Throws:   `EncodingError` if the value cannot be encoded.
     public func encode(to encoder: any Encoder) throws {
         var container = encoder.singleValueContainer()
 
@@ -59,6 +85,8 @@ extension PitchNotation: Codable {
 // MARK: - CustomStringConvertible
 
 extension PitchNotation: CustomStringConvertible {
+
+    /// The string representation of this pitch notation (e.g., `"absolute"`, `"keyboard"`, `"standard"`).
     public var description: String {
         Self.stringValues[self].require()
     }

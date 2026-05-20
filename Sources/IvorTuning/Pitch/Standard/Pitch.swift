@@ -1,9 +1,16 @@
+// © 2025–2026 John Gary Pusey (see LICENSE.md)
+
 private import XestiTools
 
+/// A musical pitch identified by pitch class and octave.
 public struct Pitch {
 
     // MARK: Public Initializers
 
+    /// Creates a pitch from a pitch class and octave.
+    ///
+    /// - Parameter pitchClass: The pitch class identifying the letter and accidental.
+    /// - Parameter octave:     The octave number.
     public init(pitchClass: PitchClass,
                 octave: Octave) {
         self.octave = octave
@@ -12,7 +19,10 @@ public struct Pitch {
 
     // MARK: Public Instance Properties
 
+    /// The octave number of this pitch.
     public let octave: Octave
+
+    /// The pitch class (letter and accidental) of this pitch.
     public let pitchClass: PitchClass
 }
 
@@ -22,9 +32,14 @@ extension Pitch {
 
     // MARK: Public Initializers
 
-    public init?(stringValue: String) {
+    /// Creates a pitch from its string representation.
+    ///
+    /// - Parameter stringValue:    The string representation of the pitch (e.g., `"C♯4"`).
+    ///
+    /// - Throws:   `ParseError` if `stringValue` cannot be parsed as a valid pitch.
+    public init(stringValue: String) throws {
         guard let result = Self._parse(Substring(stringValue))
-        else { return nil }
+        else { throw ParseError.invalidPitch(stringValue) }
 
         self.init(pitchClass: result.pitchClass,
                   octave: result.octave)
@@ -32,12 +47,37 @@ extension Pitch {
 
     // MARK: Public Instance Properties
 
+    /// The accidental of this pitch.
     public var accidental: Accidental {
         pitchClass.accidental
     }
 
+    /// The diatonic letter name of this pitch.
     public var letter: Letter {
         pitchClass.letter
+    }
+
+    // MARK: Public Instance Methods
+
+    /// Returns the string representation of this pitch.
+    ///
+    /// Renamed to ``stringValue(omitNatural:)``.
+    ///
+    /// - Parameter omitNatural:    When `true`, the natural accidental symbol is omitted.
+    ///
+    /// - Returns:  The string representation of the pitch.
+    @available(*, deprecated, renamed: "stringValue(omitNatural:)")
+    public func description(omitNatural: Bool) -> String {
+        stringValue(omitNatural: omitNatural)
+    }
+
+    /// Returns the string representation of this pitch.
+    ///
+    /// - Parameter omitNatural:    When `true`, the natural accidental symbol is omitted.
+    ///
+    /// - Returns:  The string representation of the pitch.
+    public func stringValue(omitNatural: Bool) -> String {
+        pitchClass.stringValue(omitNatural: omitNatural) + octave.description
     }
 
     // MARK: Private Nested Types
@@ -46,17 +86,17 @@ extension Pitch {
 
     // MARK: Private Type Properties
 
-    private static let octaveCS: Set<Character> = ["-", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+    private static let octaveCharacters: Set<Character> = ["-", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
 
     // MARK: Private Type Methods
 
     private static func _parse(_ input: Substring) -> ParseResult? {
-        let result = input.splitBeforeFirst(octaveCS)
+        let result = input.splitBeforeFirst(octaveCharacters)
 
         guard let otext = result.tail,
               let rawOctave = Int(otext),
               let octave = Octave(intValue: rawOctave),
-              let pitchClass = PitchClass(stringValue: String(result.head))
+              let pitchClass = try? PitchClass(stringValue: String(result.head))
         else { return nil }
 
         return (pitchClass, octave)
@@ -69,13 +109,19 @@ extension Pitch: Codable {
 
     // MARK: Public Initializers
 
+    /// Creates a pitch by decoding from the provided decoder.
+    ///
+    /// - Parameter decoder:    The decoder to read from.
+    ///
+    /// - Throws:   `DecodingError.dataCorruptedError` if the decoded value is
+    ///             not a valid pitch string.
     public init(from decoder: any Decoder) throws {
         let container = try decoder.singleValueContainer()
         let stringValue = try container.decode(String.self)
 
         guard let result = Self._parse(Substring(stringValue))
         else { throw DecodingError.dataCorruptedError(in: container,
-                                                      debugDescription: "Invalid pitch value") }
+                                                      debugDescription: "Invalid pitch value: \(stringValue)") }
 
         self.init(pitchClass: result.pitchClass,
                   octave: result.octave)
@@ -83,6 +129,11 @@ extension Pitch: Codable {
 
     // MARK: Public Instance Methods
 
+    /// Encodes this pitch into the provided encoder.
+    ///
+    /// - Parameter encoder:    The encoder to write to.
+    ///
+    /// - Throws:   `EncodingError` if the value cannot be encoded.
     public func encode(to encoder: any Encoder) throws {
         var container = encoder.singleValueContainer()
 
@@ -93,6 +144,13 @@ extension Pitch: Codable {
 // MARK: - Comparable
 
 extension Pitch: Comparable {
+
+    /// Returns a Boolean value indicating whether the first pitch is lower than the second.
+    ///
+    /// - Parameter lhs:    The left-hand pitch.
+    /// - Parameter rhs:    The right-hand pitch.
+    ///
+    /// - Returns:  `true` if `lhs` is lower in pitch than `rhs`; otherwise, `false`.
     public static func < (lhs: Self,
                           rhs: Self) -> Bool {
         _determineDirection(lhs, rhs) == .ascending
@@ -102,12 +160,10 @@ extension Pitch: Comparable {
 // MARK: - CustomStringConvertible
 
 extension Pitch: CustomStringConvertible {
-    public var description: String {
-        description(omitNatural: false)
-    }
 
-    public func description(omitNatural: Bool) -> String {
-        pitchClass.description(omitNatural: omitNatural) + octave.description
+    /// The string representation of this pitch, including the natural accidental symbol when present.
+    public var description: String {
+        stringValue(omitNatural: false)
     }
 }
 
@@ -119,6 +175,12 @@ extension Pitch: Equatable {
 // MARK: - ExpressibleByStringLiteral
 
 extension Pitch: ExpressibleByStringLiteral {
+
+    /// Creates a pitch from a string literal.
+    ///
+    /// - Parameter value:  The string literal representing the pitch (e.g., `"C♯4"`).
+    ///
+    /// - Precondition: `value` must be a valid pitch string.
     public init(stringLiteral value: String) {
         let result = Self._parse(Substring(value)).require()
 
@@ -136,14 +198,14 @@ extension Pitch: Hashable {
 
 extension Pitch: PitchProtocol {
 
-    // MARK: Public Type Properties
-
-    public static let `default`: Self = .c0
-
     // MARK: Public Instance Methods
 
-    public func interval(to pitch: Self) -> (interval: Interval,
-                                             direction: IntervalDirection)? {
+    /// Returns the directed interval from this pitch to another pitch.
+    ///
+    /// - Parameter pitch:  The target pitch.
+    ///
+    /// - Returns:  The directed interval, or `nil` if the interval cannot be determined.
+    public func interval(to pitch: Self) -> DirectedInterval<Interval>? {
         let direction = Self._determineDirection(self, pitch)
 
         switch direction {
@@ -151,21 +213,28 @@ extension Pitch: PitchProtocol {
             guard let interval = Self._determineInterval(self, pitch)
             else { return nil }
 
-            return (interval, direction)
+            return DirectedInterval(interval: interval, direction: direction)
 
         case .descending:
             guard let interval = Self._determineInterval(pitch, self)
             else { return nil }
 
-            return (interval, direction)
+            return DirectedInterval(interval: interval, direction: direction)
 
         case .same:
-            return (.unison, direction)
+            return DirectedInterval(interval: .unison, direction: direction)
         }
     }
 
-    public func transposed(by interval: Interval,
-                           direction: IntervalDirection) -> Self? {
+    /// Returns this pitch transposed by the given directed interval.
+    ///
+    /// - Parameter directedInterval:   The directed interval to transpose by.
+    ///
+    /// - Returns:  The transposed pitch, or `nil` if the result is out of range.
+    public func transposed(by directedInterval: DirectedInterval<Interval>) -> Self? {
+        let interval = directedInterval.interval
+        let direction = directedInterval.direction
+
         guard let pc = Self._determinePitchClass(pitchClass,
                                                  interval,
                                                  direction)
@@ -202,7 +271,7 @@ extension Pitch: PitchProtocol {
     // MARK: Private Type Methods
 
     private static func _determineDirection(_ pitch1: Self,
-                                            _ pitch2: Self) -> IntervalDirection {
+                                            _ pitch2: Self) -> PitchDirection {
         if pitch1.octave < pitch2.octave {
             return .ascending
         }
@@ -247,8 +316,8 @@ extension Pitch: PitchProtocol {
             guard let size = Interval.Size(intValue: interval.size.intValue + (rawOctave * 7))
             else { return nil }
 
-            return Interval(quality: interval.quality,
-                            size: size)
+            return Interval(interval.quality,
+                            size)
         }
 
         return interval
@@ -256,7 +325,7 @@ extension Pitch: PitchProtocol {
 
     private static func _determinePitchClass(_ pc: PitchClass,
                                              _ interval: Interval,
-                                             _ direction: IntervalDirection) -> PitchClass? {
+                                             _ direction: PitchDirection) -> PitchClass? {
         guard var pcFifths = PerfectFifths.fifths(for: pc),
               let iFifths = PerfectFifths.fifths(for: interval.simplified())
         else { return nil }

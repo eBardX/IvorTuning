@@ -1,3 +1,5 @@
+// © 2025–2026 John Gary Pusey (see LICENSE.md)
+
 @testable import IvorTuning
 import Testing
 import XestiNumbers
@@ -17,11 +19,6 @@ extension NoteNumberTests {
         #expect(n1 < n2)
         #expect(n1 == n1)   // swiftlint:disable:this identical_operands
         #expect(n2 > n1)
-    }
-
-    @Test
-    func `default`() {
-        #expect(NoteNumber.default == NoteNumber(uintValue: 0))
     }
 
     @Test
@@ -91,7 +88,7 @@ extension NoteNumberTests {
         let n: NoteNumber = 60
         let d: NoteDistance = 12
 
-        #expect(n.transposed(by: d, direction: .ascending) == 72)
+        #expect(n.transposed(by: DirectedInterval(interval: d, direction: .ascending)) == 72)
     }
 
     @Test
@@ -99,21 +96,13 @@ extension NoteNumberTests {
         let n: NoteNumber = 60
         let d: NoteDistance = 12
 
-        #expect(n.transposed(by: d, direction: .descending) == 48)
-    }
-
-    @Test
-    func transposed_same_nonUnison() {
-        let n: NoteNumber = 60
-        let d: NoteDistance = 1
-
-        #expect(n.transposed(by: d, direction: .same) == nil)
+        #expect(n.transposed(by: DirectedInterval(interval: d, direction: .descending)) == 48)
     }
 
     @Test
     func transposed_same_unison() {
         let n: NoteNumber = 60
 
-        #expect(n.transposed(by: .unison, direction: .same) == n)
+        #expect(n.transposed(by: DirectedInterval(interval: .unison, direction: .same)) == n)
     }
 }

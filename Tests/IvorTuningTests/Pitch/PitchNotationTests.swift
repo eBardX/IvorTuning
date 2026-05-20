@@ -1,3 +1,5 @@
+// © 2025–2026 John Gary Pusey (see LICENSE.md)
+
 import Foundation
 import IvorTuning
 import Testing
@@ -30,15 +32,15 @@ extension PitchNotationTests {
 
     @Test
     func init_invalid() {
-        #expect(PitchNotation(stringValue: "") == nil)
-        #expect(PitchNotation(stringValue: "midi") == nil)
-        #expect(PitchNotation(stringValue: "Absolute") == nil)
+        #expect(throws: ParseError.self) { try PitchNotation(stringValue: "") }
+        #expect(throws: ParseError.self) { try PitchNotation(stringValue: "midi") }
+        #expect(throws: ParseError.self) { try PitchNotation(stringValue: "Absolute") }
     }
 
     @Test
-    func init_valid() {
-        #expect(PitchNotation(stringValue: "absolute") == .absolute)
-        #expect(PitchNotation(stringValue: "keyboard") == .keyboard)
-        #expect(PitchNotation(stringValue: "standard") == .standard)
+    func init_valid() throws {
+        #expect(try PitchNotation(stringValue: "absolute") == .absolute)
+        #expect(try PitchNotation(stringValue: "keyboard") == .keyboard)
+        #expect(try PitchNotation(stringValue: "standard") == .standard)
     }
 }

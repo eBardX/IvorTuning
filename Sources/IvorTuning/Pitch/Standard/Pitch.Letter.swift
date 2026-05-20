@@ -1,16 +1,33 @@
+// © 2025–2026 John Gary Pusey (see LICENSE.md)
+
 private import XestiTools
 
 extension Pitch {
 
     // MARK: Public Nested Types
 
+    /// A diatonic letter name for a pitch.
     public enum Letter {
+
+        /// The pitch letter C.
         case c
+
+        /// The pitch letter D.
         case d
+
+        /// The pitch letter E.
         case e
+
+        /// The pitch letter F.
         case f
+
+        /// The pitch letter G.
         case g
+
+        /// The pitch letter A.
         case a
+
+        /// The pitch letter B.
         case b
     }
 }
@@ -21,15 +38,21 @@ extension Pitch.Letter {
 
     // MARK: Public Initializers
 
-    public init?(stringValue: String) {
+    /// Creates a letter from its string representation.
+    ///
+    /// - Parameter stringValue:    The uppercase letter string (e.g., `"C"`).
+    ///
+    /// - Throws:   `ParseError` if `stringValue` does not match a known pitch letter.
+    public init(stringValue: String) throws {
         guard let letter = Self.letters[stringValue]
-        else { return nil }
+        else { throw ParseError.invalidPitchLetter(stringValue) }
 
         self = letter
     }
 
     // MARK: Public Instance Properties
 
+    /// The diatonic order of this letter, where C is 1 and B is 7.
     public var order: Int {
         Self.orders[self].require()
     }
@@ -64,6 +87,8 @@ extension Pitch.Letter {
 // MARK: - CustomStringConvertible
 
 extension Pitch.Letter: CustomStringConvertible {
+
+    /// The uppercase string representation of this letter (e.g., `"C"`, `"D"`, `"E"`).
     public var description: String {
         Self.stringValues[self].require()
     }

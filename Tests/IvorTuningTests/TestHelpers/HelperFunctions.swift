@@ -1,9 +1,11 @@
+// © 2025–2026 John Gary Pusey (see LICENSE.md)
+
 import IvorTuning
 import Testing
 import XestiNumbers
 
-typealias IntervalResult = (interval: Interval, direction: IntervalDirection)
-typealias RatioResult = (interval: Ratio, direction: IntervalDirection)
+typealias IntervalResult = (interval: Interval, direction: PitchDirection)
+typealias RatioResult = (interval: Ratio, direction: PitchDirection)
 
 func assertEqual(_ freq1: Frequency?,
                  _ freq2: Frequency,
@@ -21,7 +23,7 @@ func assertEqual(_ freq1: Frequency?,
     }
 }
 
-func assertEqual(_ result1: IntervalResult?,
+func assertEqual(_ result1: DirectedInterval<Interval>?,
                  _ result2: IntervalResult,
                  sourceLocation: SourceLocation = #_sourceLocation) {
     #expect(result1?.interval == result2.interval,
@@ -47,7 +49,7 @@ func assertEqual(_ ratio1: Ratio?,
     }
 }
 
-func assertEqual(_ result1: RatioResult?,
+func assertEqual(_ result1: DirectedInterval<Ratio>?,
                  _ result2: RatioResult,
                  sourceLocation: SourceLocation = #_sourceLocation) {
     assertEqual(result1?.interval,
