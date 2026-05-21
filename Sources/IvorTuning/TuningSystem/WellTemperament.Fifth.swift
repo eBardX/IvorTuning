@@ -6,7 +6,6 @@ extension WellTemperament {
 
     /// A position in the circle of fifths.
     public enum Fifth {
-
         /// The fifth from A♭ to E♭.
         case aFlatToEFlat
 

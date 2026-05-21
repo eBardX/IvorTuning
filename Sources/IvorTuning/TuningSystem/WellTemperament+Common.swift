@@ -1,7 +1,6 @@
 // © 2025–2026 John Gary Pusey (see LICENSE.md)
 
 private import XestiNumbers
-private import XestiTools
 
 extension WellTemperament {
 
@@ -16,16 +15,11 @@ extension WellTemperament {
     /// Proposed by Kellner as a reconstruction of Bach's own tuning, published in
     /// *Das Musikinstrument* 26 (1977). The choice of five fifths and their positions
     /// mirrors the structure of Werckmeister III while spreading the tempering more evenly.
-    public static let kellner: WellTemperament = {
-        // (3/2)·(2¹⁹/3¹²)^(1/5) = ⁵√(2¹⁴/3⁷)
-        let tempered = Ratio(16_384, 2_187).divided(by: 5).require()
-
-        return WellTemperament(fifths: [.cToG: tempered,
-                                        .gToD: tempered,
-                                        .dToA: tempered,
-                                        .aToE: tempered,
-                                        .bToFSharp: tempered])
-    }()
+    public static let kellner = WellTemperament(fifths: [.cToG: fifthPCFifth,
+                                                         .gToD: fifthPCFifth,
+                                                         .dToA: fifthPCFifth,
+                                                         .aToE: fifthPCFifth,
+                                                         .bToFSharp: fifthPCFifth])
 
     /// Kirnberger II (Johann Philipp Kirnberger, c. 1771).
     ///
@@ -37,16 +31,9 @@ extension WellTemperament {
     ///
     /// The two half-comma fifths are unusually flat, giving C-adjacent keys very pure
     /// thirds while keys with many sharps or flats suffer greatly.
-    public static let kirnbergerII: WellTemperament = {
-        // (3/2)·(80/81)^(1/2) = √(20/9)
-        let halfSyntonic = Ratio(20, 9).divided(by: 2).require()
-        // (3/2)·(32768/32805) = 16384:10935
-        let schismatic = Ratio(16_384, 10_935)
-
-        return WellTemperament(fifths: [.dToA: halfSyntonic,
-                                        .aToE: halfSyntonic,
-                                        .fSharpToCSharp: schismatic])
-    }()
+    public static let kirnbergerII = WellTemperament(fifths: [.dToA: halfSCFifth,
+                                                              .aToE: halfSCFifth,
+                                                              .fSharpToCSharp: schismaticFifth])
 
     /// Kirnberger III (Johann Philipp Kirnberger, 1779).
     ///
@@ -58,18 +45,11 @@ extension WellTemperament {
     ///
     /// The four quarter-comma fifths make C–E a pure major third (5:4). Published in
     /// *Die Kunst des reinen Satzes in der Musik*, Part II.
-    public static let kirnbergerIII: WellTemperament = {
-        // (3/2)·(80/81)^(1/4) = ⁴√5
-        let quarterSyntonic = Ratio(5, 1).divided(by: 4).require()
-        // (3/2)·(32768/32805) = 16384:10935
-        let schismatic = Ratio(16_384, 10_935)
-
-        return WellTemperament(fifths: [.cToG: quarterSyntonic,
-                                        .gToD: quarterSyntonic,
-                                        .dToA: quarterSyntonic,
-                                        .aToE: quarterSyntonic,
-                                        .fSharpToCSharp: schismatic])
-    }()
+    public static let kirnbergerIII = WellTemperament(fifths: [.cToG: quarterSCFifth,
+                                                               .gToD: quarterSCFifth,
+                                                               .dToA: quarterSCFifth,
+                                                               .aToE: quarterSCFifth,
+                                                               .fSharpToCSharp: schismaticFifth])
 
     /// Neidhardt I ("Village"; Johann Georg Neidhardt, 1724).
     ///
@@ -81,20 +61,14 @@ extension WellTemperament {
     ///
     /// From *Sectio Canonis Harmonici* (Königsberg, 1724). Neidhardt relabeled this
     /// specification "Small City" in his 1732 revision.
-    public static let neidhardtI: WellTemperament = {
-        let sixthComma = Ratio(2, 1).multiplied(by: Number(13) / Number(6)).require()
-            .subtracting(Ratio(3, 1)).require()
-        let twelfthComma = Ratio(2, 1).multiplied(by: Number(7) / Number(12)).require()
-
-        return WellTemperament(fifths: [.cToG: sixthComma,
-                                        .gToD: sixthComma,
-                                        .dToA: sixthComma,
-                                        .aToE: sixthComma,
-                                        .eToB: twelfthComma,
-                                        .bToFSharp: twelfthComma,
-                                        .aFlatToEFlat: twelfthComma,
-                                        .eFlatToBFlat: twelfthComma])
-    }()
+    public static let neidhardtI = WellTemperament(fifths: [.cToG: sixthPCFifth,
+                                                            .gToD: sixthPCFifth,
+                                                            .dToA: sixthPCFifth,
+                                                            .aToE: sixthPCFifth,
+                                                            .eToB: twelfthPCFifth,
+                                                            .bToFSharp: twelfthPCFifth,
+                                                            .aFlatToEFlat: twelfthPCFifth,
+                                                            .eFlatToBFlat: twelfthPCFifth])
 
     /// Neidhardt II ("Small City"; Johann Georg Neidhardt, 1724).
     ///
@@ -106,21 +80,15 @@ extension WellTemperament {
     ///
     /// From *Sectio Canonis Harmonici* (Königsberg, 1724). Neidhardt relabeled this
     /// specification "Large City" in his 1732 revision.
-    public static let neidhardtII: WellTemperament = {
-        let sixthComma = Ratio(2, 1).multiplied(by: Number(13) / Number(6)).require()
-            .subtracting(Ratio(3, 1)).require()
-        let twelfthComma = Ratio(2, 1).multiplied(by: Number(7) / Number(12)).require()
-
-        return WellTemperament(fifths: [.cToG: sixthComma,
-                                        .gToD: sixthComma,
-                                        .dToA: sixthComma,
-                                        .aToE: twelfthComma,
-                                        .bToFSharp: twelfthComma,
-                                        .fSharpToCSharp: twelfthComma,
-                                        .cSharpToAFlat: twelfthComma,
-                                        .bFlatToF: twelfthComma,
-                                        .fToC: twelfthComma])
-    }()
+    public static let neidhardtII = WellTemperament(fifths: [.cToG: sixthPCFifth,
+                                                             .gToD: sixthPCFifth,
+                                                             .dToA: sixthPCFifth,
+                                                             .aToE: twelfthPCFifth,
+                                                             .bToFSharp: twelfthPCFifth,
+                                                             .fSharpToCSharp: twelfthPCFifth,
+                                                             .cSharpToAFlat: twelfthPCFifth,
+                                                             .bFlatToF: twelfthPCFifth,
+                                                             .fToC: twelfthPCFifth])
 
     /// Neidhardt III ("Large City"; Johann Georg Neidhardt, 1724).
     ///
@@ -134,38 +102,27 @@ extension WellTemperament {
     /// only in the placement of the sixth-comma group on the flat side: E♭→B♭ is tempered
     /// here where it is pure in Neidhardt II, and F→C is pure here where it is tempered
     /// in Neidhardt II.
-    public static let neidhardtIII: WellTemperament = {
-        let sixthComma = Ratio(2, 1).multiplied(by: Number(13) / Number(6)).require()
-            .subtracting(Ratio(3, 1)).require()
-        let twelfthComma = Ratio(2, 1).multiplied(by: Number(7) / Number(12)).require()
-
-        return WellTemperament(fifths: [.cToG: sixthComma,
-                                        .gToD: sixthComma,
-                                        .dToA: sixthComma,
-                                        .aToE: twelfthComma,
-                                        .bToFSharp: twelfthComma,
-                                        .fSharpToCSharp: twelfthComma,
-                                        .cSharpToAFlat: twelfthComma,
-                                        .eFlatToBFlat: twelfthComma,
-                                        .bFlatToF: twelfthComma])
-    }()
+    public static let neidhardtIII = WellTemperament(fifths: [.cToG: sixthPCFifth,
+                                                              .gToD: sixthPCFifth,
+                                                              .dToA: sixthPCFifth,
+                                                              .aToE: twelfthPCFifth,
+                                                              .bToFSharp: twelfthPCFifth,
+                                                              .fSharpToCSharp: twelfthPCFifth,
+                                                              .cSharpToAFlat: twelfthPCFifth,
+                                                              .eFlatToBFlat: twelfthPCFifth,
+                                                              .bFlatToF: twelfthPCFifth])
 
     /// Vallotti (Francesco Antonio Vallotti, c. 1728).
     ///
     /// Six consecutive fifths from F to B — F→C, C→G, G→D, D→A, A→E, E→B — are each
     /// narrowed by ⅙ of the Pythagorean comma, equal to 2^(13/6)/3 ≈ 698.045 cents.
     /// The remaining six fifths are pure (3:2). The circle closes exactly.
-    public static let vallotti: WellTemperament = {
-        let tempered = Ratio(2, 1).multiplied(by: Number(13) / Number(6)).require()
-            .subtracting(Ratio(3, 1)).require()
-
-        return WellTemperament(fifths: [.fToC: tempered,
-                                        .cToG: tempered,
-                                        .gToD: tempered,
-                                        .dToA: tempered,
-                                        .aToE: tempered,
-                                        .eToB: tempered])
-    }()
+    public static let vallotti = WellTemperament(fifths: [.fToC: sixthPCFifth,
+                                                          .cToG: sixthPCFifth,
+                                                          .gToD: sixthPCFifth,
+                                                          .dToA: sixthPCFifth,
+                                                          .aToE: sixthPCFifth,
+                                                          .eToB: sixthPCFifth])
 
     /// Werckmeister III (Andreas Werckmeister, 1691).
     ///
@@ -175,15 +132,10 @@ extension WellTemperament {
     ///
     /// This is the most historically cited well temperament, often associated with
     /// Bach's Well-Tempered Clavier.
-    public static let werckmeisterIII: WellTemperament = {
-        let tempered = Ratio(2, 1).multiplied(by: Number(15) / Number(4)).require()
-            .subtracting(Ratio(9, 1)).require()
-
-        return WellTemperament(fifths: [.cToG: tempered,
-                                        .gToD: tempered,
-                                        .dToA: tempered,
-                                        .bToFSharp: tempered])
-    }()
+    public static let werckmeisterIII = WellTemperament(fifths: [.cToG: quarterPCFifth,
+                                                                 .gToD: quarterPCFifth,
+                                                                 .dToA: quarterPCFifth,
+                                                                 .bToFSharp: quarterPCFifth])
 
     /// Young I (Thomas Young, 1800).
     ///
@@ -195,16 +147,9 @@ extension WellTemperament {
     ///
     /// Published in *Philosophical Transactions of the Royal Society* 90 (1800).
     public static let youngI: WellTemperament = {
-        let pure = Ratio(3, 2)
-        let sc = Ratio(81, 80)
-        let pc = Ratio(531_441, 524_288)
-        let sc316 = sc.multiplied(by: Number(3) / Number(16)).require()
-        let pc14 = pc.divided(by: 4).require()
-
-        // (3/2)·(80/81)^(3/16) — narrowed by 3/16 SC
-        let temperedA = pure.subtracting(sc316).require()
-        // (3/2)·(81/80)^(3/16)·(2¹⁹/3¹²)^(−1/4) — narrowed by (1/4 PC − 3/16 SC)
-        let temperedB = pure.adding(sc316).require().subtracting(pc14).require()
+        let sc316     = syntonicComma.mul(3, 16)
+        let temperedA = pureFifth.sub(sc316)
+        let temperedB = pureFifth.add(sc316).sub(pythagoreanComma.div(4))
 
         return WellTemperament(fifths: [.cToG: temperedA,
                                         .gToD: temperedA,
@@ -225,16 +170,24 @@ extension WellTemperament {
     /// The tempered fifth size is identical to Vallotti, but the tempered segment runs
     /// from C through F♯ (six sharps) rather than from F through B (six naturals/flats).
     /// Published in *Philosophical Transactions of the Royal Society* 90 (1800).
-    public static let youngII: WellTemperament = {
-        // Same size as Vallotti: (3/2)·(2¹⁹/3¹²)^(1/6) = 2^(13/6)/3
-        let tempered = Ratio(2, 1).multiplied(by: Number(13) / Number(6)).require()
-            .subtracting(Ratio(3, 1)).require()
-
-        return WellTemperament(fifths: [.cToG: tempered,
-                                        .gToD: tempered,
-                                        .dToA: tempered,
-                                        .aToE: tempered,
-                                        .eToB: tempered,
-                                        .bToFSharp: tempered])
-    }()
+    public static let youngII = WellTemperament(fifths: [.cToG: sixthPCFifth,
+                                                         .gToD: sixthPCFifth,
+                                                         .dToA: sixthPCFifth,
+                                                         .aToE: sixthPCFifth,
+                                                         .eToB: sixthPCFifth,
+                                                         .bToFSharp: sixthPCFifth])
 }
+
+// MARK: - Private Constants
+
+private let pureFifth        = Ratio(3, 2)
+private let pythagoreanComma = Ratio(531_441, 524_288)
+private let syntonicComma    = Ratio(81, 80)
+
+private let fifthPCFifth     = pureFifth.sub(pythagoreanComma.div(5))
+private let halfSCFifth      = pureFifth.sub(syntonicComma.div(2))
+private let quarterPCFifth   = pureFifth.sub(pythagoreanComma.div(4))
+private let quarterSCFifth   = pureFifth.sub(syntonicComma.div(4))
+private let schismaticFifth  = Ratio(16_384, 10_935)
+private let sixthPCFifth     = pureFifth.sub(pythagoreanComma.div(6))
+private let twelfthPCFifth   = pureFifth.sub(pythagoreanComma.div(12))

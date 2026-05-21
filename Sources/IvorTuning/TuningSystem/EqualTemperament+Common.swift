@@ -1,7 +1,6 @@
 // © 2025–2026 John Gary Pusey (see LICENSE.md)
 
 private import XestiNumbers
-private import XestiTools
 
 extension EqualTemperament {
 
@@ -21,14 +20,16 @@ extension EqualTemperament {
     /// Five steps approximate the major third (5:4) at ≈ 390.0 cents (+3.7 cents wide).
     /// Introduced by Wendy Carlos in *Tuning: At the Crossroads*, Computer Music Journal
     /// 11/1 (1987). The period is undefined; the octave is not closed.
-    public static let carlosAlpha = EqualTemperament(stepSize: Ratio(3, 2).divided(by: 9).require())
+    public static let carlosAlpha = EqualTemperament(divisions: 9,
+                                                     period: pureFifth)
 
     /// Carlos Beta (β): non-octave ET whose step is one eleventh of a pure fifth (3:2).
     ///
     /// Each step is ¹¹√(3/2) ≈ 63.814 cents, so 11 steps produce a pure perfect fifth.
     /// Six steps approximate the major third (5:4) at ≈ 382.9 cents (−3.4 cents narrow).
     /// Introduced by Wendy Carlos alongside Alpha and Gamma (1987).
-    public static let carlosBeta = EqualTemperament(stepSize: Ratio(3, 2).divided(by: 11).require())
+    public static let carlosBeta = EqualTemperament(divisions: 11,
+                                                    period: pureFifth)
 
     /// Carlos Gamma (γ): non-octave ET whose step is one twentieth of a pure fifth (3:2).
     ///
@@ -36,7 +37,8 @@ extension EqualTemperament {
     /// Eleven steps approximate the major third (5:4) at ≈ 386.1 cents (−0.2 cents narrow),
     /// making Gamma the most accurate of the three Carlos scales for 5-limit harmony.
     /// Introduced by Wendy Carlos alongside Alpha and Beta (1987).
-    public static let carlosGamma = EqualTemperament(stepSize: Ratio(3, 2).divided(by: 20).require())
+    public static let carlosGamma = EqualTemperament(divisions: 20,
+                                                     period: pureFifth)
 
     /// 12-EDO: 12 equal divisions of the octave.
     ///
@@ -79,3 +81,7 @@ extension EqualTemperament {
     /// theory.
     public static let edo53 = EqualTemperament(divisions: 53)
 }
+
+// MARK: - Private Constants
+
+private let pureFifth = Ratio(3, 2)

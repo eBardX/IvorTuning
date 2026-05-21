@@ -13,19 +13,18 @@ extension JustIntonation {
     /// Covers all 12 pitch classes of the chromatic octave, including both enharmonic
     /// tritone spellings (45:32 and 64:45). ``ratios`` has 14 elements: the tonic,
     /// 12 interior pitch classes, and the octave.
-    public static let fiveLimit = JustIntonation(ratios: [Ratio(16, 15),  // minor second
-                                                          Ratio(9, 8),    // major second
-                                                          Ratio(6, 5),    // minor third
-                                                          Ratio(5, 4),    // major third
-                                                          Ratio(4, 3),    // perfect fourth
-                                                          Ratio(45, 32),  // augmented fourth
-                                                          Ratio(64, 45),  // diminished fifth
-                                                          Ratio(3, 2),    // perfect fifth
-                                                          Ratio(8, 5),    // minor sixth
-                                                          Ratio(5, 3),    // major sixth
-                                                          Ratio(9, 5),    // minor seventh
-                                                          Ratio(15, 8)    // major seventh
-                                                         ])
+    public static let fiveLimit = JustIntonation(ratios: [Ratio(16, 15),    // minor second
+                                                          Ratio(9, 8),      // major second
+                                                          Ratio(6, 5),      // minor third
+                                                          Ratio(5, 4),      // major third
+                                                          Ratio(4, 3),      // perfect fourth
+                                                          Ratio(45, 32),    // augmented fourth
+                                                          Ratio(64, 45),    // diminished fifth
+                                                          Ratio(3, 2),      // perfect fifth
+                                                          Ratio(8, 5),      // minor sixth
+                                                          Ratio(5, 3),      // major sixth
+                                                          Ratio(9, 5),      // minor seventh
+                                                          Ratio(15, 8)])    // major seventh
 
     /// Harry Partch's 43-tone 11-limit just scale.
     ///

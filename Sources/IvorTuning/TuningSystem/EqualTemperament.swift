@@ -2,8 +2,6 @@
 
 public import XestiNumbers
 
-private import XestiTools
-
 /// A tuning system that divides a period into equal logarithmic steps.
 public struct EqualTemperament {
 
@@ -24,7 +22,7 @@ public struct EqualTemperament {
 
         self.divisions = divisions
         self.period = period
-        self.stepSize = period.divided(by: divisions).require() // for now
+        self.stepSize = period.div(divisions)
     }
 
     /// Creates an equal temperament defined by a specific step size.

@@ -2,11 +2,11 @@
 
 private import XestiNumbers
 
-/// A tuning system based on just intonation, using pure integer frequency ratios.
+/// A tuning system based on just intonation, using exact integer frequency ratios.
 ///
 /// A just intonation system is defined by a set of frequency ratios relative to the
 /// tonic, each derived from small-integer harmonics. Any number of tones per period is
-/// supported — from a simple pentatonic to Harry Partch's 43-tone 11-limit scale.
+/// supported — from a simple pentatonic to Harry Partch’s 43-tone 11-limit scale.
 ///
 /// On initialisation, ratios outside `[1, period)` are reduced by dividing by the
 /// period until they fall in range; exact multiples of the period (including 1:1) are
@@ -22,25 +22,23 @@ public struct JustIntonation {
     ///
     /// - Parameter ratios:     The frequency ratios of the scale degrees, relative to
     ///                         the tonic. Order is immaterial; ratios are sorted on
-    ///                         initialisation. Ratios outside `[1, period)` are reduced;
+    ///                         initialization. Ratios outside `[1, period)` are reduced;
     ///                         exact multiples of the period (including 1:1) are
     ///                         silently discarded.
-    /// - Parameter period:     The interval of equivalence. Must be greater than 1:1.
+    /// - Parameter period:     The interval of equivalence.
     ///                         Defaults to `.octave` (2:1).
+    ///
+    /// - Precondition: `period` must be exact and not a unison (1:1).
+    /// - Precondition: All elements of `ratios` must be exact.
     public init(ratios: [Ratio],
                 period: Ratio = .octave) {
-        precondition(period.numberValue > 1)
+        precondition(period.numberValue.isExact && !period.isUnison)
+        precondition(ratios.allSatisfy { $0.numberValue.isExact })
 
-        self._period = period
+        let reducedRatios = ratios.compactMap { Self._reduceRatio($0, period) }
 
-        let reduced = ratios.compactMap { Self._reduce($0, period: period) }
-        let sorted  = reduced.sorted { $0.numberValue < $1.numberValue }
-
-        self._ratios = sorted.reduce(into: []) { acc, r in
-            if acc.last.map({ $0.numberValue != r.numberValue }) ?? true {
-                acc.append(r)
-            }
-        }
+        self.interiorRatios = Set(reducedRatios).sorted()
+        self.unwrappedPeriod = period
     }
 
     // MARK: Public Instance Properties
@@ -50,13 +48,13 @@ public struct JustIntonation {
     /// The first element is always ``Ratio/unison`` (1:1) and the last is always the
     /// period. Interior ratios are in ascending order.
     public var ratios: [Ratio] {
-        [.unison] + _ratios + [_period]
+        [.unison] + interiorRatios + [unwrappedPeriod]
     }
 
     // MARK: Private Type Methods
 
-    private static func _reduce(_ ratio: Ratio,
-                                period: Ratio) -> Ratio? {
+    private static func _reduceRatio(_ ratio: Ratio,
+                                     _ period: Ratio) -> Ratio? {
         var r = ratio
 
         while r.numberValue >= period.numberValue {
@@ -71,15 +69,17 @@ public struct JustIntonation {
 
     // MARK: Private Instance Properties
 
-    private let _period: Ratio
-    private let _ratios: [Ratio]
+    private let interiorRatios: [Ratio]
+    private let unwrappedPeriod: Ratio
 }
 
 // MARK: - TuningSystem
 
 extension JustIntonation: TuningSystem {
+    /// The period interval of this tuning system. Always non-`nil`. Defaults to
+    /// `.octave`.
     public var period: Ratio? {
-        _period
+        unwrappedPeriod
     }
 }
 

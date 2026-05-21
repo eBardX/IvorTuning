@@ -2,6 +2,8 @@
 
 public import XestiNumbers
 
+private import XestiTools
+
 /// A frequency ratio representing a musical interval.
 public struct Ratio: NumberRepresentable {
 
@@ -73,10 +75,40 @@ extension Ratio {
 
     // MARK: Internal Initializers
 
-    internal init(_ numerator: UInt,
-                  _ denominator: UInt) {
+    internal init<T: BinaryInteger>(_ numerator: T,
+                                    _ denominator: T) {
         self.init(Number(numerator: numerator,
                          denominator: denominator))
+    }
+
+    // MARK: Internal Instance Methods
+
+    internal func add(_ other: Self) -> Self {
+        adding(other).require()
+    }
+
+    internal func div(_ factor: Number) -> Self {
+        divided(by: factor).require()
+    }
+
+    internal func div<T: BinaryInteger>(_ nfactor: T,
+                                        _ dfactor: T = 1) -> Self {
+        div(Number(numerator: nfactor,
+                   denominator: dfactor))
+    }
+
+    internal func mul(_ factor: Number) -> Self {
+        multiplied(by: factor).require()
+    }
+
+    internal func mul<T: BinaryInteger>(_ nfactor: T,
+                                        _ dfactor: T = 1) -> Self {
+        mul(Number(numerator: nfactor,
+                   denominator: dfactor))
+    }
+
+    internal func sub(_ other: Self) -> Self {
+        subtracting(other).require()
     }
 }
 
