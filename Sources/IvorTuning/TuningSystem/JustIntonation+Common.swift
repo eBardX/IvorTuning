@@ -13,6 +13,8 @@ extension JustIntonation {
     /// Covers all 12 pitch classes of the chromatic octave, including both enharmonic
     /// tritone spellings (45:32 and 64:45). ``ratios`` has 14 elements: the tonic,
     /// 12 interior pitch classes, and the octave.
+    ///
+    /// Fully supports standard pitch notation.
     public static let fiveLimit = JustIntonation(ratios: [Ratio(16, 15),    // minor second
                                                           Ratio(9, 8),      // major second
                                                           Ratio(6, 5),      // minor third
@@ -26,11 +28,14 @@ extension JustIntonation {
                                                           Ratio(9, 5),      // minor seventh
                                                           Ratio(15, 8)])    // major seventh
 
-    /// Harry Partch's 43-tone 11-limit just scale.
+    /// Harry Partch’s 43-tone 11-limit just scale.
     ///
     /// The complete 43-tone scale from _Genesis of a Music_ (1949/1974), with 41
     /// distinct pitch classes between the unison and octave. ``ratios`` has 43 elements,
-    /// matching Partch's own count which includes both endpoints.
+    /// matching Partch’s own count which includes both endpoints.
+    ///
+    /// Does not support standard pitch notation; its 41 interior pitch classes exceed the
+    /// 35-pitch-class maximum, and 11-limit ratios have no standard spelling.
     public static let partch43 = JustIntonation(ratios: [Ratio(81, 80),
                                                          Ratio(33, 32),
                                                          Ratio(21, 20),
@@ -77,5 +82,8 @@ extension JustIntonation {
     ///
     /// Adds 7:4 (~969 cents), the defining interval of 7-limit harmony. All five-limit
     /// ratios are retained. ``ratios`` has 15 elements.
+    ///
+    /// Does not fully support standard pitch notation; the harmonic seventh (7:4) has no
+    /// standard spelling and diverges too far from any Pythagorean interval.
     public static let sevenLimit = JustIntonation(ratios: fiveLimit.ratios + [Ratio(7, 4)]) // harmonic seventh
 }

@@ -2,7 +2,9 @@
 
 private import XestiTools
 
-/// A musical interval defined by a quality and a diatonic size.
+/// A musical interval in standard Western notation, defined by a quality and a diatonic size.
+/// Intervals are enharmonically distinct: an augmented unison (A1) and a minor second (m2) are
+/// different values even when they span the same frequency ratio in a given tuning system.
 public struct Interval {
 
     // MARK: Public Instance Properties

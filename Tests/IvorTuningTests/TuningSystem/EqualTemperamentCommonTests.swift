@@ -1,6 +1,6 @@
 // © 2025–2026 John Gary Pusey (see LICENSE.md)
 
-import IvorTuning
+@testable import IvorTuning
 import Testing
 import XestiNumbers
 
@@ -12,63 +12,60 @@ struct EqualTemperamentCommonTests {
 extension EqualTemperamentCommonTests {
 
     @Test
-    func bohlenPierce_period() {
-        #expect(EqualTemperament.bohlenPierce.period == .tritave)
+    func bohlenPierce_equivalenceRatio() {
+        #expect(EqualTemperament.bohlenPierce.equivalenceRatio == .tritave)
     }
 
     @Test
-    func bohlenPierce_stepSize() {
-        assertEqual(EqualTemperament.bohlenPierce.stepSize.multiplied(by: 13), .tritave)
+    func bohlenPierce_divisions() {
+        #expect(EqualTemperament.bohlenPierce.divisions == 13)
     }
 
     @Test
-    func carlosAlpha_stepSize() throws {
-        let fifth = try #require(Ratio(numberValue: Number(3) / Number(2)))
-
-        assertEqual(EqualTemperament.carlosAlpha.stepSize.multiplied(by: 9), fifth)
+    func carlosAlpha_structure() {
+        #expect(EqualTemperament.carlosAlpha.divisions == 9)
+        #expect(EqualTemperament.carlosAlpha.equivalenceRatio == Ratio(3, 2))
     }
 
     @Test
-    func carlosBeta_stepSize() throws {
-        let fifth = try #require(Ratio(numberValue: Number(3) / Number(2)))
-
-        assertEqual(EqualTemperament.carlosBeta.stepSize.multiplied(by: 11), fifth)
+    func carlosBeta_structure() {
+        #expect(EqualTemperament.carlosBeta.divisions == 11)
+        #expect(EqualTemperament.carlosBeta.equivalenceRatio == Ratio(3, 2))
     }
 
     @Test
-    func carlosGamma_stepSize() throws {
-        let fifth = try #require(Ratio(numberValue: Number(3) / Number(2)))
-
-        assertEqual(EqualTemperament.carlosGamma.stepSize.multiplied(by: 20), fifth)
+    func carlosGamma_structure() {
+        #expect(EqualTemperament.carlosGamma.divisions == 20)
+        #expect(EqualTemperament.carlosGamma.equivalenceRatio == Ratio(3, 2))
     }
 
     @Test
-    func edo12_stepSize() {
-        assertEqual(EqualTemperament.edo12.stepSize.multiplied(by: 12), .octave)
+    func edo12_divisions() {
+        #expect(EqualTemperament.edo12.divisions == 12)
     }
 
     @Test
-    func edo19_stepSize() {
-        assertEqual(EqualTemperament.edo19.stepSize.multiplied(by: 19), .octave)
+    func edo19_divisions() {
+        #expect(EqualTemperament.edo19.divisions == 19)
     }
 
     @Test
-    func edo22_stepSize() {
-        assertEqual(EqualTemperament.edo22.stepSize.multiplied(by: 22), .octave)
+    func edo22_divisions() {
+        #expect(EqualTemperament.edo22.divisions == 22)
     }
 
     @Test
-    func edo24_stepSize() {
-        assertEqual(EqualTemperament.edo24.stepSize.multiplied(by: 24), .octave)
+    func edo24_divisions() {
+        #expect(EqualTemperament.edo24.divisions == 24)
     }
 
     @Test
-    func edo31_stepSize() {
-        assertEqual(EqualTemperament.edo31.stepSize.multiplied(by: 31), .octave)
+    func edo31_divisions() {
+        #expect(EqualTemperament.edo31.divisions == 31)
     }
 
     @Test
-    func edo53_stepSize() {
-        assertEqual(EqualTemperament.edo53.stepSize.multiplied(by: 53), .octave)
+    func edo53_divisions() {
+        #expect(EqualTemperament.edo53.divisions == 53)
     }
 }

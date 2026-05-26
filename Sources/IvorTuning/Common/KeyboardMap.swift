@@ -5,7 +5,7 @@ private import XestiNumbers
 /// A map between MIDI note numbers and absolute frequencies.
 ///
 /// `KeyboardMap` is the bridge for the `absolute ↔ keyboard` edge of
-/// IvorTuning's notation conversion graph. It encodes a repeating pitch pattern
+/// IvorTuning’s notation conversion graph. It encodes a repeating pitch pattern
 /// applied across a MIDI keyboard layout and converts in both directions:
 ///
 /// - ``realize(noteNumber:)`` and ``realize(noteDistance:)`` convert keyboard →
@@ -30,18 +30,16 @@ public struct KeyboardMap {
     /// - Parameter referenceFrequency: The frequency of the reference note.
     /// - Parameter middleNote:         The MIDI note number where `ratios[0]`
     ///                                 (unison) is placed.
-    /// - Parameter periodRatio:        The frequency ratio spanned by one full
-    ///                                 period of the pattern.
-    /// - Parameter ratios:             The ratio for each key slot in the
-    ///                                 repeating period. `nil` means the key is
-    ///                                 unmapped.
+    /// - Parameter equivalenceRatio:   The interval of equivalence of the repeating pattern.
+    /// - Parameter ratios:             The ratio for each key slot within one interval of
+    ///                                 equivalence. `nil` means the key is unmapped.
     public init(referenceNote: NoteNumber,
                 referenceFrequency: Frequency,
                 middleNote: NoteNumber,
-                periodRatio: Ratio,
+                equivalenceRatio: Ratio,
                 ratios: [Ratio?]) {
         self.middleNote = middleNote
-        self.periodRatio = periodRatio
+        self.equivalenceRatio = equivalenceRatio
         self.ratios = ratios
         self.referenceFrequency = referenceFrequency
         self.referenceNote = referenceNote
@@ -52,10 +50,10 @@ public struct KeyboardMap {
     /// The MIDI note number where `ratios[0]` (unison) is placed.
     public let middleNote: NoteNumber
 
-    /// The frequency ratio spanned by one full period of the repeating pattern.
-    public let periodRatio: Ratio
+    /// The interval of equivalence of the repeating pattern.
+    public let equivalenceRatio: Ratio
 
-    /// The ratio for each key slot in the repeating period. `nil` means the key
+    /// The ratio for each key slot within one interval of equivalence. `nil` means the key
     /// is unmapped.
     public let ratios: [Ratio?]
 
@@ -92,7 +90,7 @@ extension KeyboardMap {
         guard let slotRatio = ratios[index]
         else { return nil }
 
-        let logPeriod = log(periodRatio.numberValue)
+        let logPeriod = log(equivalenceRatio.numberValue)
         let targetNum = slotRatio.numberValue * exp(logPeriod * Number(periods))
         let refNum = refSlotRatio.numberValue * exp(logPeriod * Number(refPeriods))
 
@@ -128,7 +126,7 @@ extension KeyboardMap {
         guard let slotRatio = ratios[index]
         else { return nil }
 
-        return Ratio(slotRatio.numberValue * exp(log(periodRatio.numberValue) * Number(periods)))
+        return Ratio(slotRatio.numberValue * exp(log(equivalenceRatio.numberValue) * Number(periods)))
     }
 
     /// Returns the nearest mapped note number for the given frequency.

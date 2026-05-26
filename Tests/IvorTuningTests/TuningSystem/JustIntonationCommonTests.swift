@@ -17,8 +17,8 @@ extension JustIntonationCommonTests {
     }
 
     @Test
-    func fiveLimit_period() {
-        #expect(JustIntonation.fiveLimit.period == .octave)
+    func fiveLimit_equivalenceRatio() {
+        #expect(JustIntonation.fiveLimit.equivalenceRatio == .octave)
     }
 
     @Test
@@ -41,8 +41,8 @@ extension JustIntonationCommonTests {
     }
 
     @Test
-    func partch43_period() {
-        #expect(JustIntonation.partch43.period == .octave)
+    func partch43_equivalenceRatio() {
+        #expect(JustIntonation.partch43.equivalenceRatio == .octave)
     }
 
     @Test

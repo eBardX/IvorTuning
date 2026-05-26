@@ -6,7 +6,8 @@ extension Pitch {
 
     // MARK: Public Nested Types
 
-    /// An accidental modifier applied to a pitch letter.
+    /// An accidental modifier applied to a diatonic letter. Combined with the seven diatonic
+    /// letters, the five accidentals yield the 35 pitch classes of standard notation.
     public enum Accidental {
 
         /// A double-flat accidental (𝄫), lowering a pitch by two semitones.
@@ -75,6 +76,11 @@ extension Pitch.Accidental {
                                                        .natural: "♮",
                                                        .sharp: "♯",
                                                        .doubleSharp: "𝄪"]
+}
+
+// MARK: - CaseIterable
+
+extension Pitch.Accidental: CaseIterable {
 }
 
 // MARK: - CustomStringConvertible

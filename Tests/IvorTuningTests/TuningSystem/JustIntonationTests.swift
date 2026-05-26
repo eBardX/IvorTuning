@@ -12,19 +12,19 @@ struct JustIntonationTests {
 extension JustIntonationTests {
 
     @Test
-    func period_custom() {
-        let ji = JustIntonation(ratios: [], period: .tritave)
+    func equivalenceRatio_custom() {
+        let ji = JustIntonation(ratios: [], equivalenceRatio: .tritave)
 
-        #expect(ji.period == .tritave)
+        #expect(ji.equivalenceRatio == .tritave)
     }
 
     @Test
-    func period_defaultsToOctave() {
-        #expect(JustIntonation(ratios: []).period == .octave)
+    func equivalenceRatio_defaultsToOctave() {
+        #expect(JustIntonation(ratios: []).equivalenceRatio == .octave)
     }
 
     @Test
-    func ratios_includesPeriodEndpoints() throws {
+    func ratios_includesEquivalenceRatioEndpoints() throws {
         let threeHalves = try #require(Ratio(numberValue: Number(3) / Number(2)))
         let ji = JustIntonation(ratios: [threeHalves])
 
@@ -43,8 +43,8 @@ extension JustIntonationTests {
     }
 
     @Test
-    func ratios_periodDiscarded() {
-        // Passing the period explicitly should not create an interior entry
+    func ratios_equivalenceRatioDiscarded() {
+        // Passing the equivalence ratio explicitly should not create an interior entry
         let ji = JustIntonation(ratios: [.octave])
 
         #expect(ji.ratios.count == 2)

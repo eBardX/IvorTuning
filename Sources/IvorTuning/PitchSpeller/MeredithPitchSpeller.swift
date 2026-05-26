@@ -15,10 +15,10 @@ public struct MeredithPitchSpeller {
     ///
     /// - Parameter contextBefore:  The number of preceding notes to include in
     ///                             the context window for each note. Defaults to
-    ///                             the paper's recommended value of 10.
+    ///                             the paper’s recommended value of 10.
     /// - Parameter contextAfter:   The number of following notes to include in
     ///                             the context window for each note. Defaults to
-    ///                             the paper's recommended value of 42.
+    ///                             the paper’s recommended value of 42.
     public init(contextBefore: Int = 10,
                 contextAfter: Int = 42) {
         self.contextAfter = contextAfter

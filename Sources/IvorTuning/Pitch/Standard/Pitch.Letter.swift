@@ -38,7 +38,7 @@ extension Pitch.Letter {
 
     // MARK: Public Initializers
 
-    /// Creates a letter from its string representation.
+    /// Creates a pitch letter from its string representation.
     ///
     /// - Parameter stringValue:    The uppercase letter string (e.g., `"C"`).
     ///
@@ -52,7 +52,7 @@ extension Pitch.Letter {
 
     // MARK: Public Instance Properties
 
-    /// The diatonic order of this letter, where C is 1 and B is 7.
+    /// The diatonic order of this pitch letter, where C is 1 and B is 7.
     public var order: Int {
         Self.orders[self].require()
     }
@@ -84,11 +84,16 @@ extension Pitch.Letter {
                                                        .g: "G"]
 }
 
+// MARK: - CaseIterable
+
+extension Pitch.Letter: CaseIterable {
+}
+
 // MARK: - CustomStringConvertible
 
 extension Pitch.Letter: CustomStringConvertible {
 
-    /// The uppercase string representation of this letter (e.g., `"C"`, `"D"`, `"E"`).
+    /// The uppercase string representation of this pitch letter (e.g., `"C"`, `"D"`, `"E"`).
     public var description: String {
         Self.stringValues[self].require()
     }

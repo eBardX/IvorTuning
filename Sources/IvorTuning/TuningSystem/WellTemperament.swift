@@ -11,7 +11,8 @@
 /// 2⁷ (seven octaves), closing the circle. This invariant is not enforced at init time,
 /// but all predefined constants satisfy it exactly.
 ///
-/// The period is an octave (2:1).
+/// The interval of equivalence is an octave (2:1). All predefined well temperaments fully
+/// support standard pitch notation via ``standardConversion(for:)``.
 public struct WellTemperament {
 
     // MARK: Public Initializers
@@ -35,6 +36,40 @@ public struct WellTemperament {
 // MARK: - TuningSystem
 
 extension WellTemperament: TuningSystem {
+    public func standardConversion(for standard: PitchStandard) -> [PitchClass: DirectedInterval<Ratio>]? {
+        let pureFifth = Ratio(3, 2)
+
+        // The 11 circle-of-fifths steps from position 0 (C) upward through position 11 (F).
+        // The 12th fifth (F→C) is not needed here: circleRatios[0] = .unison already anchors C.
+        let orderedFifths: [Fifth] = [.cToG,
+                                      .gToD,
+                                      .dToA,
+                                      .aToE,
+                                      .eToB,
+                                      .bToFSharp,
+                                      .fSharpToCSharp,
+                                      .cSharpToAFlat,
+                                      .aFlatToEFlat,
+                                      .eFlatToBFlat,
+                                      .bFlatToF]
+
+        // Frequency ratio for each of the 12 circle positions, relative to C, within [1, 2)
+        // 0=C, 1=G, 2=D, 3=A, 4=E, 5=B, 6=F♯, 7=C♯, 8=A♭, 9=E♭, 10=B♭, 11=F
+        var circleRatios = [Ratio](repeating: .unison,
+                                   count: 12)
+
+        for idx in 0..<11 {
+            let next = circleRatios[idx].add(fifths[orderedFifths[idx]] ?? pureFifth)
+
+            circleRatios[idx + 1] = (next >= .octave
+                                     ? next.sub(.octave)
+                                     : next)
+        }
+
+        // Chain position idx maps to the same circle index as (idx mod 12), so enharmonically
+        // equivalent pitch classes always receive the exact same ratio value.
+        return buildStandardConversion(for: standard) { circleRatios[(($0 % 12) + 12) % 12] }
+    }
 }
 
 // MARK: - Sendable

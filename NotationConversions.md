@@ -47,20 +47,70 @@ routing, with the exception noted in [Open Questions](#open-questions).
 
 ---
 
-## `standard ↔ absolute`: `TuningSystem` + `PitchStandard`
+## `standard ↔ absolute`: `TuningSystem` + `StandardToAbsolutePitchConverter`
 
-`TuningSystem` handles the `standard → absolute` direction:
+The `standard → absolute` direction is handled by `StandardToAbsolutePitchConverter`,
+a pre-computed lookup table initialized from a `TuningSystem` and a `PitchStandard`.
 
-- `realize(interval: Interval) -> Ratio?` — maps a standard-notation interval to a
-  frequency ratio.
-- `realize(pitch: Pitch) -> Frequency?` — maps a pitch to a frequency using the
-  default `PitchStandard` (A440).
-- `realize(pitch: Pitch, standard: PitchStandard) -> Frequency?` — same with an
-  explicit pitch standard.
+### Protocol hook: `TuningSystem.standardConversion(for:)`
 
-`PitchStandard` anchors the conversion by associating a `Pitch` with a `Frequency`
-(e.g. A4 = 440 Hz). Several standard pitch standards are predefined:
-`a415`, `a432`, `a435`, `a440`, `c256`.
+Each supporting tuning system provides its own pitch-class mapping via:
+
+```swift
+func standardConversion(for standard: PitchStandard) -> [PitchClass: DirectedInterval<Ratio>]?
+```
+
+Returns `nil` if the tuning system does not support standard pitch notation (e.g.
+because its interval of equivalence is not 2:1, or it has more than 35 distinct pitch
+classes per octave). Otherwise returns exactly 35 entries — one per pitch class
+(7 letters × 5 accidentals).
+
+**Convention for each entry:** the directed frequency ratio from the reference pitch to
+the instance of that pitch class within the **same SPN octave** as the reference.
+Direction is `.ascending` if that same-octave instance lies above the reference,
+`.descending` if below, and `.same` if it is the reference (or enharmonically
+equivalent).
+
+For example, with A4 as the reference, every entry corresponds to a pitch in [C4, B4].
+B maps to the ascending ratio to B4 — not to the nearer descending ratio to B3. This
+same-SPN-octave rule holds for all pitch classes, regardless of the reference pitch
+class chosen.
+
+### `StandardToAbsolutePitchConverter`
+
+```swift
+public struct StandardToAbsolutePitchConverter {
+    public init(tuning: some TuningSystem,
+                standard: PitchStandard = .a440) throws
+
+    public func convert(_ pitch: Pitch) -> Frequency
+}
+```
+
+`init` throws `TuningError.unsupportedStandardConversion` if the tuning system returns
+`nil` from `standardConversion(for:)`. Once initialized, `convert` is non-optional —
+a successfully initialized converter is guaranteed to cover all 35 pitch classes, so
+no optional unwrapping is required at call sites.
+
+### Scope and limitations
+
+The following categories of tuning system support `standardConversion(for:)`:
+
+- Well temperaments and linear temperaments (meantone, Pythagorean)
+- EDOs with at most 35 divisions and a 2:1 period (12-EDO, 19-EDO, 31-EDO)
+- 5-limit just intonation (`JustIntonation.fiveLimit`)
+
+Not supported (return `nil`):
+
+- Non-octave period systems (e.g., Bohlen-Pierce) — standard notation assumes 2:1
+- Tuning systems with more than 35 distinct pitch classes (e.g., 53-EDO)
+- Extended linear temperaments
+- Just intonations beyond 5-limit (e.g., `sevenLimit`, `partch43`) — diverge too far
+  from Pythagorean; may also exceed the 35-class limit
+- Other EDOs may produce unexpected results (e.g., 17-EDO)
+
+`PitchStandard` anchors the conversion by associating a `Pitch` with a `Frequency`.
+Predefined constants: `a415`, `a432`, `a435`, `a440`, `c256`.
 
 The reverse direction (`absolute → standard`) has no direct support. It is reachable
 indirectly via `absolute → keyboard → standard`, subject to the same caveats as the
@@ -174,8 +224,8 @@ public struct MeredithPitchSpeller: PitchSpeller {
 
 | Conversion             | Route                                        | Types involved                                    |
 |------------------------|----------------------------------------------|---------------------------------------------------|
-| `standard` → `absolute`| direct                                       | `TuningSystem` + `PitchStandard`                  |
-| `standard` → `keyboard`| `standard` → `absolute` → `keyboard`         | `TuningSystem`, then `KeyboardMap`            |
+| `standard` → `absolute`| direct                                       | `StandardToAbsolutePitchConverter`                |
+| `standard` → `keyboard`| `standard` → `absolute` → `keyboard`         | `StandardToAbsolutePitchConverter`, then `KeyboardMap` |
 | `absolute` → `keyboard`| direct                                       | `KeyboardMap`                                 |
 | `keyboard` → `absolute`| direct                                       | `KeyboardMap`                                 |
 | `keyboard` → `standard`| direct (note sequences only)                 | `PitchSpeller`                                    |

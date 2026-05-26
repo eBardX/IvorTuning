@@ -22,13 +22,13 @@ struct KeyboardMapTests {
     private let cRooted = KeyboardMap(referenceNote: 69,
                                       referenceFrequency: 440,
                                       middleNote: 60,
-                                      periodRatio: .octave,
+                                      equivalenceRatio: .octave,
                                       ratios: Self.twelveETRatios)
 
     private let standard = KeyboardMap(referenceNote: 69,
                                        referenceFrequency: 440,
                                        middleNote: 69,
-                                       periodRatio: .octave,
+                                       equivalenceRatio: .octave,
                                        ratios: Self.twelveETRatios)
 }
 
@@ -40,11 +40,11 @@ extension KeyboardMapTests {
         let kmap = KeyboardMap(referenceNote: 69,
                                referenceFrequency: 440,
                                middleNote: 60,
-                               periodRatio: .octave,
+                               equivalenceRatio: .octave,
                                ratios: [.unison, nil] as [Ratio?])
 
         #expect(kmap.middleNote == 60)
-        #expect(kmap.periodRatio == .octave)
+        #expect(kmap.equivalenceRatio == .octave)
         #expect(kmap.ratios.count == 2)
         #expect(kmap.ratios[0] == .unison)
         #expect(kmap.ratios[1] == nil)
@@ -57,7 +57,7 @@ extension KeyboardMapTests {
         let kmap = KeyboardMap(referenceNote: 69,
                                referenceFrequency: 440,
                                middleNote: 69,
-                               periodRatio: .octave,
+                               equivalenceRatio: .octave,
                                ratios: [])
 
         #expect(kmap.realize(noteDistance: 0) == nil)
@@ -83,7 +83,7 @@ extension KeyboardMapTests {
         let kmap = KeyboardMap(referenceNote: 69,
                                referenceFrequency: 440,
                                middleNote: 69,
-                               periodRatio: .octave,
+                               equivalenceRatio: .octave,
                                ratios: [.unison, nil] as [Ratio?])
 
         #expect(kmap.realize(noteDistance: 1) == nil)
@@ -109,7 +109,7 @@ extension KeyboardMapTests {
         let kmap = KeyboardMap(referenceNote: 69,
                                referenceFrequency: 440,
                                middleNote: 69,
-                               periodRatio: .octave,
+                               equivalenceRatio: .octave,
                                ratios: [])
 
         #expect(kmap.realize(noteNumber: 69) == nil)
@@ -125,7 +125,7 @@ extension KeyboardMapTests {
         let kmap = KeyboardMap(referenceNote: 69,
                                referenceFrequency: 440,
                                middleNote: 69,
-                               periodRatio: .octave,
+                               equivalenceRatio: .octave,
                                ratios: [.unison, nil] as [Ratio?])
 
         #expect(kmap.realize(noteNumber: 70) == nil)
@@ -136,7 +136,7 @@ extension KeyboardMapTests {
         let kmap = KeyboardMap(referenceNote: 69,
                                referenceFrequency: 440,
                                middleNote: 68,
-                               periodRatio: .octave,
+                               equivalenceRatio: .octave,
                                ratios: [.unison, nil] as [Ratio?])
 
         #expect(kmap.realize(noteNumber: 68) == nil)
@@ -160,7 +160,7 @@ extension KeyboardMapTests {
         let kmap = KeyboardMap(referenceNote: 69,
                                referenceFrequency: 440,
                                middleNote: 69,
-                               periodRatio: .octave,
+                               equivalenceRatio: .octave,
                                ratios: [nil, nil] as [Ratio?])
 
         #expect(kmap.unrealize(frequency: 440) == nil)
@@ -184,7 +184,7 @@ extension KeyboardMapTests {
         let kmap = KeyboardMap(referenceNote: 69,
                                referenceFrequency: 440,
                                middleNote: 69,
-                               periodRatio: .octave,
+                               equivalenceRatio: .octave,
                                ratios: [nil, nil] as [Ratio?])
 
         #expect(kmap.unrealize(ratio: .unison) == nil)

@@ -6,7 +6,8 @@ extension Pitch {
 
     // MARK: Public Nested Types
 
-    /// An octave number in scientific pitch notation.
+    /// An octave number in scientific pitch notation. The octave number increments at C, not at
+    /// A: B3 is immediately below C4. Valid range is −1 to 9.
     public struct Octave: IntRepresentable {
 
         // MARK: Public Type Methods

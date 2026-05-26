@@ -1,56 +1,65 @@
 // © 2025–2026 John Gary Pusey (see LICENSE.md)
 
-public import XestiNumbers
+private import Foundation
+private import XestiNumbers
 
-/// A tuning system that divides a period into equal logarithmic steps.
+/// A tuning system that divides an interval of equivalence into equal logarithmic steps.
+///
+/// Standard pitch notation support depends on the configuration. Instances with an octave (2:1)
+/// interval of equivalence and at most 35 divisions may support ``standardConversion(for:)``;
+/// 12-EDO, 19-EDO, and 31-EDO are fully supported. Non-octave instances (e.g., ``bohlenPierce``,
+/// ``carlosAlpha``) cannot support standard notation. Instances with more than 35 divisions
+/// (e.g., ``edo53``) cannot be fully represented. Other octave instances (e.g., ``edo22``,
+/// ``edo24``) may produce unexpected results.
 public struct EqualTemperament {
 
     // MARK: Public Initializers
 
-    /// Creates an equal temperament by dividing a period into a given number of
-    /// equal steps.
+    /// Creates an equal temperament by dividing an interval of equivalence into a given
+    /// number of equal steps.
     ///
-    /// - Parameter divisions:  The number of equal divisions within the period.
-    ///                         Must be greater than 1.
-    /// - Parameter period:     The interval to divide. Defaults to `.octave`.
+    /// - Parameter divisions:         The number of equal divisions. Must be greater than 1.
+    /// - Parameter equivalenceRatio:  The interval of equivalence to divide. Defaults to
+    ///                                `.octave`.
     ///
-    /// - Precondition: Both `divisions` and `period` must be greater than 1.
-    public init(divisions: Number,
-                period: Ratio = .octave) {
+    /// - Precondition: Both `divisions` and `equivalenceRatio` must be greater than 1.
+    public init(divisions: UInt,
+                equivalenceRatio: Ratio = .octave) {
         precondition(divisions > 1)
-        precondition(period > 1)
+        precondition(equivalenceRatio > 1)
 
         self.divisions = divisions
-        self.period = period
-        self.stepSize = period.div(divisions)
-    }
-
-    /// Creates an equal temperament defined by a specific step size.
-    ///
-    /// - Parameter stepSize:   The size of each equal step as a frequency
-    ///                         ratio.
-    public init(stepSize: Ratio) {
-        self.divisions = nil
-        self.period = nil
-        self.stepSize = stepSize
+        self.equivalenceRatio = equivalenceRatio
     }
 
     // MARK: Public Instance Properties
 
-    /// The number of equal divisions within the period, or `nil` if defined by
-    /// step size only.
-    public let divisions: Number?
+    /// The number of equal divisions within the interval of equivalence.
+    public let divisions: UInt
 
-    /// The period interval, or `nil` if defined by step size only.
-    public let period: Ratio?
-
-    /// The size of each equal step as a frequency ratio.
-    public let stepSize: Ratio
+    /// The interval of equivalence.
+    public let equivalenceRatio: Ratio
 }
 
 // MARK: - TuningSystem
 
 extension EqualTemperament: TuningSystem {
+    public func standardConversion(for standard: PitchStandard) -> [PitchClass: DirectedInterval<Ratio>]? {
+        guard equivalenceRatio == .octave
+        else { return nil }
+
+        let stepsPerFifth = Int((Double(divisions) * log2(1.5)).rounded())
+        let stepsPerOctave = Int(divisions)
+
+        // Ensure that sharps raise and flats lower pitch in standard notation:
+        guard (stepsPerFifth * 7) - (stepsPerOctave * 4) > 0
+        else { return nil }
+
+        let fifthRatio = equivalenceRatio.div(divisions).mul(stepsPerFifth)
+
+        return buildStandardConversion(for: standard,
+                                       fifthRatio: fifthRatio)
+    }
 }
 
 // MARK: - Sendable

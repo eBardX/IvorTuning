@@ -30,7 +30,7 @@ public struct PitchStandard {
 
 extension PitchStandard {
 
-    /// The Baroque pitch standard, with A4 tuned to 415 Hz.
+    /// The (modern) Baroque pitch standard, with A4 tuned to 415 Hz.
     public static let a415 = PitchStandard(pitch: .a4,      // (modern) Baroque pitch
                                            frequency: 415)
 

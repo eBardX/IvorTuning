@@ -1,6 +1,11 @@
 // © 2025–2026 John Gary Pusey (see LICENSE.md)
 
-/// A pitch class identified by a diatonic letter and an accidental.
+private import XestiTools
+
+/// A pitch class in standard notation, identified by a diatonic letter and an accidental.
+/// There are exactly 35 pitch classes (7 letters × 5 accidentals). Enharmonically equivalent
+/// pitch classes (e.g., `C♯` and `D♭`) are distinct values; tuning systems with more than 35
+/// distinct pitches per octave cannot be fully represented using standard notation.
 public struct PitchClass {
 
     // MARK: Public Nested Types
@@ -55,18 +60,6 @@ extension PitchClass {
 
     /// Returns the string representation of this pitch class.
     ///
-    /// Renamed to ``stringValue(omitNatural:)``.
-    ///
-    /// - Parameter omitNatural:    When `true`, the natural accidental symbol is omitted.
-    ///
-    /// - Returns:  The string representation of the pitch class.
-    @available(*, deprecated, renamed: "stringValue(omitNatural:)")
-    public func description(omitNatural: Bool) -> String {
-        stringValue(omitNatural: omitNatural)
-    }
-
-    /// Returns the string representation of this pitch class.
-    ///
     /// - Parameter omitNatural:    When `true`, the natural accidental symbol is omitted.
     ///
     /// - Returns:  The string representation of the pitch class.
@@ -80,9 +73,25 @@ extension PitchClass {
         return result
     }
 
+    // MARK: Internal Instance Properties
+
+    internal var fifthChainPosition: Int {
+        Self.positions[letter].require() + (accidental.order * 7)
+    }
+
     // MARK: Private Nested Types
 
     private typealias ParseResult = (letter: Letter, accidental: Accidental)
+
+    // MARK: Private Type Properties
+
+    private static let positions: [Letter: Int] = [.a: 3,
+                                                   .b: 5,
+                                                   .c: 0,
+                                                   .d: 2,
+                                                   .e: 4,
+                                                   .f: -1,
+                                                   .g: 1]
 
     // MARK: Private Type Methods
 

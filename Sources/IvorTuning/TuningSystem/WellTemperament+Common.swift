@@ -12,7 +12,7 @@ extension WellTemperament {
     /// Pythagorean comma, equal to ⁵√(2¹⁴/3⁷) ≈ 697.654 cents. The remaining seven
     /// fifths are pure (3:2). The circle closes exactly.
     ///
-    /// Proposed by Kellner as a reconstruction of Bach's own tuning, published in
+    /// Proposed by Kellner as a reconstruction of Bach’s own tuning, published in
     /// *Das Musikinstrument* 26 (1977). The choice of five fifths and their positions
     /// mirrors the structure of Werckmeister III while spreading the tempering more evenly.
     public static let kellner = WellTemperament(fifths: [.cToG: fifthPCFifth,
@@ -51,7 +51,7 @@ extension WellTemperament {
                                                                .aToE: quarterSCFifth,
                                                                .fSharpToCSharp: schismaticFifth])
 
-    /// Neidhardt I ("Village"; Johann Georg Neidhardt, 1724).
+    /// Neidhardt I (“Village”; Johann Georg Neidhardt, 1724).
     ///
     /// Four fifths — C→G, G→D, D→A, A→E — are each narrowed by ⅙ of the Pythagorean
     /// comma (≈ 698.045 cents). Four fifths — E→B, B→F♯, A♭→E♭, E♭→B♭ — are each
@@ -60,7 +60,7 @@ extension WellTemperament {
     /// exactly: 4×(1/6) + 4×(1/12) = 1 Pythagorean comma.
     ///
     /// From *Sectio Canonis Harmonici* (Königsberg, 1724). Neidhardt relabeled this
-    /// specification "Small City" in his 1732 revision.
+    /// specification “Small City” in his 1732 revision.
     public static let neidhardtI = WellTemperament(fifths: [.cToG: sixthPCFifth,
                                                             .gToD: sixthPCFifth,
                                                             .dToA: sixthPCFifth,
@@ -70,7 +70,7 @@ extension WellTemperament {
                                                             .aFlatToEFlat: twelfthPCFifth,
                                                             .eFlatToBFlat: twelfthPCFifth])
 
-    /// Neidhardt II ("Small City"; Johann Georg Neidhardt, 1724).
+    /// Neidhardt II (“Small City”; Johann Georg Neidhardt, 1724).
     ///
     /// Three fifths — C→G, G→D, D→A — are each narrowed by ⅙ of the Pythagorean comma
     /// (≈ 698.045 cents). Six fifths — A→E, B→F♯, F♯→C♯, C♯→A♭, B♭→F, F→C — are each
@@ -79,7 +79,7 @@ extension WellTemperament {
     /// 3×(1/6) + 6×(1/12) = 1 Pythagorean comma.
     ///
     /// From *Sectio Canonis Harmonici* (Königsberg, 1724). Neidhardt relabeled this
-    /// specification "Large City" in his 1732 revision.
+    /// specification “Large City” in his 1732 revision.
     public static let neidhardtII = WellTemperament(fifths: [.cToG: sixthPCFifth,
                                                              .gToD: sixthPCFifth,
                                                              .dToA: sixthPCFifth,
@@ -90,7 +90,7 @@ extension WellTemperament {
                                                              .bFlatToF: twelfthPCFifth,
                                                              .fToC: twelfthPCFifth])
 
-    /// Neidhardt III ("Large City"; Johann Georg Neidhardt, 1724).
+    /// Neidhardt III (“Large City”; Johann Georg Neidhardt, 1724).
     ///
     /// Three fifths — C→G, G→D, D→A — are each narrowed by ⅙ of the Pythagorean comma
     /// (≈ 698.045 cents). Six fifths — A→E, B→F♯, F♯→C♯, C♯→A♭, E♭→B♭, B♭→F — are
@@ -131,7 +131,7 @@ extension WellTemperament {
     /// (3:2). The circle closes exactly.
     ///
     /// This is the most historically cited well temperament, often associated with
-    /// Bach's Well-Tempered Clavier.
+    /// Bach’s Well-Tempered Clavier.
     public static let werckmeisterIII = WellTemperament(fifths: [.cToG: quarterPCFifth,
                                                                  .gToD: quarterPCFifth,
                                                                  .dToA: quarterPCFifth,

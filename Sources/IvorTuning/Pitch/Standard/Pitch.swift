@@ -2,7 +2,10 @@
 
 private import XestiTools
 
-/// A musical pitch identified by pitch class and octave.
+/// A musical pitch in scientific pitch notation (SPN), identified by pitch class and octave
+/// number. SPN is defined for tuning systems with a 2:1 octave as their interval of equivalence
+/// only; systems with a different interval of equivalence (e.g., Bohlen-Pierce) cannot be
+/// represented using standard pitch notation.
 public struct Pitch {
 
     // MARK: Public Initializers
@@ -58,18 +61,6 @@ extension Pitch {
     }
 
     // MARK: Public Instance Methods
-
-    /// Returns the string representation of this pitch.
-    ///
-    /// Renamed to ``stringValue(omitNatural:)``.
-    ///
-    /// - Parameter omitNatural:    When `true`, the natural accidental symbol is omitted.
-    ///
-    /// - Returns:  The string representation of the pitch.
-    @available(*, deprecated, renamed: "stringValue(omitNatural:)")
-    public func description(omitNatural: Bool) -> String {
-        stringValue(omitNatural: omitNatural)
-    }
 
     /// Returns the string representation of this pitch.
     ///

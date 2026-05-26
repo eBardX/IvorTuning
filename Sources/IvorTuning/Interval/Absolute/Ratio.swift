@@ -53,6 +53,13 @@ public struct Ratio: NumberRepresentable {
 
 extension Ratio {
 
+    // MARK: Public Instance Properties
+
+    /// A Boolean value indicating whether this ratio is representable as an exact integer fraction.
+    public var isExact: Bool {
+        numberValue.isExact
+    }
+
     // MARK: Public Instance Methods
 
     /// Returns this ratio divided by the given factor.

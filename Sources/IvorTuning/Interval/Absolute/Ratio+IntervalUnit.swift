@@ -13,16 +13,6 @@ extension Ratio {
 
     /// Creates a ratio from a value expressed in hekts.
     ///
-    /// Renamed to ``init(hekts:)``.
-    ///
-    /// - Parameter value:  The interval size in hekts (hundredths of a tritave step).
-    @available(*, deprecated, renamed: "init(hekts:)")
-    public init(hekt value: Number) {
-        self.init(hekts: value)
-    }
-
-    /// Creates a ratio from a value expressed in hekts.
-    ///
     /// - Parameter value:  The interval size in hekts (hundredths of a tritave step).
     public init(hekts value: Number) {
         self = IntervalUnit.hekts.convertToRatio(value)
@@ -45,14 +35,6 @@ extension Ratio {
     /// Returns this ratio expressed in cents.
     public var cents: Number {
         IntervalUnit.cents.convertFromRatio(self)
-    }
-
-    /// Returns this ratio expressed in hekts.
-    ///
-    /// Renamed to ``hekts``.
-    @available(*, deprecated, renamed: "hekts")
-    public var hekt: Number {
-        hekts
     }
 
     /// Returns this ratio expressed in hekts.
