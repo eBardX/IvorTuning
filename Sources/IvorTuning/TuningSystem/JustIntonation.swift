@@ -85,8 +85,3 @@ public struct JustIntonation {
 
 extension JustIntonation: TuningSystem {
 }
-
-// MARK: - Sendable
-
-extension JustIntonation: Sendable {
-}

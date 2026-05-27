@@ -71,8 +71,3 @@ extension WellTemperament: TuningSystem {
         return buildStandardConversion(for: standard) { circleRatios[(($0 % 12) + 12) % 12] }
     }
 }
-
-// MARK: - Sendable
-
-extension WellTemperament: Sendable {
-}

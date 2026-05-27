@@ -239,6 +239,11 @@ extension Interval: CustomStringConvertible {
     }
 }
 
+// MARK: - Equatable
+
+extension Interval: Equatable {
+}
+
 // MARK: - Hashable
 
 extension Interval: Hashable {

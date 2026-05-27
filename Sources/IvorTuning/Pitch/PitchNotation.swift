@@ -92,6 +92,11 @@ extension PitchNotation: CustomStringConvertible {
     }
 }
 
+// MARK: - Equatable
+
+extension PitchNotation: Equatable {
+}
+
 // MARK: - Sendable
 
 extension PitchNotation: Sendable {

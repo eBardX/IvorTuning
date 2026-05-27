@@ -196,6 +196,11 @@ extension KeyboardMap {
     }
 }
 
+// MARK: - Equatable
+
+extension KeyboardMap: Equatable {
+}
+
 // MARK: - Sendable
 
 extension KeyboardMap: Sendable {

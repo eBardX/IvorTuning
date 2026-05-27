@@ -4,6 +4,7 @@ public import Foundation
 
 /// A type that represents a musical interval between two pitches.
 public protocol IntervalProtocol: Codable,
+                                  Equatable,
                                   Hashable,
                                   Sendable {
 

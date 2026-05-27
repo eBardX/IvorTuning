@@ -18,6 +18,11 @@ public enum PitchDirection {
 extension PitchDirection: Codable {
 }
 
+// MARK: - Equatable
+
+extension PitchDirection: Equatable {
+}
+
 // MARK: - Sendable
 
 extension PitchDirection: Sendable {

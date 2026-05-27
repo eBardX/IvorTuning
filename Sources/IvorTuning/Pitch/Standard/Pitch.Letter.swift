@@ -99,6 +99,11 @@ extension Pitch.Letter: CustomStringConvertible {
     }
 }
 
+// MARK: - Equatable
+
+extension Pitch.Letter: Equatable {
+}
+
 // MARK: - Sendable
 
 extension Pitch.Letter: Sendable {

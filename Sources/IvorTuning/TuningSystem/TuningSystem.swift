@@ -6,7 +6,8 @@
 /// implementing ``standardConversion(for:)``. Standard notation requires a 2:1 octave as its
 /// interval of equivalence and can represent at most 35 distinct pitch classes per octave
 /// (7 letters × 5 accidentals).
-public protocol TuningSystem: Sendable {
+public protocol TuningSystem: Equatable,
+                              Sendable {
 
     /// The interval of equivalence of this tuning system.
     var equivalenceRatio: Ratio { get }

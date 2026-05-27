@@ -61,8 +61,3 @@ extension EqualTemperament: TuningSystem {
                                        fifthRatio: fifthRatio)
     }
 }
-
-// MARK: - Sendable
-
-extension EqualTemperament: Sendable {
-}

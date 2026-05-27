@@ -51,6 +51,11 @@ extension PitchStandard {
                                            frequency: 440)
 }
 
+// MARK: - Equatable
+
+extension PitchStandard: Equatable {
+}
+
 // MARK: - Sendable
 
 extension PitchStandard: Sendable {

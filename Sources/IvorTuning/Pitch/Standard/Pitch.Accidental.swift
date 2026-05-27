@@ -93,6 +93,11 @@ extension Pitch.Accidental: CustomStringConvertible {
     }
 }
 
+// MARK: - Equatable
+
+extension Pitch.Accidental: Equatable {
+}
+
 // MARK: - Sendable
 
 extension Pitch.Accidental: Sendable {

@@ -47,8 +47,3 @@ extension LinearTemperament: TuningSystem {
                                        fifthRatio: fifthRatio)
     }
 }
-
-// MARK: - Sendable
-
-extension LinearTemperament: Sendable {
-}

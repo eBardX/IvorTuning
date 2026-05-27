@@ -41,6 +41,11 @@ public struct DirectedInterval<IntervalType: IntervalProtocol> {
 extension DirectedInterval: Codable {
 }
 
+// MARK: - Equatable
+
+extension DirectedInterval: Equatable {
+}
+
 // MARK: - Sendable
 
 extension DirectedInterval: Sendable {

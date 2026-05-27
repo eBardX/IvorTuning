@@ -5,6 +5,7 @@ public import Foundation
 /// A type that represents a musical pitch with an associated interval type.
 public protocol PitchProtocol<IntervalType>: Codable,
                                              Comparable,
+                                             Equatable,
                                              Hashable,
                                              Sendable {
     associatedtype IntervalType: IntervalProtocol

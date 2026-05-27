@@ -215,8 +215,3 @@ extension MeredithPitchSpeller: PitchSpeller {
                      octave: Pitch.Octave(intValue: octave).require())
     }
 }
-
-// MARK: - Sendable
-
-extension MeredithPitchSpeller: Sendable {
-}

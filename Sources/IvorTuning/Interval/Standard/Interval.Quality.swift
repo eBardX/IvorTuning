@@ -122,6 +122,11 @@ extension Interval.Quality: CustomStringConvertible {
     }
 }
 
+// MARK: - Equatable
+
+extension Interval.Quality: Equatable {
+}
+
 // MARK: - Sendable
 
 extension Interval.Quality: Sendable {
