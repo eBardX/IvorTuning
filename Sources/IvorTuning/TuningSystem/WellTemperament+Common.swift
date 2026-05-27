@@ -2,7 +2,7 @@
 
 private import XestiNumbers
 
-extension WellTemperament {
+extension TuningSystem where Self == WellTemperament {
 
     // MARK: Public Type Properties
 
@@ -12,14 +12,12 @@ extension WellTemperament {
     /// Pythagorean comma, equal to ⁵√(2¹⁴/3⁷) ≈ 697.654 cents. The remaining seven
     /// fifths are pure (3:2). The circle closes exactly.
     ///
-    /// Proposed by Kellner as a reconstruction of Bach’s own tuning, published in
+    /// Proposed by Kellner as a reconstruction of Bach's own tuning, published in
     /// *Das Musikinstrument* 26 (1977). The choice of five fifths and their positions
     /// mirrors the structure of Werckmeister III while spreading the tempering more evenly.
-    public static let kellner = WellTemperament(fifths: [.cToG: fifthPCFifth,
-                                                         .gToD: fifthPCFifth,
-                                                         .dToA: fifthPCFifth,
-                                                         .aToE: fifthPCFifth,
-                                                         .bToFSharp: fifthPCFifth])
+    public static var kellner: WellTemperament {
+        .kellner
+    }
 
     /// Kirnberger II (Johann Philipp Kirnberger, c. 1771).
     ///
@@ -31,9 +29,9 @@ extension WellTemperament {
     ///
     /// The two half-comma fifths are unusually flat, giving C-adjacent keys very pure
     /// thirds while keys with many sharps or flats suffer greatly.
-    public static let kirnbergerII = WellTemperament(fifths: [.dToA: halfSCFifth,
-                                                              .aToE: halfSCFifth,
-                                                              .fSharpToCSharp: schismaticFifth])
+    public static var kirnbergerII: WellTemperament {
+        .kirnbergerII
+    }
 
     /// Kirnberger III (Johann Philipp Kirnberger, 1779).
     ///
@@ -45,13 +43,11 @@ extension WellTemperament {
     ///
     /// The four quarter-comma fifths make C–E a pure major third (5:4). Published in
     /// *Die Kunst des reinen Satzes in der Musik*, Part II.
-    public static let kirnbergerIII = WellTemperament(fifths: [.cToG: quarterSCFifth,
-                                                               .gToD: quarterSCFifth,
-                                                               .dToA: quarterSCFifth,
-                                                               .aToE: quarterSCFifth,
-                                                               .fSharpToCSharp: schismaticFifth])
+    public static var kirnbergerIII: WellTemperament {
+        .kirnbergerIII
+    }
 
-    /// Neidhardt I (“Village”; Johann Georg Neidhardt, 1724).
+    /// Neidhardt I ("Village"; Johann Georg Neidhardt, 1724).
     ///
     /// Four fifths — C→G, G→D, D→A, A→E — are each narrowed by ⅙ of the Pythagorean
     /// comma (≈ 698.045 cents). Four fifths — E→B, B→F♯, A♭→E♭, E♭→B♭ — are each
@@ -60,17 +56,12 @@ extension WellTemperament {
     /// exactly: 4×(1/6) + 4×(1/12) = 1 Pythagorean comma.
     ///
     /// From *Sectio Canonis Harmonici* (Königsberg, 1724). Neidhardt relabeled this
-    /// specification “Small City” in his 1732 revision.
-    public static let neidhardtI = WellTemperament(fifths: [.cToG: sixthPCFifth,
-                                                            .gToD: sixthPCFifth,
-                                                            .dToA: sixthPCFifth,
-                                                            .aToE: sixthPCFifth,
-                                                            .eToB: twelfthPCFifth,
-                                                            .bToFSharp: twelfthPCFifth,
-                                                            .aFlatToEFlat: twelfthPCFifth,
-                                                            .eFlatToBFlat: twelfthPCFifth])
+    /// specification "Small City" in his 1732 revision.
+    public static var neidhardtI: WellTemperament {
+        .neidhardtI
+    }
 
-    /// Neidhardt II (“Small City”; Johann Georg Neidhardt, 1724).
+    /// Neidhardt II ("Small City"; Johann Georg Neidhardt, 1724).
     ///
     /// Three fifths — C→G, G→D, D→A — are each narrowed by ⅙ of the Pythagorean comma
     /// (≈ 698.045 cents). Six fifths — A→E, B→F♯, F♯→C♯, C♯→A♭, B♭→F, F→C — are each
@@ -79,18 +70,12 @@ extension WellTemperament {
     /// 3×(1/6) + 6×(1/12) = 1 Pythagorean comma.
     ///
     /// From *Sectio Canonis Harmonici* (Königsberg, 1724). Neidhardt relabeled this
-    /// specification “Large City” in his 1732 revision.
-    public static let neidhardtII = WellTemperament(fifths: [.cToG: sixthPCFifth,
-                                                             .gToD: sixthPCFifth,
-                                                             .dToA: sixthPCFifth,
-                                                             .aToE: twelfthPCFifth,
-                                                             .bToFSharp: twelfthPCFifth,
-                                                             .fSharpToCSharp: twelfthPCFifth,
-                                                             .cSharpToAFlat: twelfthPCFifth,
-                                                             .bFlatToF: twelfthPCFifth,
-                                                             .fToC: twelfthPCFifth])
+    /// specification "Large City" in his 1732 revision.
+    public static var neidhardtII: WellTemperament {
+        .neidhardtII
+    }
 
-    /// Neidhardt III (“Large City”; Johann Georg Neidhardt, 1724).
+    /// Neidhardt III ("Large City"; Johann Georg Neidhardt, 1724).
     ///
     /// Three fifths — C→G, G→D, D→A — are each narrowed by ⅙ of the Pythagorean comma
     /// (≈ 698.045 cents). Six fifths — A→E, B→F♯, F♯→C♯, C♯→A♭, E♭→B♭, B♭→F — are
@@ -102,27 +87,18 @@ extension WellTemperament {
     /// only in the placement of the sixth-comma group on the flat side: E♭→B♭ is tempered
     /// here where it is pure in Neidhardt II, and F→C is pure here where it is tempered
     /// in Neidhardt II.
-    public static let neidhardtIII = WellTemperament(fifths: [.cToG: sixthPCFifth,
-                                                              .gToD: sixthPCFifth,
-                                                              .dToA: sixthPCFifth,
-                                                              .aToE: twelfthPCFifth,
-                                                              .bToFSharp: twelfthPCFifth,
-                                                              .fSharpToCSharp: twelfthPCFifth,
-                                                              .cSharpToAFlat: twelfthPCFifth,
-                                                              .eFlatToBFlat: twelfthPCFifth,
-                                                              .bFlatToF: twelfthPCFifth])
+    public static var neidhardtIII: WellTemperament {
+        .neidhardtIII
+    }
 
     /// Vallotti (Francesco Antonio Vallotti, c. 1728).
     ///
     /// Six consecutive fifths from F to B — F→C, C→G, G→D, D→A, A→E, E→B — are each
     /// narrowed by ⅙ of the Pythagorean comma, equal to 2^(13/6)/3 ≈ 698.045 cents.
     /// The remaining six fifths are pure (3:2). The circle closes exactly.
-    public static let vallotti = WellTemperament(fifths: [.fToC: sixthPCFifth,
-                                                          .cToG: sixthPCFifth,
-                                                          .gToD: sixthPCFifth,
-                                                          .dToA: sixthPCFifth,
-                                                          .aToE: sixthPCFifth,
-                                                          .eToB: sixthPCFifth])
+    public static var vallotti: WellTemperament {
+        .vallotti
+    }
 
     /// Werckmeister III (Andreas Werckmeister, 1691).
     ///
@@ -131,11 +107,10 @@ extension WellTemperament {
     /// (3:2). The circle closes exactly.
     ///
     /// This is the most historically cited well temperament, often associated with
-    /// Bach’s Well-Tempered Clavier.
-    public static let werckmeisterIII = WellTemperament(fifths: [.cToG: quarterPCFifth,
-                                                                 .gToD: quarterPCFifth,
-                                                                 .dToA: quarterPCFifth,
-                                                                 .bToFSharp: quarterPCFifth])
+    /// Bach's Well-Tempered Clavier.
+    public static var werckmeisterIII: WellTemperament {
+        .werckmeisterIII
+    }
 
     /// Young I (Thomas Young, 1800).
     ///
@@ -146,8 +121,89 @@ extension WellTemperament {
     /// four fifths are pure (3:2). The circle closes exactly.
     ///
     /// Published in *Philosophical Transactions of the Royal Society* 90 (1800).
-    public static let youngI: WellTemperament = {
-        let sc316     = syntonicComma.mul(3, 16)
+    public static var youngI: WellTemperament {
+        .youngI
+    }
+
+    /// Young II (Thomas Young, 1800).
+    ///
+    /// Six consecutive fifths from C to F♯ — C→G, G→D, D→A, A→E, E→B, B→F♯ — are each
+    /// narrowed by ⅙ of the Pythagorean comma, equal to 2^(13/6)/3 ≈ 698.045 cents.
+    /// The remaining six fifths are pure (3:2). The circle closes exactly.
+    ///
+    /// The tempered fifth size is identical to Vallotti, but the tempered segment runs
+    /// from C through F♯ (six sharps) rather than from F through B (six naturals/flats).
+    /// Published in *Philosophical Transactions of the Royal Society* 90 (1800).
+    public static var youngII: WellTemperament {
+        .youngII
+    }
+}
+
+// MARK: -
+
+extension WellTemperament {
+
+    // MARK: Fileprivate Type Properties
+
+    fileprivate static let kellner = WellTemperament(fifths: [.cToG: fifthPCFifth,
+                                                              .gToD: fifthPCFifth,
+                                                              .dToA: fifthPCFifth,
+                                                              .aToE: fifthPCFifth,
+                                                              .bToFSharp: fifthPCFifth])
+
+    fileprivate static let kirnbergerII = WellTemperament(fifths: [.dToA: halfSCFifth,
+                                                                   .aToE: halfSCFifth,
+                                                                   .fSharpToCSharp: schismaticFifth])
+
+    fileprivate static let kirnbergerIII = WellTemperament(fifths: [.cToG: quarterSCFifth,
+                                                                    .gToD: quarterSCFifth,
+                                                                    .dToA: quarterSCFifth,
+                                                                    .aToE: quarterSCFifth,
+                                                                    .fSharpToCSharp: schismaticFifth])
+
+    fileprivate static let neidhardtI = WellTemperament(fifths: [.cToG: sixthPCFifth,
+                                                                 .gToD: sixthPCFifth,
+                                                                 .dToA: sixthPCFifth,
+                                                                 .aToE: sixthPCFifth,
+                                                                 .eToB: twelfthPCFifth,
+                                                                 .bToFSharp: twelfthPCFifth,
+                                                                 .aFlatToEFlat: twelfthPCFifth,
+                                                                 .eFlatToBFlat: twelfthPCFifth])
+
+    fileprivate static let neidhardtII = WellTemperament(fifths: [.cToG: sixthPCFifth,
+                                                                  .gToD: sixthPCFifth,
+                                                                  .dToA: sixthPCFifth,
+                                                                  .aToE: twelfthPCFifth,
+                                                                  .bToFSharp: twelfthPCFifth,
+                                                                  .fSharpToCSharp: twelfthPCFifth,
+                                                                  .cSharpToAFlat: twelfthPCFifth,
+                                                                  .bFlatToF: twelfthPCFifth,
+                                                                  .fToC: twelfthPCFifth])
+
+    fileprivate static let neidhardtIII = WellTemperament(fifths: [.cToG: sixthPCFifth,
+                                                                   .gToD: sixthPCFifth,
+                                                                   .dToA: sixthPCFifth,
+                                                                   .aToE: twelfthPCFifth,
+                                                                   .bToFSharp: twelfthPCFifth,
+                                                                   .fSharpToCSharp: twelfthPCFifth,
+                                                                   .cSharpToAFlat: twelfthPCFifth,
+                                                                   .eFlatToBFlat: twelfthPCFifth,
+                                                                   .bFlatToF: twelfthPCFifth])
+
+    fileprivate static let vallotti = WellTemperament(fifths: [.fToC: sixthPCFifth,
+                                                               .cToG: sixthPCFifth,
+                                                               .gToD: sixthPCFifth,
+                                                               .dToA: sixthPCFifth,
+                                                               .aToE: sixthPCFifth,
+                                                               .eToB: sixthPCFifth])
+
+    fileprivate static let werckmeisterIII = WellTemperament(fifths: [.cToG: quarterPCFifth,
+                                                                      .gToD: quarterPCFifth,
+                                                                      .dToA: quarterPCFifth,
+                                                                      .bToFSharp: quarterPCFifth])
+
+    fileprivate static let youngI: WellTemperament = {
+        let sc316 = syntonicComma.mul(3, 16)
         let temperedA = pureFifth.sub(sc316)
         let temperedB = pureFifth.add(sc316).sub(pythagoreanComma.div(4))
 
@@ -161,21 +217,12 @@ extension WellTemperament {
                                         .fToC: temperedB])
     }()
 
-    /// Young II (Thomas Young, 1800).
-    ///
-    /// Six consecutive fifths from C to F♯ — C→G, G→D, D→A, A→E, E→B, B→F♯ — are each
-    /// narrowed by ⅙ of the Pythagorean comma, equal to 2^(13/6)/3 ≈ 698.045 cents.
-    /// The remaining six fifths are pure (3:2). The circle closes exactly.
-    ///
-    /// The tempered fifth size is identical to Vallotti, but the tempered segment runs
-    /// from C through F♯ (six sharps) rather than from F through B (six naturals/flats).
-    /// Published in *Philosophical Transactions of the Royal Society* 90 (1800).
-    public static let youngII = WellTemperament(fifths: [.cToG: sixthPCFifth,
-                                                         .gToD: sixthPCFifth,
-                                                         .dToA: sixthPCFifth,
-                                                         .aToE: sixthPCFifth,
-                                                         .eToB: sixthPCFifth,
-                                                         .bToFSharp: sixthPCFifth])
+    fileprivate static let youngII = WellTemperament(fifths: [.cToG: sixthPCFifth,
+                                                              .gToD: sixthPCFifth,
+                                                              .dToA: sixthPCFifth,
+                                                              .aToE: sixthPCFifth,
+                                                              .eToB: sixthPCFifth,
+                                                              .bToFSharp: sixthPCFifth])
 }
 
 // MARK: - Private Constants

@@ -2,7 +2,7 @@
 
 private import XestiNumbers
 
-extension EqualTemperament {
+extension TuningSystem where Self == EqualTemperament {
 
     // MARK: Public Type Properties
 
@@ -13,8 +13,9 @@ extension EqualTemperament {
     /// an octave, this system is not directly compatible with standard octave-based instruments.
     ///
     /// Does not support standard pitch notation (non-octave interval of equivalence).
-    public static let bohlenPierce = EqualTemperament(divisions: 13,
-                                                      equivalenceRatio: .tritave)
+    public static var bohlenPierce: EqualTemperament {
+        .bohlenPierce
+    }
 
     /// Carlos Alpha (α): non-octave ET whose step is one ninth of a pure fifth (3:2).
     ///
@@ -24,8 +25,9 @@ extension EqualTemperament {
     /// 11/1 (1987). The interval of equivalence is undefined; the octave is not closed.
     ///
     /// Does not support standard pitch notation (non-octave interval of equivalence).
-    public static let carlosAlpha = EqualTemperament(divisions: 9,
-                                                     equivalenceRatio: pureFifth)
+    public static var carlosAlpha: EqualTemperament {
+        .carlosAlpha
+    }
 
     /// Carlos Beta (β): non-octave ET whose step is one eleventh of a pure fifth (3:2).
     ///
@@ -34,8 +36,9 @@ extension EqualTemperament {
     /// Introduced by Wendy Carlos alongside Alpha and Gamma (1987).
     ///
     /// Does not support standard pitch notation (non-octave interval of equivalence).
-    public static let carlosBeta = EqualTemperament(divisions: 11,
-                                                    equivalenceRatio: pureFifth)
+    public static var carlosBeta: EqualTemperament {
+        .carlosBeta
+    }
 
     /// Carlos Gamma (γ): non-octave ET whose step is one twentieth of a pure fifth (3:2).
     ///
@@ -45,8 +48,9 @@ extension EqualTemperament {
     /// Introduced by Wendy Carlos alongside Alpha and Beta (1987).
     ///
     /// Does not support standard pitch notation (non-octave interval of equivalence).
-    public static let carlosGamma = EqualTemperament(divisions: 20,
-                                                     equivalenceRatio: pureFifth)
+    public static var carlosGamma: EqualTemperament {
+        .carlosGamma
+    }
 
     /// 12-EDO: 12 equal divisions of the octave.
     ///
@@ -54,7 +58,9 @@ extension EqualTemperament {
     /// music since the late Baroque period.
     ///
     /// Fully supports standard pitch notation.
-    public static let edo12 = EqualTemperament(divisions: 12)
+    public static var edo12: EqualTemperament {
+        .edo12
+    }
 
     /// 19-EDO: 19 equal divisions of the octave.
     ///
@@ -63,17 +69,21 @@ extension EqualTemperament {
     /// by Guillaume Costeley (1570) and Salinas (1577).
     ///
     /// Fully supports standard pitch notation.
-    public static let edo19 = EqualTemperament(divisions: 19)
+    public static var edo19: EqualTemperament {
+        .edo19
+    }
 
     /// 22-EDO: 22 equal divisions of the octave.
     ///
-    /// Each step is ²²√2 ≈ 54.545 cents. A “superpyth” temperament that tempers out the
+    /// Each step is ²²√2 ≈ 54.545 cents. A "superpyth" temperament that tempers out the
     /// diaschisma (2048:2025). Advocated by Paul Erlich for its efficient approximations
     /// of 7-limit harmony.
     ///
-    /// Standard pitch notation support is partial; its “superpyth” structure means some
+    /// Standard pitch notation support is partial; its "superpyth" structure means some
     /// pitch-class spellings produce unexpected interval relationships.
-    public static let edo22 = EqualTemperament(divisions: 22)
+    public static var edo22: EqualTemperament {
+        .edo22
+    }
 
     /// 24-EDO: 24 equal divisions of the octave (quarter-tone).
     ///
@@ -82,7 +92,9 @@ extension EqualTemperament {
     ///
     /// Standard pitch notation support is partial; quarter-tone pitches have no standard
     /// spelling and cannot be represented by the 35 available pitch classes.
-    public static let edo24 = EqualTemperament(divisions: 24)
+    public static var edo24: EqualTemperament {
+        .edo24
+    }
 
     /// 31-EDO: 31 equal divisions of the octave.
     ///
@@ -91,7 +103,9 @@ extension EqualTemperament {
     /// Huygens (1661) and Adriaan Fokker (1955).
     ///
     /// Fully supports standard pitch notation.
-    public static let edo31 = EqualTemperament(divisions: 31)
+    public static var edo31: EqualTemperament {
+        .edo31
+    }
 
     /// 53-EDO: 53 equal divisions of the octave.
     ///
@@ -102,7 +116,31 @@ extension EqualTemperament {
     ///
     /// Does not fully support standard pitch notation; 53 distinct pitches per octave
     /// exceed the 35-pitch-class maximum (7 letters × 5 accidentals).
-    public static let edo53 = EqualTemperament(divisions: 53)
+    public static var edo53: EqualTemperament {
+        .edo53
+    }
+}
+
+// MARK: -
+
+extension EqualTemperament {
+
+    // MARK: Fileprivate Type Properties
+
+    fileprivate static let bohlenPierce = EqualTemperament(divisions: 13,
+                                                           equivalenceRatio: .tritave)
+    fileprivate static let carlosAlpha  = EqualTemperament(divisions: 9,
+                                                           equivalenceRatio: pureFifth)
+    fileprivate static let carlosBeta   = EqualTemperament(divisions: 11,
+                                                           equivalenceRatio: pureFifth)
+    fileprivate static let carlosGamma  = EqualTemperament(divisions: 20,
+                                                           equivalenceRatio: pureFifth)
+    fileprivate static let edo12        = EqualTemperament(divisions: 12)
+    fileprivate static let edo19        = EqualTemperament(divisions: 19)
+    fileprivate static let edo22        = EqualTemperament(divisions: 22)
+    fileprivate static let edo24        = EqualTemperament(divisions: 24)
+    fileprivate static let edo31        = EqualTemperament(divisions: 31)
+    fileprivate static let edo53        = EqualTemperament(divisions: 53)
 }
 
 // MARK: - Private Constants
