@@ -65,7 +65,7 @@ extension NoteDistance: IntervalProtocol {
 
     // MARK: Public Instance Properties
 
-    /// A Boolean value indicating whether this note distance is zero.
+    /// A Boolean value indicating whether this note distance is a unison.
     public var isUnison: Bool {
         self == .unison
     }

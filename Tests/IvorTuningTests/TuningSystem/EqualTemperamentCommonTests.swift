@@ -22,15 +22,35 @@ extension EqualTemperamentCommonTests {
     }
 
     @Test
+    func bohlenPierce_standardConversion_isNil() {
+        #expect(EqualTemperament.bohlenPierce.standardConversion(for: .a440) == nil)
+    }
+
+    @Test
+    func carlosAlpha_standardConversion_isNil() {
+        #expect(EqualTemperament.carlosAlpha.standardConversion(for: .a440) == nil)
+    }
+
+    @Test
     func carlosAlpha_structure() {
         #expect(EqualTemperament.carlosAlpha.divisions == 9)
         #expect(EqualTemperament.carlosAlpha.equivalenceRatio == Ratio(3, 2))
     }
 
     @Test
+    func carlosBeta_standardConversion_isNil() {
+        #expect(EqualTemperament.carlosBeta.standardConversion(for: .a440) == nil)
+    }
+
+    @Test
     func carlosBeta_structure() {
         #expect(EqualTemperament.carlosBeta.divisions == 11)
         #expect(EqualTemperament.carlosBeta.equivalenceRatio == Ratio(3, 2))
+    }
+
+    @Test
+    func carlosGamma_standardConversion_isNil() {
+        #expect(EqualTemperament.carlosGamma.standardConversion(for: .a440) == nil)
     }
 
     @Test
@@ -45,8 +65,18 @@ extension EqualTemperamentCommonTests {
     }
 
     @Test
+    func edo12_standardConversion_has35Entries() {
+        #expect(EqualTemperament.edo12.standardConversion(for: .a440)?.count == 35)
+    }
+
+    @Test
     func edo19_divisions() {
         #expect(EqualTemperament.edo19.divisions == 19)
+    }
+
+    @Test
+    func edo19_standardConversion_has35Entries() {
+        #expect(EqualTemperament.edo19.standardConversion(for: .a440)?.count == 35)
     }
 
     @Test
@@ -62,6 +92,11 @@ extension EqualTemperamentCommonTests {
     @Test
     func edo31_divisions() {
         #expect(EqualTemperament.edo31.divisions == 31)
+    }
+
+    @Test
+    func edo31_standardConversion_has35Entries() {
+        #expect(EqualTemperament.edo31.standardConversion(for: .a440)?.count == 35)
     }
 
     @Test

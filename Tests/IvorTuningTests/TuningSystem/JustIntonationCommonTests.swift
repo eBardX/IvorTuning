@@ -12,27 +12,32 @@ struct JustIntonationCommonTests {
 extension JustIntonationCommonTests {
 
     @Test
-    func fiveLimit_count() {
-        #expect(JustIntonation.fiveLimit.ratios.count == 14)
+    func fiveLimitJI_count() {
+        #expect(JustIntonation.fiveLimitJI.ratios.count == 14)
     }
 
     @Test
-    func fiveLimit_equivalenceRatio() {
-        #expect(JustIntonation.fiveLimit.equivalenceRatio == .octave)
+    func fiveLimitJI_equivalenceRatio() {
+        #expect(JustIntonation.fiveLimitJI.equivalenceRatio == .octave)
     }
 
     @Test
-    func fiveLimit_pureFifth() throws {
+    func fiveLimitJI_pureFifth() throws {
         let threeHalves = try #require(Ratio(numberValue: Number(3) / Number(2)))
 
-        #expect(JustIntonation.fiveLimit.ratios.contains { $0.numberValue == threeHalves.numberValue })
+        #expect(JustIntonation.fiveLimitJI.ratios.contains { $0.numberValue == threeHalves.numberValue })
     }
 
     @Test
-    func fiveLimit_pureMajorThird() throws {
+    func fiveLimitJI_pureMajorThird() throws {
         let fiveQuarters = try #require(Ratio(numberValue: Number(5) / Number(4)))
 
-        #expect(JustIntonation.fiveLimit.ratios.contains { $0.numberValue == fiveQuarters.numberValue })
+        #expect(JustIntonation.fiveLimitJI.ratios.contains { $0.numberValue == fiveQuarters.numberValue })
+    }
+
+    @Test
+    func fiveLimitJI_standardConversion_isNil() {
+        #expect(JustIntonation.fiveLimitJI.standardConversion(for: .a440) == nil)
     }
 
     @Test
@@ -46,21 +51,31 @@ extension JustIntonationCommonTests {
     }
 
     @Test
-    func sevenLimit_count() {
-        #expect(JustIntonation.sevenLimit.ratios.count == 15)
+    func partch43_standardConversion_isNil() {
+        #expect(JustIntonation.partch43.standardConversion(for: .a440) == nil)
     }
 
     @Test
-    func sevenLimit_harmonicSeventh() throws {
+    func sevenLimitJI_count() {
+        #expect(JustIntonation.sevenLimitJI.ratios.count == 15)
+    }
+
+    @Test
+    func sevenLimitJI_harmonicSeventh() throws {
         let sevenQuarters = try #require(Ratio(numberValue: Number(7) / Number(4)))
 
-        #expect(JustIntonation.sevenLimit.ratios.contains { $0.numberValue == sevenQuarters.numberValue })
+        #expect(JustIntonation.sevenLimitJI.ratios.contains { $0.numberValue == sevenQuarters.numberValue })
     }
 
     @Test
-    func sevenLimit_includesFiveLimitFifth() throws {
+    func sevenLimitJI_includesFiveLimitFifth() throws {
         let threeHalves = try #require(Ratio(numberValue: Number(3) / Number(2)))
 
-        #expect(JustIntonation.sevenLimit.ratios.contains { $0.numberValue == threeHalves.numberValue })
+        #expect(JustIntonation.sevenLimitJI.ratios.contains { $0.numberValue == threeHalves.numberValue })
+    }
+
+    @Test
+    func sevenLimitJI_standardConversion_isNil() {
+        #expect(JustIntonation.sevenLimitJI.standardConversion(for: .a440) == nil)
     }
 }

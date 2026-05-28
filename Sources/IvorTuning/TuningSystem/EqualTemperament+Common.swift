@@ -75,11 +75,11 @@ extension TuningSystem where Self == EqualTemperament {
 
     /// 22-EDO: 22 equal divisions of the octave.
     ///
-    /// Each step is ²²√2 ≈ 54.545 cents. A "superpyth" temperament that tempers out the
+    /// Each step is ²²√2 ≈ 54.545 cents. A “superpyth” temperament that tempers out the
     /// diaschisma (2048:2025). Advocated by Paul Erlich for its efficient approximations
     /// of 7-limit harmony.
     ///
-    /// Standard pitch notation support is partial; its "superpyth" structure means some
+    /// Standard pitch notation support is partial; its “superpyth” structure means some
     /// pitch-class spellings produce unexpected interval relationships.
     public static var edo22: EqualTemperament {
         .edo22

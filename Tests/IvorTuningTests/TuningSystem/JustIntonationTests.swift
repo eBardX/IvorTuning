@@ -69,4 +69,9 @@ extension JustIntonationTests {
 
         #expect(ji.ratios.count == 3)
     }
+
+    @Test
+    func standardConversion_isNil() {
+        #expect(JustIntonation(ratios: []).standardConversion(for: .a440) == nil)
+    }
 }

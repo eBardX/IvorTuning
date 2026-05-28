@@ -16,10 +16,10 @@ private import XestiNumbers
 /// The ``ratios`` property prepends the tonic (1:1) and appends the interval of equivalence,
 /// so it always spans one complete interval of equivalence.
 ///
-/// Standard pitch notation support is limited to 5-limit systems. ``fiveLimit`` fully
-/// supports ``standardConversion(for:)``. Systems beyond 5-limit (e.g., ``sevenLimit``,
-/// ``partch43``) diverge too far from Pythagorean tuning to be representable in standard
-/// notation, and may also exceed the 35-pitch-class maximum.
+/// Does not support standard pitch notation. Just intonation systems are too variable
+/// to map reliably to the 35 pitch classes of standard notation: even 5-limit scales
+/// contain enharmonic pairs that are distinct in just intonation but share a single
+/// spelling, and higher-limit systems diverge further or exceed the 35-pitch-class maximum.
 public struct JustIntonation {
 
     // MARK: Public Initializers

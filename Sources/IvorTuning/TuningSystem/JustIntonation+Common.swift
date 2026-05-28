@@ -14,16 +14,16 @@ extension TuningSystem where Self == JustIntonation {
     /// tritone spellings (45:32 and 64:45). ``ratios`` has 14 elements: the tonic,
     /// 12 interior pitch classes, and the octave.
     ///
-    /// Fully supports standard pitch notation.
-    public static var fiveLimit: JustIntonation {
-        .fiveLimit
+    /// Does not support standard pitch notation.
+    public static var fiveLimitJI: JustIntonation {
+        .fiveLimitJI
     }
 
-    /// Harry Partch's 43-tone 11-limit just scale.
+    /// Harry Partch’s 43-tone 11-limit just scale.
     ///
     /// The complete 43-tone scale from _Genesis of a Music_ (1949/1974), with 41
     /// distinct pitch classes between the unison and octave. ``ratios`` has 43 elements,
-    /// matching Partch's own count which includes both endpoints.
+    /// matching Partch’s own count which includes both endpoints.
     ///
     /// Does not support standard pitch notation; its 41 interior pitch classes exceed the
     /// 35-pitch-class maximum, and 11-limit ratios have no standard spelling.
@@ -38,8 +38,8 @@ extension TuningSystem where Self == JustIntonation {
     ///
     /// Does not fully support standard pitch notation; the harmonic seventh (7:4) has no
     /// standard spelling and diverges too far from any Pythagorean interval.
-    public static var sevenLimit: JustIntonation {
-        .sevenLimit
+    public static var sevenLimitJI: JustIntonation {
+        .sevenLimitJI
     }
 }
 
@@ -49,18 +49,18 @@ extension JustIntonation {
 
     // MARK: Fileprivate Type Properties
 
-    fileprivate static let fiveLimit = JustIntonation(ratios: [Ratio(16, 15),    // minor second
-                                                               Ratio(9, 8),      // major second
-                                                               Ratio(6, 5),      // minor third
-                                                               Ratio(5, 4),      // major third
-                                                               Ratio(4, 3),      // perfect fourth
-                                                               Ratio(45, 32),    // augmented fourth
-                                                               Ratio(64, 45),    // diminished fifth
-                                                               Ratio(3, 2),      // perfect fifth
-                                                               Ratio(8, 5),      // minor sixth
-                                                               Ratio(5, 3),      // major sixth
-                                                               Ratio(9, 5),      // minor seventh
-                                                               Ratio(15, 8)])    // major seventh
+    fileprivate static let fiveLimitJI = JustIntonation(ratios: [Ratio(16, 15),    // minor second
+                                                                 Ratio(9, 8),      // major second
+                                                                 Ratio(6, 5),      // minor third
+                                                                 Ratio(5, 4),      // major third
+                                                                 Ratio(4, 3),      // perfect fourth
+                                                                 Ratio(45, 32),    // augmented fourth
+                                                                 Ratio(64, 45),    // diminished fifth
+                                                                 Ratio(3, 2),      // perfect fifth
+                                                                 Ratio(8, 5),      // minor sixth
+                                                                 Ratio(5, 3),      // major sixth
+                                                                 Ratio(9, 5),      // minor seventh
+                                                                 Ratio(15, 8)])    // major seventh
 
     fileprivate static let partch43 = JustIntonation(ratios: [Ratio(81, 80),
                                                               Ratio(33, 32),
@@ -104,5 +104,5 @@ extension JustIntonation {
                                                               Ratio(40, 21),
                                                               Ratio(64, 33)])
 
-    fileprivate static let sevenLimit = JustIntonation(ratios: fiveLimit.ratios + [Ratio(7, 4)]) // harmonic seventh
+    fileprivate static let sevenLimitJI = JustIntonation(ratios: fiveLimitJI.ratios + [Ratio(7, 4)]) // harmonic seventh
 }

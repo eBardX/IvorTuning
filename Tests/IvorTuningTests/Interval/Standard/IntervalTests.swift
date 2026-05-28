@@ -14,6 +14,11 @@ struct IntervalTests {
 extension IntervalTests {
     @Test
     func adding_failure() {
+        // Fifth-chain sum overflows the ±33 range
+        #expect(Interval.quadruplyAugmented7.adding(.augmented1) == nil)
+        #expect(Interval.quadruplyAugmented7.adding(.perfect5) == nil)
+        #expect(Interval.quadruplyDiminished2.adding(.diminished2) == nil)
+        #expect(Interval.quadruplyDiminished2.adding(.diminished5) == nil)
     }
 
     @Test
@@ -457,6 +462,13 @@ extension IntervalTests {
 
     @Test
     func subtracting_failure() {
+        // Resulting size would be zero or negative
+        #expect(Interval.minor2.subtracting(.minor3) == nil)
+        #expect(Interval.perfect1.subtracting(.minor2) == nil)
+        #expect(Interval.perfect4.subtracting(.perfect5) == nil)
+        // Fifth-chain difference overflows the ±33 range
+        #expect(Interval.quadruplyDiminished2.subtracting(.augmented1) == nil)
+        #expect(Interval.quadruplyAugmented7.subtracting(.quadruplyDiminished2) == nil)
     }
 
     @Test

@@ -82,6 +82,11 @@ extension PitchNotation: Codable {
     }
 }
 
+// MARK: - Comparable
+
+extension PitchNotation: Comparable {
+}
+
 // MARK: - CustomStringConvertible
 
 extension PitchNotation: CustomStringConvertible {
@@ -95,6 +100,11 @@ extension PitchNotation: CustomStringConvertible {
 // MARK: - Equatable
 
 extension PitchNotation: Equatable {
+}
+
+// MARK: - Hashable
+
+extension PitchNotation: Hashable {
 }
 
 // MARK: - Sendable
