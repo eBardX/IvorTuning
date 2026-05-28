@@ -8,8 +8,8 @@ struct StandardToAbsolutePitchConverterTests {
     private let converter: StandardToAbsolutePitchConverter
 
     init() throws {
-        self.converter = try StandardToAbsolutePitchConverter(tuning: EqualTemperament.edo12,
-                                                              standard: .a440)
+        self.converter = try StandardToAbsolutePitchConverter(tuningSystem: EqualTemperament.edo12,
+                                                              pitchStandard: .a440)
     }
 }
 
@@ -35,7 +35,7 @@ extension StandardToAbsolutePitchConverterTests {
     @Test
     func convert_unsupportedTuning_throws() {
         #expect(throws: TuningError.unsupportedStandardConversion) {
-            try StandardToAbsolutePitchConverter(tuning: EqualTemperament.bohlenPierce)
+            try StandardToAbsolutePitchConverter(tuningSystem: EqualTemperament.bohlenPierce)
         }
     }
 
@@ -55,5 +55,25 @@ extension StandardToAbsolutePitchConverterTests {
         let expected = try #require(PitchStandard.a440.frequency.transposed(by: di))
 
         assertEqual(converter.convert("C5"), expected)
+    }
+
+    @Test
+    func equality() throws {
+        let lhs = try StandardToAbsolutePitchConverter(tuningSystem: EqualTemperament.edo12,
+                                                       pitchStandard: .a440)
+        let rhs = try StandardToAbsolutePitchConverter(tuningSystem: EqualTemperament.edo12,
+                                                       pitchStandard: .a440)
+
+        #expect(lhs == rhs)
+    }
+
+    @Test
+    func inequality() throws {
+        let lhs = try StandardToAbsolutePitchConverter(tuningSystem: EqualTemperament.edo12,
+                                                       pitchStandard: .a440)
+        let rhs = try StandardToAbsolutePitchConverter(tuningSystem: EqualTemperament.edo12,
+                                                       pitchStandard: .a432)
+
+        #expect(lhs != rhs)
     }
 }

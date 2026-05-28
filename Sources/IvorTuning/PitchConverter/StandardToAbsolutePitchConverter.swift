@@ -15,20 +15,20 @@ public struct StandardToAbsolutePitchConverter {
 
     /// Creates a converter for the given tuning system and pitch standard.
     ///
-    /// - Parameter tuning:     The tuning system to use. Must support standard pitch notation.
-    /// - Parameter standard:   The reference pitch and its frequency. Defaults to `.a440`.
+    /// - Parameter tuningSystem:   The tuning system to use. Must support standard pitch notation.
+    /// - Parameter pitchStandard:  The reference pitch and its frequency. Defaults to `.a440`.
     ///
-    /// - Throws:   `TuningError.unsupportedStandardConversion` if `tuning` does not support
+    /// - Throws:   `TuningError.unsupportedStandardConversion` if `tuningSystem` does not support
     ///             standard pitch notation.
-    public init(tuning: some TuningSystem,
-                standard: PitchStandard = .a440) throws {
-        guard let conv = tuning.standardConversion(for: standard),
+    public init(tuningSystem: some TuningSystem,
+                pitchStandard: PitchStandard = .a440) throws {
+        guard let conv = tuningSystem.standardConversion(for: pitchStandard),
               conv.count == 35
         else { throw TuningError.unsupportedStandardConversion }
 
         self.conversion = conv
-        self.referenceFrequency = standard.frequency
-        self.referenceOctave = standard.pitch.octave
+        self.referenceFrequency = pitchStandard.frequency
+        self.referenceOctave = pitchStandard.pitch.octave
     }
 
     // MARK: Private Instance Properties
@@ -40,7 +40,7 @@ public struct StandardToAbsolutePitchConverter {
 
 // MARK: -
 
-extension StandardToAbsolutePitchConverter {
+extension StandardToAbsolutePitchConverter: PitchConverter {
 
     // MARK: Public Instance Methods
 
@@ -67,9 +67,4 @@ extension StandardToAbsolutePitchConverter {
 
         return baseFrequency.transposed(by: octaveInterval).require()
     }
-}
-
-// MARK: - Sendable
-
-extension StandardToAbsolutePitchConverter: Sendable {
 }
