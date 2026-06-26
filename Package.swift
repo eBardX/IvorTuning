@@ -1,4 +1,4 @@
-// swift-tools-version: 6.2
+// swift-tools-version: 6.3
 
 // © 2025–2026 John Gary Pusey (see LICENSE.md)
 
@@ -18,9 +18,9 @@ let package = Package(name: "IvorTuning",
                       products: [.library(name: "IvorTuning",
                                           targets: ["IvorTuning"])],
                       dependencies: [.package(url: "https://github.com/eBardX/XestiNumbers.git",
-                                              .upToNextMajor(from: "1.0.0")),
+                                              .upToNextMajor(from: "1.1.0")),
                                      .package(url: "https://github.com/eBardX/XestiTools.git",
-                                              .upToNextMajor(from: "7.4.0"))],
+                                              .upToNextMajor(from: "9.0.0"))],
                       targets: [.target(name: "IvorTuning",
                                         dependencies: [.product(name: "XestiNumbers",
                                                                 package: "XestiNumbers"),
