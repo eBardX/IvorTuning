@@ -40,6 +40,9 @@ public struct LinearTemperament {
 // MARK: - TuningSystem
 
 extension LinearTemperament: TuningSystem {
+
+    // MARK: Public Instance Methods
+
     public func standardConversion(for standard: PitchStandard) -> [PitchClass: DirectedInterval<Ratio>]? {
         let fifthRatio = Ratio(3, 2).sub(narrowingRatio)
 

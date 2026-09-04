@@ -8,7 +8,12 @@ public protocol PitchProtocol<IntervalType>: Codable,
                                              Equatable,
                                              Hashable,
                                              Sendable {
+
+    // MARK: Public Associated Types
+
     associatedtype IntervalType: IntervalProtocol
+
+    // MARK: Public Instance Methods
 
     /// Returns the directed interval from this pitch to another pitch.
     ///

@@ -75,4 +75,18 @@ func assertEqual(_ real1: Number?,
     }
 }
 
+func circleCloses(_ wt: WellTemperament) -> Bool {
+    guard let pure = Ratio(numberValue: Number(3) / Number(2))
+    else {
+        return false
+    }
+
+    let product = Fixtures.wellTemperamentFifths
+        .map { wt.fifths[$0] ?? pure }
+        .map(\.numberValue)
+        .reduce(Number(1), *)
+
+    return abs(product.doubleValue - 128) < 1e-6
+}
+
 private let epsilon = Number(0.000001)

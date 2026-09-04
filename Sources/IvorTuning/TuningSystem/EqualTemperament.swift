@@ -44,6 +44,9 @@ public struct EqualTemperament {
 // MARK: - TuningSystem
 
 extension EqualTemperament: TuningSystem {
+
+    // MARK: Public Instance Methods
+
     public func standardConversion(for standard: PitchStandard) -> [PitchClass: DirectedInterval<Ratio>]? {
         guard equivalenceRatio == .octave
         else { return nil }

@@ -22,7 +22,7 @@ public struct AbsoluteToStandardPitchConverter<Speller: PitchSpeller> {
     private let pitchSpeller: Speller
 }
 
-// MARK: -
+// MARK: - PitchConverter
 
 extension AbsoluteToStandardPitchConverter: PitchConverter {
 

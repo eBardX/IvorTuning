@@ -2,6 +2,8 @@
 
 private import XestiTools
 
+// MARK: Internal Functions
+
 // Walks the chain from C outward with a single repeated fifth, then delegates to
 // buildStandardConversion(for:ratioAt:). Suitable for ET and LT (uniform fifth).
 // Descending steps use downFifth = octave/fifth to keep all intermediate ratios ≥ 1.

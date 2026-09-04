@@ -18,7 +18,7 @@ public struct KeyboardToAbsolutePitchConverter {
     private let keyboardMap: KeyboardMap
 }
 
-// MARK: -
+// MARK: - PitchConverter
 
 extension KeyboardToAbsolutePitchConverter: PitchConverter {
 

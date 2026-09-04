@@ -18,7 +18,7 @@ public struct KeyboardToStandardPitchConverter<Speller: PitchSpeller> {
     private let pitchSpeller: Speller
 }
 
-// MARK: -
+// MARK: - PitchConverter
 
 extension KeyboardToStandardPitchConverter: PitchConverter {
 

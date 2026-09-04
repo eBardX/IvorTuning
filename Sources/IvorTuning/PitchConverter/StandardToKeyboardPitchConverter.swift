@@ -26,7 +26,7 @@ public struct StandardToKeyboardPitchConverter<System: TuningSystem> {
     private let tuningSystem: System
 }
 
-// MARK: -
+// MARK: - PitchConverter
 
 extension StandardToKeyboardPitchConverter: PitchConverter {
 

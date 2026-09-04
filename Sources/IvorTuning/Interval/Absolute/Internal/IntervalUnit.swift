@@ -4,21 +4,7 @@ internal import XestiNumbers
 
 internal struct IntervalUnit {
 
-    // MARK: Internal Type Properties
-
-    internal static let cents = Self(logBase: 2,
-                                     coefficient: 1_200)
-
-    internal static let hekts = Self(logBase: 3,
-                                     coefficient: 1_300)
-
-    internal static let millioctaves = Self(logBase: 2,
-                                            coefficient: 1_000)
-
-    internal static let savarts = Self(logBase: 10,
-                                       coefficient: 1_000)
-
-    // MARK: Internal Constructors
+    // MARK: Internal Initializers
 
     internal init(logBase: Number,
                   coefficient: Number) {
@@ -35,6 +21,30 @@ internal struct IntervalUnit {
     internal let coefficient: Number
     internal let logBase: Number
 
+    // MARK: Private Instance Properties
+
+    private let expFactor: Number
+    private let logFactor: Number
+}
+
+// MARK: -
+
+extension IntervalUnit {
+
+    // MARK: Internal Type Properties
+
+    internal static let cents = Self(logBase: 2,
+                                     coefficient: 1_200)
+
+    internal static let hekts = Self(logBase: 3,
+                                     coefficient: 1_300)
+
+    internal static let millioctaves = Self(logBase: 2,
+                                            coefficient: 1_000)
+
+    internal static let savarts = Self(logBase: 10,
+                                       coefficient: 1_000)
+
     // MARK: Internal Instance Methods
 
     internal func convertFromRatio(_ value: Ratio) -> Number {
@@ -44,11 +54,6 @@ internal struct IntervalUnit {
     internal func convertToRatio(_ value: Number) -> Ratio {
         Ratio(exp(value * expFactor))
     }
-
-    // MARK: Private Instance Properties
-
-    private let expFactor: Number
-    private let logFactor: Number
 }
 
 // MARK: - Sendable

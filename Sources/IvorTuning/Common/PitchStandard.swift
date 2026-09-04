@@ -30,13 +30,11 @@ public struct PitchStandard {
 
 extension PitchStandard {
 
+    // MARK: Public Type Properties
+
     /// The (modern) Baroque pitch standard, with A4 tuned to 415 Hz.
     public static let a415 = PitchStandard(pitch: .a4,      // (modern) Baroque pitch
                                            frequency: 415)
-
-    /// The philosophical (scientific) pitch standard, with C4 tuned to 256 Hz.
-    public static let c256 = PitchStandard(pitch: .c4,      // philosophical pitch / scientific pitch
-                                           frequency: 256)
 
     /// The Verdi pitch standard, with A4 tuned to 432 Hz.
     public static let a432 = PitchStandard(pitch: .a4,      // Verdi pitch
@@ -49,6 +47,10 @@ extension PitchStandard {
     /// The international concert pitch standard, with A4 tuned to 440 Hz.
     public static let a440 = PitchStandard(pitch: .a4,      // international standard pitch / Stuttgart pitch
                                            frequency: 440)
+
+    /// The philosophical (scientific) pitch standard, with C4 tuned to 256 Hz.
+    public static let c256 = PitchStandard(pitch: .c4,      // philosophical pitch / scientific pitch
+                                           frequency: 256)
 }
 
 // MARK: - Equatable

@@ -3,14 +3,14 @@
 /// The direction of movement between two pitches.
 public enum PitchDirection {
 
+    /// Movement from a lower pitch to a higher pitch.
+    case ascending
+
     /// Movement from a higher pitch to a lower pitch.
     case descending
 
     /// No movement; the two pitches are identical.
     case same
-
-    /// Movement from a lower pitch to a higher pitch.
-    case ascending
 }
 
 // MARK: - Codable

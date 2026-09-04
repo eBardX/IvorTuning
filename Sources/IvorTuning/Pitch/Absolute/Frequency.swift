@@ -5,17 +5,6 @@ public import XestiNumbers
 /// A positive rational frequency value representing an absolute pitch.
 public struct Frequency: NumberRepresentable {
 
-    // MARK: Public Type Methods
-
-    /// Returns a Boolean value indicating whether the given number is a valid frequency.
-    ///
-    /// - Parameter numberValue:    The number to validate.
-    ///
-    /// - Returns:  `true` if `numberValue` is rational and positive; otherwise, `false`.
-    public static func isValid(_ numberValue: Number) -> Bool {
-        numberValue.isRational && numberValue.isPositive
-    }
-
     // MARK: Public Initializers
 
     /// Creates a frequency from a number value.
@@ -36,6 +25,22 @@ public struct Frequency: NumberRepresentable {
     public let numberValue: Number
 }
 
+// MARK: -
+
+extension Frequency {
+
+    // MARK: Public Type Methods
+
+    /// Returns a Boolean value indicating whether the given number is a valid frequency.
+    ///
+    /// - Parameter numberValue:    The number to validate.
+    ///
+    /// - Returns:  `true` if `numberValue` is rational and positive; otherwise, `false`.
+    public static func isValid(_ numberValue: Number) -> Bool {
+        numberValue.isRational && numberValue.isPositive
+    }
+}
+
 // MARK: - PitchProtocol
 
 extension Frequency: PitchProtocol {
@@ -52,14 +57,17 @@ extension Frequency: PitchProtocol {
         let val2 = pitch.numberValue
 
         if val1 < val2 {
-            return DirectedInterval(interval: Ratio(val2 / val1), direction: .ascending)
+            return DirectedInterval(interval: Ratio(val2 / val1),
+                                    direction: .ascending)
         }
 
         if val1 > val2 {
-            return DirectedInterval(interval: Ratio(val1 / val2), direction: .descending)
+            return DirectedInterval(interval: Ratio(val1 / val2),
+                                    direction: .descending)
         }
 
-        return DirectedInterval(interval: .unison, direction: .same)
+        return DirectedInterval(interval: .unison,
+                                direction: .same)
     }
 
     /// Returns this frequency transposed by the given directed interval.

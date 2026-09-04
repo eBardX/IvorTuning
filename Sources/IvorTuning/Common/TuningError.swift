@@ -11,7 +11,6 @@ public enum TuningError {
 // MARK: - EnhancedError
 
 extension TuningError: EnhancedError {
-
     /// The error category identifying the source module.
     public var category: Category? {
         Category("IvorTuning")
@@ -24,6 +23,11 @@ extension TuningError: EnhancedError {
             "Tuning system does not support standard pitch notation"
         }
     }
+}
+
+// MARK: - Equatable
+
+extension TuningError: Equatable {
 }
 
 // MARK: - Sendable

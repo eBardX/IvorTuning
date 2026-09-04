@@ -198,7 +198,7 @@ index-aligned array of `Pitch` values.
 
 The sole concrete implementation applies the **PS13S1 algorithm** from Meredith
 (2006). PS13S1 assigns each note the spelling most strongly implied by local tonal
-context, modelled as the frequency distribution of chromas within a sliding window
+context, modeled as the frequency distribution of chromas within a sliding window
 surrounding each note.
 
 ```swift

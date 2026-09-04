@@ -12,50 +12,6 @@ struct WellTemperamentTests {
 extension WellTemperamentTests {
 
     @Test
-    func standardConversion_has35Entries() {
-        #expect(WellTemperament.werckmeisterIII.standardConversion(for: .a440)?.count == 35)
-    }
-
-    @Test
-    func standardConversion_referenceIsSame() throws {
-        let conversion = try #require(WellTemperament.werckmeisterIII.standardConversion(for: .a440))
-
-        #expect(conversion[.a]?.direction == .same)
-        #expect(conversion[.a]?.interval == .unison)
-    }
-
-    @Test
-    func standardConversion_sameOctaveConvention() throws {
-        // B4 is above A4; C4 is below A4 — same-SPN-octave convention
-        let conversion = try #require(WellTemperament.werckmeisterIII.standardConversion(for: .a440))
-
-        #expect(conversion[.b]?.direction == .ascending)
-        #expect(conversion[.c]?.direction == .descending)
-    }
-
-    @Test
-    func standardConversion_werckmeisterIII_pureAToE() throws {
-        // In Werckmeister III, A→E is a pure fifth (3:2).
-        // E4 lies a perfect fourth below A4, so the interval is exactly 4:3 descending.
-        let conversion = try #require(WellTemperament.werckmeisterIII.standardConversion(for: .a440))
-        let pureFourth = try #require(Ratio(numberValue: Number(4) / Number(3)))
-
-        assertEqual(conversion[.e], (pureFourth, .descending))
-    }
-
-    @Test
-    func standardConversion_enharmonicsMatch() throws {
-        // In a 12-tone well temperament, enharmonically equivalent pitch classes share the
-        // same frequency and therefore the same directed interval from any reference.
-        let conversion = try #require(WellTemperament.werckmeisterIII.standardConversion(for: .a440))
-
-        #expect(conversion[.cSharp]?.direction == conversion[.dFlat]?.direction)
-        #expect(conversion[.cSharp]?.interval == conversion[.dFlat]?.interval)
-        #expect(conversion[.fSharp]?.direction == conversion[.gFlat]?.direction)
-        #expect(conversion[.fSharp]?.interval == conversion[.gFlat]?.interval)
-    }
-
-    @Test
     func standardConversion_doubleFlatEnharmonics() throws {
         let conversion = try #require(WellTemperament.werckmeisterIII.standardConversion(for: .a440))
 
@@ -125,5 +81,49 @@ extension WellTemperamentTests {
         #expect(conversion[.bDoubleSharp]?.direction == conversion[.cSharp]?.direction)
         #expect(conversion[.bDoubleSharp]?.interval == conversion[.dFlat]?.interval)
         #expect(conversion[.bDoubleSharp]?.direction == conversion[.dFlat]?.direction)
+    }
+
+    @Test
+    func standardConversion_enharmonicsMatch() throws {
+        // In a 12-tone well temperament, enharmonically equivalent pitch classes share the
+        // same frequency and therefore the same directed interval from any reference.
+        let conversion = try #require(WellTemperament.werckmeisterIII.standardConversion(for: .a440))
+
+        #expect(conversion[.cSharp]?.direction == conversion[.dFlat]?.direction)
+        #expect(conversion[.cSharp]?.interval == conversion[.dFlat]?.interval)
+        #expect(conversion[.fSharp]?.direction == conversion[.gFlat]?.direction)
+        #expect(conversion[.fSharp]?.interval == conversion[.gFlat]?.interval)
+    }
+
+    @Test
+    func standardConversion_has35Entries() {
+        #expect(WellTemperament.werckmeisterIII.standardConversion(for: .a440)?.count == 35)
+    }
+
+    @Test
+    func standardConversion_referenceIsSame() throws {
+        let conversion = try #require(WellTemperament.werckmeisterIII.standardConversion(for: .a440))
+
+        #expect(conversion[.a]?.direction == .same)
+        #expect(conversion[.a]?.interval == .unison)
+    }
+
+    @Test
+    func standardConversion_sameOctaveConvention() throws {
+        // B4 is above A4; C4 is below A4 — same-SPN-octave convention
+        let conversion = try #require(WellTemperament.werckmeisterIII.standardConversion(for: .a440))
+
+        #expect(conversion[.b]?.direction == .ascending)
+        #expect(conversion[.c]?.direction == .descending)
+    }
+
+    @Test
+    func standardConversion_werckmeisterIII_pureAToE() throws {
+        // In Werckmeister III, A→E is a pure fifth (3:2).
+        // E4 lies a perfect fourth below A4, so the interval is exactly 4:3 descending.
+        let conversion = try #require(WellTemperament.werckmeisterIII.standardConversion(for: .a440))
+        let pureFourth = try #require(Ratio(numberValue: Number(4) / Number(3)))
+
+        assertEqual(conversion[.e], (pureFourth, .descending))
     }
 }

@@ -6,17 +6,6 @@ public import XestiTools
 /// A MIDI note number in the range `0...127`.
 public struct NoteNumber: UIntRepresentable {
 
-    // MARK: Public Type Methods
-
-    /// Returns a Boolean value indicating whether the given unsigned integer is a valid note number.
-    ///
-    /// - Parameter uintValue:  The value to validate.
-    ///
-    /// - Returns:  `true` if `uintValue` is in the range `0...127`; otherwise, `false`.
-    public static func isValid(_ uintValue: UInt) -> Bool {
-        (0...127) ~= uintValue
-    }
-
     // MARK: Public Initializers
 
     /// Creates a note number from an unsigned integer value.
@@ -40,6 +29,17 @@ public struct NoteNumber: UIntRepresentable {
 // MARK: -
 
 extension NoteNumber {
+
+    // MARK: Public Type Methods
+
+    /// Returns a Boolean value indicating whether the given unsigned integer is a valid note number.
+    ///
+    /// - Parameter uintValue:  The value to validate.
+    ///
+    /// - Returns:  `true` if `uintValue` is in the range `0...127`; otherwise, `false`.
+    public static func isValid(_ uintValue: UInt) -> Bool {
+        (0...127) ~= uintValue
+    }
 
     // MARK: Public Instance Properties
 
@@ -70,14 +70,17 @@ extension NoteNumber: PitchProtocol {
         let val2 = pitch.uintValue
 
         if val1 < val2 {
-            return DirectedInterval(interval: NoteDistance(val2 - val1), direction: .ascending)
+            return DirectedInterval(interval: NoteDistance(val2 - val1),
+                                    direction: .ascending)
         }
 
         if val1 > val2 {
-            return DirectedInterval(interval: NoteDistance(val1 - val2), direction: .descending)
+            return DirectedInterval(interval: NoteDistance(val1 - val2),
+                                    direction: .descending)
         }
 
-        return DirectedInterval(interval: .unison, direction: .same)
+        return DirectedInterval(interval: .unison,
+                                direction: .same)
     }
 
     /// Returns this note number transposed by the given directed interval.

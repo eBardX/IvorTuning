@@ -18,14 +18,25 @@ extension EqualTemperamentTests {
     }
 
     @Test
-    func standardConversion_nonOctave_isNil() {
-        #expect(EqualTemperament.bohlenPierce.standardConversion(for: .a440) == nil)
-        #expect(EqualTemperament.carlosAlpha.standardConversion(for: .a440) == nil)
+    func standardConversion_edo19() throws {
+        let conversion = try #require(EqualTemperament.edo19.standardConversion(for: .a440))
+
+        #expect(conversion.count == 35)
+        #expect(conversion[.a]?.direction == .same)
+        // B is 3 steps above A in 19-EDO (3/19 of an octave)
+        #expect(conversion[.b]?.direction == .ascending)
+        assertEqual(conversion[.b]?.interval, Ratio(cents: 3.0 * 1_200.0 / 19.0))
     }
 
     @Test
     func standardConversion_has35Entries() {
         #expect(EqualTemperament.edo12.standardConversion(for: .a440)?.count == 35)
+    }
+
+    @Test
+    func standardConversion_nonOctave_isNil() {
+        #expect(EqualTemperament.bohlenPierce.standardConversion(for: .a440) == nil)
+        #expect(EqualTemperament.carlosAlpha.standardConversion(for: .a440) == nil)
     }
 
     @Test
@@ -46,16 +57,5 @@ extension EqualTemperamentTests {
 
         assertEqual(conversion[.b], (Ratio(cents: 200), .ascending))
         assertEqual(conversion[.c], (Ratio(cents: 900), .descending))
-    }
-
-    @Test
-    func standardConversion_edo19() throws {
-        let conversion = try #require(EqualTemperament.edo19.standardConversion(for: .a440))
-
-        #expect(conversion.count == 35)
-        #expect(conversion[.a]?.direction == .same)
-        // B is 3 steps above A in 19-EDO (3/19 of an octave)
-        #expect(conversion[.b]?.direction == .ascending)
-        assertEqual(conversion[.b]?.interval, Ratio(cents: 3.0 * 1_200.0 / 19.0))
     }
 }

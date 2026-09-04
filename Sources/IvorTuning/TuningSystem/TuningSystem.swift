@@ -9,8 +9,12 @@
 public protocol TuningSystem: Equatable,
                               Sendable {
 
+    // MARK: Public Instance Properties
+
     /// The interval of equivalence of this tuning system.
     var equivalenceRatio: Ratio { get }
+
+    // MARK: Public Instance Methods
 
     /// Returns a pitch-class mapping for converting standard pitches to absolute frequencies.
     ///
@@ -34,12 +38,18 @@ public protocol TuningSystem: Equatable,
     func standardConversion(for standard: PitchStandard) -> [PitchClass: DirectedInterval<Ratio>]?
 }
 
+// MARK: -
+
 extension TuningSystem {
+
+    // MARK: Public Instance Properties
 
     /// The interval of equivalence of this tuning system. Defaults to `.octave`.
     public var equivalenceRatio: Ratio {
         .octave
     }
+
+    // MARK: Public Instance Methods
 
     /// Returns `nil` by default; override to support standard pitch notation.
     public func standardConversion(for standard: PitchStandard) -> [PitchClass: DirectedInterval<Ratio>]? {

@@ -36,6 +36,9 @@ public struct WellTemperament {
 // MARK: - TuningSystem
 
 extension WellTemperament: TuningSystem {
+
+    // MARK: Public Instance Methods
+
     public func standardConversion(for standard: PitchStandard) -> [PitchClass: DirectedInterval<Ratio>]? {
         let pureFifth = Ratio(3, 2)
 

@@ -13,11 +13,6 @@ public enum PitchNotation {
 
     /// A pitch expressed as a letter, accidental, and octave.
     case standard
-}
-
-// MARK: -
-
-extension PitchNotation {
 
     // MARK: Public Initializers
 
@@ -26,22 +21,23 @@ extension PitchNotation {
     /// - Parameter stringValue:    The string representation of the pitch notation.
     ///
     /// - Throws:   `ParseError` if `stringValue` does not match a known pitch notation.
-    public init(stringValue: String) throws {
+    public init(stringValue: String) throws(ParseError) {
         guard let pitchNotation = Self.pitchNotations[stringValue]
         else { throw ParseError.invalidPitchNotation(stringValue) }
 
         self = pitchNotation
     }
+}
+
+// MARK: -
+
+extension PitchNotation {
 
     // MARK: Private Type Properties
 
     private static let pitchNotations: [String: Self] = ["absolute": .absolute,
                                                          "keyboard": .keyboard,
                                                          "standard": .standard]
-
-    private static let stringValues: [Self: String] = [.absolute: "absolute",
-                                                       .keyboard: "keyboard",
-                                                       .standard: "standard"]
 }
 
 // MARK: - Codable
@@ -93,7 +89,16 @@ extension PitchNotation: CustomStringConvertible {
 
     /// The string representation of this pitch notation (e.g., `"absolute"`, `"keyboard"`, `"standard"`).
     public var description: String {
-        Self.stringValues[self].require()
+        switch self {
+        case .absolute:
+            "absolute"
+
+        case .keyboard:
+            "keyboard"
+
+        case .standard:
+            "standard"
+        }
     }
 }
 

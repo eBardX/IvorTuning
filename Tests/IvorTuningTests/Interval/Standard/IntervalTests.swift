@@ -65,6 +65,22 @@ extension IntervalTests {
     }
 
     @Test
+    func adding_success_m2() {
+        #expect(Interval.minor2.adding(.perfect1) == .minor2)
+        #expect(Interval.minor2.adding(.minor2) == .diminished3)
+        #expect(Interval.minor2.adding(.major2) == .minor3)
+        #expect(Interval.minor2.adding(.minor3) == .diminished4)
+        #expect(Interval.minor2.adding(.major3) == .perfect4)
+        #expect(Interval.minor2.adding(.perfect4) == .diminished5)
+        #expect(Interval.minor2.adding(.perfect5) == .minor6)
+        #expect(Interval.minor2.adding(.minor6) == .diminished7)
+        #expect(Interval.minor2.adding(.major6) == .minor7)
+        #expect(Interval.minor2.adding(.minor7) == .diminished8)
+        #expect(Interval.minor2.adding(.major7) == .perfect8)
+        #expect(Interval.minor2.adding(.perfect8) == .minor9)
+    }
+
+    @Test
     func adding_success_M3() {
         #expect(Interval.major3.adding(.perfect1) == .major3)
         #expect(Interval.major3.adding(.minor2) == .perfect4)
@@ -78,6 +94,22 @@ extension IntervalTests {
         #expect(Interval.major3.adding(.minor7) == .major9)
         #expect(Interval.major3.adding(.major7) == .augmented9)
         #expect(Interval.major3.adding(.perfect8) == .major10)
+    }
+
+    @Test
+    func adding_success_m3() {
+        #expect(Interval.minor3.adding(.perfect1) == .minor3)
+        #expect(Interval.minor3.adding(.minor2) == .diminished4)
+        #expect(Interval.minor3.adding(.major2) == .perfect4)
+        #expect(Interval.minor3.adding(.minor3) == .diminished5)
+        #expect(Interval.minor3.adding(.major3) == .perfect5)
+        #expect(Interval.minor3.adding(.perfect4) == .minor6)
+        #expect(Interval.minor3.adding(.perfect5) == .minor7)
+        #expect(Interval.minor3.adding(.minor6) == .diminished8)
+        #expect(Interval.minor3.adding(.major6) == .perfect8)
+        #expect(Interval.minor3.adding(.minor7) == .minor9)
+        #expect(Interval.minor3.adding(.major7) == .major9)
+        #expect(Interval.minor3.adding(.perfect8) == .minor10)
     }
 
     @Test
@@ -97,6 +129,22 @@ extension IntervalTests {
     }
 
     @Test
+    func adding_success_m6() {
+        #expect(Interval.minor6.adding(.perfect1) == .minor6)
+        #expect(Interval.minor6.adding(.minor2) == .diminished7)
+        #expect(Interval.minor6.adding(.major2) == .minor7)
+        #expect(Interval.minor6.adding(.minor3) == .diminished8)
+        #expect(Interval.minor6.adding(.major3) == .perfect8)
+        #expect(Interval.minor6.adding(.perfect4) == .minor9)
+        #expect(Interval.minor6.adding(.perfect5) == .minor10)
+        #expect(Interval.minor6.adding(.minor6) == .diminished11)
+        #expect(Interval.minor6.adding(.major6) == .perfect11)
+        #expect(Interval.minor6.adding(.minor7) == .diminished12)
+        #expect(Interval.minor6.adding(.major7) == .perfect12)
+        #expect(Interval.minor6.adding(.perfect8) == .minor13)
+    }
+
+    @Test
     func adding_success_M7() {
         #expect(Interval.major7.adding(.perfect1) == .major7)
         #expect(Interval.major7.adding(.minor2) == .perfect8)
@@ -110,6 +158,22 @@ extension IntervalTests {
         #expect(Interval.major7.adding(.minor7) == .major13)
         #expect(Interval.major7.adding(.major7) == .augmented13)
         #expect(Interval.major7.adding(.perfect8) == .major14)
+    }
+
+    @Test
+    func adding_success_m7() {
+        #expect(Interval.minor7.adding(.perfect1) == .minor7)
+        #expect(Interval.minor7.adding(.minor2) == .diminished8)
+        #expect(Interval.minor7.adding(.major2) == .perfect8)
+        #expect(Interval.minor7.adding(.minor3) == .minor9)
+        #expect(Interval.minor7.adding(.major3) == .major9)
+        #expect(Interval.minor7.adding(.perfect4) == .minor10)
+        #expect(Interval.minor7.adding(.perfect5) == .perfect11)
+        #expect(Interval.minor7.adding(.minor6) == .diminished12)
+        #expect(Interval.minor7.adding(.major6) == .perfect12)
+        #expect(Interval.minor7.adding(.minor7) == .minor13)
+        #expect(Interval.minor7.adding(.major7) == .major13)
+        #expect(Interval.minor7.adding(.perfect8) == .minor14)
     }
 
     @Test
@@ -174,70 +238,6 @@ extension IntervalTests {
         #expect(Interval.perfect8.adding(.minor7) == .minor14)
         #expect(Interval.perfect8.adding(.major7) == .major14)
         #expect(Interval.perfect8.adding(.perfect8) == .perfect15)
-    }
-
-    @Test
-    func adding_success_m2() {
-        #expect(Interval.minor2.adding(.perfect1) == .minor2)
-        #expect(Interval.minor2.adding(.minor2) == .diminished3)
-        #expect(Interval.minor2.adding(.major2) == .minor3)
-        #expect(Interval.minor2.adding(.minor3) == .diminished4)
-        #expect(Interval.minor2.adding(.major3) == .perfect4)
-        #expect(Interval.minor2.adding(.perfect4) == .diminished5)
-        #expect(Interval.minor2.adding(.perfect5) == .minor6)
-        #expect(Interval.minor2.adding(.minor6) == .diminished7)
-        #expect(Interval.minor2.adding(.major6) == .minor7)
-        #expect(Interval.minor2.adding(.minor7) == .diminished8)
-        #expect(Interval.minor2.adding(.major7) == .perfect8)
-        #expect(Interval.minor2.adding(.perfect8) == .minor9)
-    }
-
-    @Test
-    func adding_success_m3() {
-        #expect(Interval.minor3.adding(.perfect1) == .minor3)
-        #expect(Interval.minor3.adding(.minor2) == .diminished4)
-        #expect(Interval.minor3.adding(.major2) == .perfect4)
-        #expect(Interval.minor3.adding(.minor3) == .diminished5)
-        #expect(Interval.minor3.adding(.major3) == .perfect5)
-        #expect(Interval.minor3.adding(.perfect4) == .minor6)
-        #expect(Interval.minor3.adding(.perfect5) == .minor7)
-        #expect(Interval.minor3.adding(.minor6) == .diminished8)
-        #expect(Interval.minor3.adding(.major6) == .perfect8)
-        #expect(Interval.minor3.adding(.minor7) == .minor9)
-        #expect(Interval.minor3.adding(.major7) == .major9)
-        #expect(Interval.minor3.adding(.perfect8) == .minor10)
-    }
-
-    @Test
-    func adding_success_m6() {
-        #expect(Interval.minor6.adding(.perfect1) == .minor6)
-        #expect(Interval.minor6.adding(.minor2) == .diminished7)
-        #expect(Interval.minor6.adding(.major2) == .minor7)
-        #expect(Interval.minor6.adding(.minor3) == .diminished8)
-        #expect(Interval.minor6.adding(.major3) == .perfect8)
-        #expect(Interval.minor6.adding(.perfect4) == .minor9)
-        #expect(Interval.minor6.adding(.perfect5) == .minor10)
-        #expect(Interval.minor6.adding(.minor6) == .diminished11)
-        #expect(Interval.minor6.adding(.major6) == .perfect11)
-        #expect(Interval.minor6.adding(.minor7) == .diminished12)
-        #expect(Interval.minor6.adding(.major7) == .perfect12)
-        #expect(Interval.minor6.adding(.perfect8) == .minor13)
-    }
-
-    @Test
-    func adding_success_m7() {
-        #expect(Interval.minor7.adding(.perfect1) == .minor7)
-        #expect(Interval.minor7.adding(.minor2) == .diminished8)
-        #expect(Interval.minor7.adding(.major2) == .perfect8)
-        #expect(Interval.minor7.adding(.minor3) == .minor9)
-        #expect(Interval.minor7.adding(.major3) == .major9)
-        #expect(Interval.minor7.adding(.perfect4) == .minor10)
-        #expect(Interval.minor7.adding(.perfect5) == .perfect11)
-        #expect(Interval.minor7.adding(.minor6) == .diminished12)
-        #expect(Interval.minor7.adding(.major6) == .perfect12)
-        #expect(Interval.minor7.adding(.minor7) == .minor13)
-        #expect(Interval.minor7.adding(.major7) == .major13)
-        #expect(Interval.minor7.adding(.perfect8) == .minor14)
     }
 
     @Test
@@ -488,6 +488,22 @@ extension IntervalTests {
     }
 
     @Test
+    func subtracting_success_m2() {
+        #expect(Interval.minor2.subtracting(.perfect1) == .minor2)
+        #expect(Interval.diminished3.subtracting(.minor2) == .minor2)
+        #expect(Interval.minor3.subtracting(.major2) == .minor2)
+        #expect(Interval.diminished4.subtracting(.minor3) == .minor2)
+        #expect(Interval.perfect4.subtracting(.major3) == .minor2)
+        #expect(Interval.diminished5.subtracting(.perfect4) == .minor2)
+        #expect(Interval.minor6.subtracting(.perfect5) == .minor2)
+        #expect(Interval.diminished7.subtracting(.minor6) == .minor2)
+        #expect(Interval.minor7.subtracting(.major6) == .minor2)
+        #expect(Interval.diminished8.subtracting(.minor7) == .minor2)
+        #expect(Interval.perfect8.subtracting(.major7) == .minor2)
+        #expect(Interval.minor9.subtracting(.perfect8) == .minor2)
+    }
+
+    @Test
     func subtracting_success_M3() {
         #expect(Interval.major3.subtracting(.perfect1) == .major3)
         #expect(Interval.perfect4.subtracting(.minor2) == .major3)
@@ -501,6 +517,22 @@ extension IntervalTests {
         #expect(Interval.major9.subtracting(.minor7) == .major3)
         #expect(Interval.augmented9.subtracting(.major7) == .major3)
         #expect(Interval.major10.subtracting(.perfect8) == .major3)
+    }
+
+    @Test
+    func subtracting_success_m3() {
+        #expect(Interval.minor3.subtracting(.perfect1) == .minor3)
+        #expect(Interval.diminished4.subtracting(.minor2) == .minor3)
+        #expect(Interval.perfect4.subtracting(.major2) == .minor3)
+        #expect(Interval.diminished5.subtracting(.minor3) == .minor3)
+        #expect(Interval.perfect5.subtracting(.major3) == .minor3)
+        #expect(Interval.minor6.subtracting(.perfect4) == .minor3)
+        #expect(Interval.minor7.subtracting(.perfect5) == .minor3)
+        #expect(Interval.diminished8.subtracting(.minor6) == .minor3)
+        #expect(Interval.perfect8.subtracting(.major6) == .minor3)
+        #expect(Interval.minor9.subtracting(.minor7) == .minor3)
+        #expect(Interval.major9.subtracting(.major7) == .minor3)
+        #expect(Interval.minor10.subtracting(.perfect8) == .minor3)
     }
 
     @Test
@@ -520,6 +552,22 @@ extension IntervalTests {
     }
 
     @Test
+    func subtracting_success_m6() {
+        #expect(Interval.minor6.subtracting(.perfect1) == .minor6)
+        #expect(Interval.diminished7.subtracting(.minor2) == .minor6)
+        #expect(Interval.minor7.subtracting(.major2) == .minor6)
+        #expect(Interval.diminished8.subtracting(.minor3) == .minor6)
+        #expect(Interval.perfect8.subtracting(.major3) == .minor6)
+        #expect(Interval.minor9.subtracting(.perfect4) == .minor6)
+        #expect(Interval.minor10.subtracting(.perfect5) == .minor6)
+        #expect(Interval.diminished11.subtracting(.minor6) == .minor6)
+        #expect(Interval.perfect11.subtracting(.major6) == .minor6)
+        #expect(Interval.diminished12.subtracting(.minor7) == .minor6)
+        #expect(Interval.perfect12.subtracting(.major7) == .minor6)
+        #expect(Interval.minor13.subtracting(.perfect8) == .minor6)
+    }
+
+    @Test
     func subtracting_success_M7() {
         #expect(Interval.major7.subtracting(.perfect1) == .major7)
         #expect(Interval.perfect8.subtracting(.minor2) == .major7)
@@ -533,6 +581,22 @@ extension IntervalTests {
         #expect(Interval.major13.subtracting(.minor7) == .major7)
         #expect(Interval.augmented13.subtracting(.major7) == .major7)
         #expect(Interval.major14.subtracting(.perfect8) == .major7)
+    }
+
+    @Test
+    func subtracting_success_m7() {
+        #expect(Interval.minor7.subtracting(.perfect1) == .minor7)
+        #expect(Interval.diminished8.subtracting(.minor2) == .minor7)
+        #expect(Interval.perfect8.subtracting(.major2) == .minor7)
+        #expect(Interval.minor9.subtracting(.minor3) == .minor7)
+        #expect(Interval.major9.subtracting(.major3) == .minor7)
+        #expect(Interval.minor10.subtracting(.perfect4) == .minor7)
+        #expect(Interval.perfect11.subtracting(.perfect5) == .minor7)
+        #expect(Interval.diminished12.subtracting(.minor6) == .minor7)
+        #expect(Interval.perfect12.subtracting(.major6) == .minor7)
+        #expect(Interval.minor13.subtracting(.minor7) == .minor7)
+        #expect(Interval.major13.subtracting(.major7) == .minor7)
+        #expect(Interval.minor14.subtracting(.perfect8) == .minor7)
     }
 
     @Test
@@ -597,69 +661,5 @@ extension IntervalTests {
         #expect(Interval.minor14.subtracting(.minor7) == .perfect8)
         #expect(Interval.major14.subtracting(.major7) == .perfect8)
         #expect(Interval.perfect15.subtracting(.perfect8) == .perfect8)
-    }
-
-    @Test
-    func subtracting_success_m2() {
-        #expect(Interval.minor2.subtracting(.perfect1) == .minor2)
-        #expect(Interval.diminished3.subtracting(.minor2) == .minor2)
-        #expect(Interval.minor3.subtracting(.major2) == .minor2)
-        #expect(Interval.diminished4.subtracting(.minor3) == .minor2)
-        #expect(Interval.perfect4.subtracting(.major3) == .minor2)
-        #expect(Interval.diminished5.subtracting(.perfect4) == .minor2)
-        #expect(Interval.minor6.subtracting(.perfect5) == .minor2)
-        #expect(Interval.diminished7.subtracting(.minor6) == .minor2)
-        #expect(Interval.minor7.subtracting(.major6) == .minor2)
-        #expect(Interval.diminished8.subtracting(.minor7) == .minor2)
-        #expect(Interval.perfect8.subtracting(.major7) == .minor2)
-        #expect(Interval.minor9.subtracting(.perfect8) == .minor2)
-    }
-
-    @Test
-    func subtracting_success_m3() {
-        #expect(Interval.minor3.subtracting(.perfect1) == .minor3)
-        #expect(Interval.diminished4.subtracting(.minor2) == .minor3)
-        #expect(Interval.perfect4.subtracting(.major2) == .minor3)
-        #expect(Interval.diminished5.subtracting(.minor3) == .minor3)
-        #expect(Interval.perfect5.subtracting(.major3) == .minor3)
-        #expect(Interval.minor6.subtracting(.perfect4) == .minor3)
-        #expect(Interval.minor7.subtracting(.perfect5) == .minor3)
-        #expect(Interval.diminished8.subtracting(.minor6) == .minor3)
-        #expect(Interval.perfect8.subtracting(.major6) == .minor3)
-        #expect(Interval.minor9.subtracting(.minor7) == .minor3)
-        #expect(Interval.major9.subtracting(.major7) == .minor3)
-        #expect(Interval.minor10.subtracting(.perfect8) == .minor3)
-    }
-
-    @Test
-    func subtracting_success_m6() {
-        #expect(Interval.minor6.subtracting(.perfect1) == .minor6)
-        #expect(Interval.diminished7.subtracting(.minor2) == .minor6)
-        #expect(Interval.minor7.subtracting(.major2) == .minor6)
-        #expect(Interval.diminished8.subtracting(.minor3) == .minor6)
-        #expect(Interval.perfect8.subtracting(.major3) == .minor6)
-        #expect(Interval.minor9.subtracting(.perfect4) == .minor6)
-        #expect(Interval.minor10.subtracting(.perfect5) == .minor6)
-        #expect(Interval.diminished11.subtracting(.minor6) == .minor6)
-        #expect(Interval.perfect11.subtracting(.major6) == .minor6)
-        #expect(Interval.diminished12.subtracting(.minor7) == .minor6)
-        #expect(Interval.perfect12.subtracting(.major7) == .minor6)
-        #expect(Interval.minor13.subtracting(.perfect8) == .minor6)
-    }
-
-    @Test
-    func subtracting_success_m7() {
-        #expect(Interval.minor7.subtracting(.perfect1) == .minor7)
-        #expect(Interval.diminished8.subtracting(.minor2) == .minor7)
-        #expect(Interval.perfect8.subtracting(.major2) == .minor7)
-        #expect(Interval.minor9.subtracting(.minor3) == .minor7)
-        #expect(Interval.major9.subtracting(.major3) == .minor7)
-        #expect(Interval.minor10.subtracting(.perfect4) == .minor7)
-        #expect(Interval.perfect11.subtracting(.perfect5) == .minor7)
-        #expect(Interval.diminished12.subtracting(.minor6) == .minor7)
-        #expect(Interval.perfect12.subtracting(.major6) == .minor7)
-        #expect(Interval.minor13.subtracting(.minor7) == .minor7)
-        #expect(Interval.major13.subtracting(.major7) == .minor7)
-        #expect(Interval.minor14.subtracting(.perfect8) == .minor7)
     }
 }

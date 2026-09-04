@@ -329,6 +329,32 @@ enum Fixtures {
     static let gSharp5 = _makeFrequency(512, 800)
     static let gSharp6 = _makeFrequency(1_024, 800)
     static let gSharp7 = _makeFrequency(2_048, 800)
+
+    static let twelveETRatios: [Ratio?] = [Ratio(cents: 0),
+                                           Ratio(cents: 100),
+                                           Ratio(cents: 200),
+                                           Ratio(cents: 300),
+                                           Ratio(cents: 400),
+                                           Ratio(cents: 500),
+                                           Ratio(cents: 600),
+                                           Ratio(cents: 700),
+                                           Ratio(cents: 800),
+                                           Ratio(cents: 900),
+                                           Ratio(cents: 1_000),
+                                           Ratio(cents: 1_100)]
+
+    static let wellTemperamentFifths: [WellTemperament.Fifth] = [.cToG,
+                                                                 .gToD,
+                                                                 .dToA,
+                                                                 .aToE,
+                                                                 .eToB,
+                                                                 .bToFSharp,
+                                                                 .fSharpToCSharp,
+                                                                 .cSharpToAFlat,
+                                                                 .aFlatToEFlat,
+                                                                 .eFlatToBFlat,
+                                                                 .bFlatToF,
+                                                                 .fToC]
 }
 
 private func _makeFrequency(_ base: Number,

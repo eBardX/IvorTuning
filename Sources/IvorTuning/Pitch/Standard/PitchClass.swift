@@ -8,7 +8,7 @@ private import XestiTools
 /// distinct pitches per octave cannot be fully represented using standard notation.
 public struct PitchClass {
 
-    // MARK: Public Nested Types
+    // MARK: Public Type Aliases
 
     /// A type alias for ``Pitch/Accidental``.
     public typealias Accidental = Pitch.Accidental
@@ -28,6 +28,19 @@ public struct PitchClass {
         self.letter = letter
     }
 
+    /// Creates a pitch class from its string representation.
+    ///
+    /// - Parameter stringValue:    The string representation of the pitch class (e.g., `"C♯"`).
+    ///
+    /// - Throws:   `ParseError` if `stringValue` cannot be parsed as a valid pitch class.
+    public init(stringValue: String) throws(ParseError) {
+        guard let result = Self._parse(Substring(stringValue))
+        else { throw ParseError.invalidPitchClass(stringValue) }
+
+        self.init(letter: result.letter,
+                  accidental: result.accidental)
+    }
+
     // MARK: Public Instance Properties
 
     /// The accidental of this pitch class.
@@ -35,26 +48,15 @@ public struct PitchClass {
 
     /// The diatonic letter name of this pitch class.
     public let letter: Letter
+
+    // MARK: Private Type Aliases
+
+    private typealias ParseResult = (letter: Letter, accidental: Accidental)
 }
 
 // MARK: -
 
 extension PitchClass {
-
-    // MARK: Public Initializers
-
-    /// Creates a pitch class from its string representation.
-    ///
-    /// - Parameter stringValue:    The string representation of the pitch class (e.g., `"C♯"`).
-    ///
-    /// - Throws:   `ParseError` if `stringValue` cannot be parsed as a valid pitch class.
-    public init(stringValue: String) throws {
-        guard let result = Self._parse(Substring(stringValue))
-        else { throw ParseError.invalidPitchClass(stringValue) }
-
-        self.init(letter: result.letter,
-                  accidental: result.accidental)
-    }
 
     // MARK: Public Instance Methods
 
@@ -76,22 +78,31 @@ extension PitchClass {
     // MARK: Internal Instance Properties
 
     internal var fifthChainPosition: Int {
-        Self.positions[letter].require() + (accidental.order * 7)
+        let position: Int = switch letter {
+        case .a:
+            3
+
+        case .b:
+            5
+
+        case .c:
+            0
+
+        case .d:
+            2
+
+        case .e:
+            4
+
+        case .f:
+            -1
+
+        case .g:
+            1
+        }
+
+        return position + (accidental.order * 7)
     }
-
-    // MARK: Private Nested Types
-
-    private typealias ParseResult = (letter: Letter, accidental: Accidental)
-
-    // MARK: Private Type Properties
-
-    private static let positions: [Letter: Int] = [.a: 3,
-                                                   .b: 5,
-                                                   .c: 0,
-                                                   .d: 2,
-                                                   .e: 4,
-                                                   .f: -1,
-                                                   .g: 1]
 
     // MARK: Private Type Methods
 

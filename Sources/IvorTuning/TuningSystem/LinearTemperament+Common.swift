@@ -42,7 +42,7 @@ extension TuningSystem where Self == LinearTemperament {
     ///
     /// This is the minimax temperament for 5-limit triads: the major third error (wide of
     /// 5:4) and the minor third error (narrow of 6:5) are equal in magnitude and opposite
-    /// in sign, minimising the worst error across both thirds.
+    /// in sign, minimizing the worst error across both thirds.
     public static var twoSeventhCommaMeantone: LinearTemperament {
         .twoSeventhCommaMeantone
     }

@@ -47,11 +47,11 @@ public struct KeyboardMap {
 
     // MARK: Public Instance Properties
 
-    /// The MIDI note number where `ratios[0]` (unison) is placed.
-    public let middleNote: NoteNumber
-
     /// The interval of equivalence of the repeating pattern.
     public let equivalenceRatio: Ratio
+
+    /// The MIDI note number where `ratios[0]` (unison) is placed.
+    public let middleNote: NoteNumber
 
     /// The ratio for each key slot within one interval of equivalence. `nil` means the key
     /// is unmapped.
@@ -69,6 +69,26 @@ public struct KeyboardMap {
 extension KeyboardMap {
 
     // MARK: Public Instance Methods
+
+    /// Returns the frequency ratio for the given note distance, measured from
+    /// `middleNote`.
+    ///
+    /// - Parameter noteDistance:   The distance in semitones above
+    ///                             `middleNote`.
+    ///
+    /// - Returns:  The frequency ratio, or `nil` if the key at that distance is
+    ///             unmapped.
+    public func realize(noteDistance: NoteDistance) -> Ratio? {
+        guard !ratios.isEmpty
+        else { return nil }
+
+        let (index, periods) = _decompose(Int(noteDistance.uintValue))
+
+        guard let slotRatio = ratios[index]
+        else { return nil }
+
+        return Ratio(slotRatio.numberValue * exp(log(equivalenceRatio.numberValue) * Number(periods)))
+    }
 
     /// Returns the frequency for the given note number.
     ///
@@ -107,26 +127,6 @@ extension KeyboardMap {
         } else {
             return referenceFrequency
         }
-    }
-
-    /// Returns the frequency ratio for the given note distance, measured from
-    /// `middleNote`.
-    ///
-    /// - Parameter noteDistance:   The distance in semitones above
-    ///                             `middleNote`.
-    ///
-    /// - Returns:  The frequency ratio, or `nil` if the key at that distance is
-    ///             unmapped.
-    public func realize(noteDistance: NoteDistance) -> Ratio? {
-        guard !ratios.isEmpty
-        else { return nil }
-
-        let (index, periods) = _decompose(Int(noteDistance.uintValue))
-
-        guard let slotRatio = ratios[index]
-        else { return nil }
-
-        return Ratio(slotRatio.numberValue * exp(log(equivalenceRatio.numberValue) * Number(periods)))
     }
 
     /// Returns the nearest mapped note number for the given frequency.

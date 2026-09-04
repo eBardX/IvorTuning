@@ -8,7 +8,7 @@ private import XestiNumbers
 /// tonic, each derived from small-integer harmonics. Any number of tones per interval of
 /// equivalence is supported — from a simple pentatonic to Harry Partch’s 43-tone 11-limit scale.
 ///
-/// On initialisation, ratios outside `[1, equivalenceRatio)` are reduced by dividing by
+/// On initialization, ratios outside `[1, equivalenceRatio)` are reduced by dividing by
 /// `equivalenceRatio` until they fall in range; exact multiples of `equivalenceRatio`
 /// (including 1:1) are silently discarded. The remaining ratios are deduplicated and sorted
 /// ascending.
@@ -51,6 +51,17 @@ public struct JustIntonation {
     /// The interval of equivalence. Defaults to `.octave` (2:1).
     public let equivalenceRatio: Ratio
 
+    // MARK: Private Instance Properties
+
+    private let interiorRatios: [Ratio]
+}
+
+// MARK: -
+
+extension JustIntonation {
+
+    // MARK: Public Instance Properties
+
     /// The frequency ratios of this scale, including the tonic (1:1) and the interval of
     /// equivalence.
     ///
@@ -75,10 +86,6 @@ public struct JustIntonation {
 
         return r == .unison ? nil : r
     }
-
-    // MARK: Private Instance Properties
-
-    private let interiorRatios: [Ratio]
 }
 
 // MARK: - TuningSystem

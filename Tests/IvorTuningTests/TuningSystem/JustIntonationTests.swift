@@ -24,6 +24,14 @@ extension JustIntonationTests {
     }
 
     @Test
+    func ratios_equivalenceRatioDiscarded() {
+        // Passing the equivalence ratio explicitly should not create an interior entry
+        let ji = JustIntonation(ratios: [.octave])
+
+        #expect(ji.ratios.count == 2)
+    }
+
+    @Test
     func ratios_includesEquivalenceRatioEndpoints() throws {
         let threeHalves = try #require(Ratio(numberValue: Number(3) / Number(2)))
         let ji = JustIntonation(ratios: [threeHalves])
@@ -40,14 +48,6 @@ extension JustIntonationTests {
         let ji = JustIntonation(ratios: [fiveHalves])
 
         #expect(ji.ratios.contains { $0.numberValue == fiveQuarters.numberValue })
-    }
-
-    @Test
-    func ratios_equivalenceRatioDiscarded() {
-        // Passing the equivalence ratio explicitly should not create an interior entry
-        let ji = JustIntonation(ratios: [.octave])
-
-        #expect(ji.ratios.count == 2)
     }
 
     @Test

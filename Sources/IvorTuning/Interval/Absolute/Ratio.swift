@@ -7,6 +7,38 @@ private import XestiTools
 /// A frequency ratio representing a musical interval.
 public struct Ratio: NumberRepresentable {
 
+    // MARK: Public Initializers
+
+    /// Creates a ratio from a number value.
+    ///
+    /// - Parameter numberValue:    A rational number greater than or equal to 1.
+    ///
+    /// - Returns:  `nil` if `numberValue` is not rational or is less than 1.
+    public init?(numberValue: Number) {
+        guard Self.isValid(numberValue)
+        else { return nil }
+
+        self.numberValue = numberValue
+    }
+
+    // MARK: Public Instance Properties
+
+    /// The numeric value of this ratio.
+    public let numberValue: Number
+
+    // MARK: Internal Initializers
+
+    internal init<T: BinaryInteger>(_ numerator: T,
+                                    _ denominator: T) {
+        self.init(Number(numerator: numerator,
+                         denominator: denominator))
+    }
+}
+
+// MARK: -
+
+extension Ratio {
+
     // MARK: Public Type Properties
 
     /// The octave ratio (2:1).
@@ -28,30 +60,6 @@ public struct Ratio: NumberRepresentable {
     public static func isValid(_ numberValue: Number) -> Bool {
         numberValue.isRational && numberValue >= 1
     }
-
-    // MARK: Public Initializers
-
-    /// Creates a ratio from a number value.
-    ///
-    /// - Parameter numberValue:    A rational number greater than or equal to 1.
-    ///
-    /// - Returns:  `nil` if `numberValue` is not rational or is less than 1.
-    public init?(numberValue: Number) {
-        guard Self.isValid(numberValue)
-        else { return nil }
-
-        self.numberValue = numberValue
-    }
-
-    // MARK: Public Instance Properties
-
-    /// The numeric value of this ratio.
-    public let numberValue: Number
-}
-
-// MARK: -
-
-extension Ratio {
 
     // MARK: Public Instance Properties
 
@@ -78,14 +86,6 @@ extension Ratio {
     /// - Returns:  The resulting ratio, or `nil` if the result is less than 1.
     public func multiplied(by factor: Number) -> Self? {
         Self(numberValue: exp(log(numberValue) * factor))
-    }
-
-    // MARK: Internal Initializers
-
-    internal init<T: BinaryInteger>(_ numerator: T,
-                                    _ denominator: T) {
-        self.init(Number(numerator: numerator,
-                         denominator: denominator))
     }
 
     // MARK: Internal Instance Methods
@@ -121,19 +121,19 @@ extension Ratio {
 
 // MARK: - CustomStringConvertible
 
- extension Ratio: CustomStringConvertible {
+extension Ratio: CustomStringConvertible {
 
-     // MARK: Public Instance Properties
+    // MARK: Public Instance Properties
 
-     /// The string representation of this ratio.
-     public var description: String {
+    /// The string representation of this ratio.
+    public var description: String {
         if numberValue.isExact {
             numberValue.numerator.description + "/" + numberValue.denominator.description
         } else {
             doubleValue.description
         }
     }
- }
+}
 
 // MARK: - IntervalProtocol
 

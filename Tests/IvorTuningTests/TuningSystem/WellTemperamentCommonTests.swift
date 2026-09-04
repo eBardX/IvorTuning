@@ -5,33 +5,6 @@ import Testing
 import XestiNumbers
 
 struct WellTemperamentCommonTests {
-
-    private static let allFifths: [WellTemperament.Fifth] = [.cToG,
-                                                             .gToD,
-                                                             .dToA,
-                                                             .aToE,
-                                                             .eToB,
-                                                             .bToFSharp,
-                                                             .fSharpToCSharp,
-                                                             .cSharpToAFlat,
-                                                             .aFlatToEFlat,
-                                                             .eFlatToBFlat,
-                                                             .bFlatToF,
-                                                             .fToC]
-
-    private func circleCloses(_ wt: WellTemperament) -> Bool {
-        guard let pure = Ratio(numberValue: Number(3) / Number(2))
-        else {
-            return false
-        }
-
-        let product = Self.allFifths
-            .map { wt.fifths[$0] ?? pure }
-            .map(\.numberValue)
-            .reduce(Number(1), *)
-
-        return abs(product.doubleValue - 128) < 1e-6
-    }
 }
 
 // MARK: -

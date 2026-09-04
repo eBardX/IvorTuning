@@ -6,22 +6,6 @@ public import XestiTools
 /// A distance between MIDI note numbers, in the range `0...127`.
 public struct NoteDistance: UIntRepresentable {
 
-    // MARK: Public Type Properties
-
-    /// The zero note distance, representing a unison.
-    public static let unison: Self = 0
-
-    // MARK: Public Type Methods
-
-    /// Returns a Boolean value indicating whether the given unsigned integer is a valid note distance.
-    ///
-    /// - Parameter uintValue:  The value to validate.
-    ///
-    /// - Returns:  `true` if `uintValue` is in the range `0...127`; otherwise, `false`.
-    public static func isValid(_ uintValue: UInt) -> Bool {
-        (0...127) ~= uintValue
-    }
-
     // MARK: Public Initializers
 
     /// Creates a note distance from an unsigned integer value.
@@ -45,6 +29,22 @@ public struct NoteDistance: UIntRepresentable {
 // MARK: -
 
 extension NoteDistance {
+
+    // MARK: Public Type Properties
+
+    /// The zero note distance, representing a unison.
+    public static let unison: Self = 0
+
+    // MARK: Public Type Methods
+
+    /// Returns a Boolean value indicating whether the given unsigned integer is a valid note distance.
+    ///
+    /// - Parameter uintValue:  The value to validate.
+    ///
+    /// - Returns:  `true` if `uintValue` is in the range `0...127`; otherwise, `false`.
+    public static func isValid(_ uintValue: UInt) -> Bool {
+        (0...127) ~= uintValue
+    }
 
     // MARK: Public Instance Properties
 

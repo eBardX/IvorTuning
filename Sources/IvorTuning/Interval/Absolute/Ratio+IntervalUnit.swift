@@ -4,6 +4,8 @@ public import XestiNumbers
 
 extension Ratio {
 
+    // MARK: Public Initializers
+
     /// Creates a ratio from a value expressed in cents.
     ///
     /// - Parameter value:  The interval size in cents (hundredths of a semitone).
@@ -32,22 +34,24 @@ extension Ratio {
         self = IntervalUnit.savarts.convertToRatio(value)
     }
 
-    /// Returns this ratio expressed in cents.
+    // MARK: Public Instance Properties
+
+    /// The value of this ratio, expressed in cents.
     public var cents: Number {
         IntervalUnit.cents.convertFromRatio(self)
     }
 
-    /// Returns this ratio expressed in hekts.
+    /// The value of this ratio, expressed in hekts.
     public var hekts: Number {
         IntervalUnit.hekts.convertFromRatio(self)
     }
 
-    /// Returns this ratio expressed in millioctaves.
+    /// The value of this ratio, expressed in millioctaves.
     public var millioctaves: Number {
         IntervalUnit.millioctaves.convertFromRatio(self)
     }
 
-    /// Returns this ratio expressed in savarts.
+    /// The value of this ratio, expressed in savarts.
     public var savarts: Number {
         IntervalUnit.savarts.convertFromRatio(self)
     }

@@ -7,6 +7,35 @@ private import XestiTools
 /// different values even when they span the same frequency ratio in a given tuning system.
 public struct Interval {
 
+    // MARK: Public Initializers
+
+    /// Creates an interval from a quality and size.
+    ///
+    /// - Parameter quality:    The interval quality.
+    /// - Parameter size:       The diatonic size.
+    ///
+    /// - Throws:   `InvalidCombinationError` if the quality and size combination is not musically valid.
+    public init(quality: Quality,
+                size: Size) throws(InvalidCombinationError) {
+        guard Self._isValid(quality, size)
+        else { throw InvalidCombinationError(quality: quality, size: size) }
+
+        self.init(quality, size)
+    }
+
+    /// Creates an interval from its string representation.
+    ///
+    /// - Parameter stringValue:    The string representation of the interval (e.g., `"P5"`, `"m3"`).
+    ///
+    /// - Throws:   `ParseError` if `stringValue` cannot be parsed as a valid interval.
+    public init(stringValue: String) throws(ParseError) {
+        guard let result = Self._parse(Substring(stringValue))
+        else { throw ParseError.invalidInterval(stringValue) }
+
+        self.init(result.quality,
+                  result.size)
+    }
+
     // MARK: Public Instance Properties
 
     /// The quality of this interval (e.g., perfect, major, minor, diminished, augmented).
@@ -22,6 +51,10 @@ public struct Interval {
         self.size = size
         self.quality = quality
     }
+
+    // MARK: Private Type Aliases
+
+    private typealias ParseResult = (quality: Quality, size: Size)
 }
 
 // MARK: -
@@ -32,50 +65,6 @@ extension Interval {
 
     /// The perfect unison interval.
     public static let unison = Self.perfect1
-
-    // MARK: Public Initializers
-
-    /// An error thrown when a quality and size combination is not musically valid.
-    public struct InvalidCombinationError: Error, CustomStringConvertible, Sendable {
-
-        /// The quality that was invalid for the given size.
-        public let quality: Quality
-
-        /// The size that was invalid for the given quality.
-        public let size: Size
-
-        /// A human-readable description of the invalid combination.
-        public var description: String {
-            "Quality \"\(quality)\" is not valid for size \(size)"
-        }
-    }
-
-    /// Creates an interval from a quality and size.
-    ///
-    /// - Parameter quality:    The interval quality.
-    /// - Parameter size:       The diatonic size.
-    ///
-    /// - Throws:   `InvalidCombinationError` if the quality and size combination is not musically valid.
-    public init(quality: Quality,
-                size: Size) throws {
-        guard Self._isValid(quality, size)
-        else { throw InvalidCombinationError(quality: quality, size: size) }
-
-        self.init(quality, size)
-    }
-
-    /// Creates an interval from its string representation.
-    ///
-    /// - Parameter stringValue:    The string representation of the interval (e.g., `"P5"`, `"m3"`).
-    ///
-    /// - Throws:   `ParseError` if `stringValue` cannot be parsed as a valid interval.
-    public init(stringValue: String) throws {
-        guard let result = Self._parse(Substring(stringValue))
-        else { throw ParseError.invalidInterval(stringValue) }
-
-        self.init(result.quality,
-                  result.size)
-    }
 
     // MARK: Public Instance Properties
 
@@ -127,10 +116,6 @@ extension Interval {
 
         return (simple, extra)
     }
-
-    // MARK: Private Nested Types
-
-    private typealias ParseResult = (quality: Quality, size: Size)
 
     // MARK: Private Type Properties
 

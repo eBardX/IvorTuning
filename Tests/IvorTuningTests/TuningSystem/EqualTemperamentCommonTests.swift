@@ -12,13 +12,13 @@ struct EqualTemperamentCommonTests {
 extension EqualTemperamentCommonTests {
 
     @Test
-    func bohlenPierce_equivalenceRatio() {
-        #expect(EqualTemperament.bohlenPierce.equivalenceRatio == .tritave)
+    func bohlenPierce_divisions() {
+        #expect(EqualTemperament.bohlenPierce.divisions == 13)
     }
 
     @Test
-    func bohlenPierce_divisions() {
-        #expect(EqualTemperament.bohlenPierce.divisions == 13)
+    func bohlenPierce_equivalenceRatio() {
+        #expect(EqualTemperament.bohlenPierce.equivalenceRatio == .tritave)
     }
 
     @Test

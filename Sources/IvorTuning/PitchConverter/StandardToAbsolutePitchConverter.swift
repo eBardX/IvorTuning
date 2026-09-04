@@ -21,7 +21,7 @@ public struct StandardToAbsolutePitchConverter {
     /// - Throws:   `TuningError.unsupportedStandardConversion` if `tuningSystem` does not support
     ///             standard pitch notation.
     public init(tuningSystem: some TuningSystem,
-                pitchStandard: PitchStandard = .a440) throws {
+                pitchStandard: PitchStandard = .a440) throws(TuningError) {
         guard let conv = tuningSystem.standardConversion(for: pitchStandard),
               conv.count == 35
         else { throw TuningError.unsupportedStandardConversion }
@@ -38,7 +38,7 @@ public struct StandardToAbsolutePitchConverter {
     private let referenceOctave: Pitch.Octave
 }
 
-// MARK: -
+// MARK: - PitchConverter
 
 extension StandardToAbsolutePitchConverter: PitchConverter {
 

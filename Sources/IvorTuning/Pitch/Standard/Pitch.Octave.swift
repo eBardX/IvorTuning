@@ -10,17 +10,6 @@ extension Pitch {
     /// A: B3 is immediately below C4. Valid range is −1 to 9.
     public struct Octave: IntRepresentable {
 
-        // MARK: Public Type Methods
-
-        /// Returns a Boolean value indicating whether the given integer is a valid octave number.
-        ///
-        /// - Parameter intValue:   The integer to validate.
-        ///
-        /// - Returns:  `true` if `intValue` is in the range `-1...9`; otherwise, `false`.
-        public static func isValid(_ intValue: Int) -> Bool {
-            (-1...9) ~= intValue
-        }
-
         // MARK: Public Initializers
 
         /// Creates an octave from its integer value.
@@ -39,5 +28,21 @@ extension Pitch {
 
         /// The integer value of this octave number.
         public let intValue: Int
+    }
+}
+
+// MARK: -
+
+extension Pitch.Octave {
+
+    // MARK: Public Type Methods
+
+    /// Returns a Boolean value indicating whether the given integer is a valid octave number.
+    ///
+    /// - Parameter intValue:   The integer to validate.
+    ///
+    /// - Returns:  `true` if `intValue` is in the range `-1...9`; otherwise, `false`.
+    public static func isValid(_ intValue: Int) -> Bool {
+        (-1...9) ~= intValue
     }
 }

@@ -3,6 +3,11 @@
 private import XestiTools
 
 internal enum PerfectFifths {
+}
+
+// MARK: -
+
+extension PerfectFifths {
 
     // MARK: Internal Type Methods
 
@@ -162,11 +167,14 @@ internal enum PerfectFifths {
     }()
 }
 
-// MARK: - Fileprivate Intervals
+// MARK: -
 
 extension Interval {
+
+    // MARK: Fileprivate Type Properties
+
+    fileprivate static let diminished1          = Interval(.diminished, 1)
+    fileprivate static let doublyDiminished1    = Interval(.doublyDiminished, 1)
     fileprivate static let quadruplyDiminished1 = Interval(.quadruplyDiminished, 1)
     fileprivate static let triplyDiminished1    = Interval(.triplyDiminished, 1)
-    fileprivate static let doublyDiminished1    = Interval(.doublyDiminished, 1)
-    fileprivate static let diminished1          = Interval(.diminished, 1)
 }

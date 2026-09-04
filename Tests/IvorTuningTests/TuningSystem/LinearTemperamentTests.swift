@@ -17,20 +17,26 @@ extension LinearTemperamentTests {
     }
 
     @Test
-    func standardConversion_referenceIsSame() throws {
+    func standardConversion_pythagorean_bbbDistinctFromA() throws {
+        // In Pythagorean tuning, B𝄫 (12 fifths below A on the fifth chain) is a
+        // Pythagorean comma below A, NOT enharmonically equal to it.
         let conversion = try #require(LinearTemperament.pythagorean.standardConversion(for: .a440))
+        let pythagoreanComma = try #require(Ratio(numberValue: Number(531_441) / Number(524_288)))
 
-        #expect(conversion[.a]?.direction == .same)
-        #expect(conversion[.a]?.interval == .unison)
+        assertEqual(conversion[.bDoubleFlat], (pythagoreanComma, .descending))
     }
 
     @Test
-    func standardConversion_sameOctaveConvention() throws {
-        // B4 is above A4; C4 is below A4 — same-SPN-octave convention
+    func standardConversion_pythagorean_enharmonicsAreDistinct() throws {
+        // In Pythagorean tuning, C# and Db are separated by a Pythagorean comma —
+        // they are NOT enharmonically equivalent.
         let conversion = try #require(LinearTemperament.pythagorean.standardConversion(for: .a440))
 
-        #expect(conversion[.b]?.direction == .ascending)
-        #expect(conversion[.c]?.direction == .descending)
+        // Both lie below A4 but at different distances: C# is higher than Db,
+        // so its descending interval from A4 is smaller.
+        #expect(conversion[.cSharp]?.direction == .descending)
+        #expect(conversion[.dFlat]?.direction == .descending)
+        #expect(conversion[.cSharp]?.interval != conversion[.dFlat]?.interval)
     }
 
     @Test
@@ -63,25 +69,19 @@ extension LinearTemperamentTests {
     }
 
     @Test
-    func standardConversion_pythagorean_enharmonicsAreDistinct() throws {
-        // In Pythagorean tuning, C# and Db are separated by a Pythagorean comma —
-        // they are NOT enharmonically equivalent.
+    func standardConversion_referenceIsSame() throws {
         let conversion = try #require(LinearTemperament.pythagorean.standardConversion(for: .a440))
 
-        // Both lie below A4 but at different distances: C# is higher than Db,
-        // so its descending interval from A4 is smaller.
-        #expect(conversion[.cSharp]?.direction == .descending)
-        #expect(conversion[.dFlat]?.direction == .descending)
-        #expect(conversion[.cSharp]?.interval != conversion[.dFlat]?.interval)
+        #expect(conversion[.a]?.direction == .same)
+        #expect(conversion[.a]?.interval == .unison)
     }
 
     @Test
-    func standardConversion_pythagorean_bbbDistinctFromA() throws {
-        // In Pythagorean tuning, B𝄫 (12 fifths below A on the fifth chain) is a
-        // Pythagorean comma below A, NOT enharmonically equal to it.
+    func standardConversion_sameOctaveConvention() throws {
+        // B4 is above A4; C4 is below A4 — same-SPN-octave convention
         let conversion = try #require(LinearTemperament.pythagorean.standardConversion(for: .a440))
-        let pythagoreanComma = try #require(Ratio(numberValue: Number(531_441) / Number(524_288)))
 
-        assertEqual(conversion[.bDoubleFlat], (pythagoreanComma, .descending))
+        #expect(conversion[.b]?.direction == .ascending)
+        #expect(conversion[.c]?.direction == .descending)
     }
 }

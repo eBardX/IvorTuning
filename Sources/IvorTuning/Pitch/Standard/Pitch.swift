@@ -20,6 +20,19 @@ public struct Pitch {
         self.pitchClass = pitchClass
     }
 
+    /// Creates a pitch from its string representation.
+    ///
+    /// - Parameter stringValue:    The string representation of the pitch (e.g., `"C♯4"`).
+    ///
+    /// - Throws:   `ParseError` if `stringValue` cannot be parsed as a valid pitch.
+    public init(stringValue: String) throws(ParseError) {
+        guard let result = Self._parse(Substring(stringValue))
+        else { throw ParseError.invalidPitch(stringValue) }
+
+        self.init(pitchClass: result.pitchClass,
+                  octave: result.octave)
+    }
+
     // MARK: Public Instance Properties
 
     /// The octave number of this pitch.
@@ -27,26 +40,15 @@ public struct Pitch {
 
     /// The pitch class (letter and accidental) of this pitch.
     public let pitchClass: PitchClass
+
+    // MARK: Private Type Aliases
+
+    private typealias ParseResult = (pitchClass: PitchClass, octave: Octave)
 }
 
 // MARK: -
 
 extension Pitch {
-
-    // MARK: Public Initializers
-
-    /// Creates a pitch from its string representation.
-    ///
-    /// - Parameter stringValue:    The string representation of the pitch (e.g., `"C♯4"`).
-    ///
-    /// - Throws:   `ParseError` if `stringValue` cannot be parsed as a valid pitch.
-    public init(stringValue: String) throws {
-        guard let result = Self._parse(Substring(stringValue))
-        else { throw ParseError.invalidPitch(stringValue) }
-
-        self.init(pitchClass: result.pitchClass,
-                  octave: result.octave)
-    }
 
     // MARK: Public Instance Properties
 
@@ -70,10 +72,6 @@ extension Pitch {
     public func stringValue(omitNatural: Bool) -> String {
         pitchClass.stringValue(omitNatural: omitNatural) + octave.description
     }
-
-    // MARK: Private Nested Types
-
-    private typealias ParseResult = (pitchClass: PitchClass, octave: Octave)
 
     // MARK: Private Type Properties
 
@@ -204,16 +202,19 @@ extension Pitch: PitchProtocol {
             guard let interval = Self._determineInterval(self, pitch)
             else { return nil }
 
-            return DirectedInterval(interval: interval, direction: direction)
+            return DirectedInterval(interval: interval,
+                                    direction: direction)
 
         case .descending:
             guard let interval = Self._determineInterval(pitch, self)
             else { return nil }
 
-            return DirectedInterval(interval: interval, direction: direction)
+            return DirectedInterval(interval: interval,
+                                    direction: direction)
 
         case .same:
-            return DirectedInterval(interval: .unison, direction: direction)
+            return DirectedInterval(interval: .unison,
+                                    direction: direction)
         }
     }
 

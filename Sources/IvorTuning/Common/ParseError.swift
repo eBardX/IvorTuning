@@ -29,7 +29,6 @@ public enum ParseError {
 // MARK: - EnhancedError
 
 extension ParseError: EnhancedError {
-
     /// The error category identifying the source module.
     public var category: Category? {
         Category("IvorTuning")
@@ -60,6 +59,11 @@ extension ParseError: EnhancedError {
             "Invalid pitch notation: ‘\(value)’"
         }
     }
+}
+
+// MARK: - Equatable
+
+extension ParseError: Equatable {
 }
 
 // MARK: - Sendable

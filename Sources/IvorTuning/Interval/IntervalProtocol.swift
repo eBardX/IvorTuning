@@ -8,8 +8,12 @@ public protocol IntervalProtocol: Codable,
                                   Hashable,
                                   Sendable {
 
+    // MARK: Public Instance Properties
+
     /// A Boolean value indicating whether this interval is a unison.
     var isUnison: Bool { get }
+
+    // MARK: Public Instance Methods
 
     /// Returns the sum of this interval and another interval of the same type.
     ///

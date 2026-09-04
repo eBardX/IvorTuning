@@ -227,14 +227,13 @@ extension WellTemperament {
 
 // MARK: - Private Constants
 
-private let pureFifth        = Ratio(3, 2)
-private let pythagoreanComma = Ratio(531_441, 524_288)
-private let syntonicComma    = Ratio(81, 80)
-
 private let fifthPCFifth     = pureFifth.sub(pythagoreanComma.div(5))
 private let halfSCFifth      = pureFifth.sub(syntonicComma.div(2))
+private let pureFifth        = Ratio(3, 2)
+private let pythagoreanComma = Ratio(531_441, 524_288)
 private let quarterPCFifth   = pureFifth.sub(pythagoreanComma.div(4))
 private let quarterSCFifth   = pureFifth.sub(syntonicComma.div(4))
 private let schismaticFifth  = Ratio(16_384, 10_935)
 private let sixthPCFifth     = pureFifth.sub(pythagoreanComma.div(6))
+private let syntonicComma    = Ratio(81, 80)
 private let twelfthPCFifth   = pureFifth.sub(pythagoreanComma.div(12))

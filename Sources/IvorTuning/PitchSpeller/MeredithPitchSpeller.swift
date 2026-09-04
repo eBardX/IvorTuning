@@ -5,7 +5,7 @@ private import XestiTools
 /// A pitch speller that applies the PS13S1 algorithm from Meredith (2006).
 ///
 /// PS13S1 assigns each note the pitch name most strongly implied by the local
-/// tonal context, modelled as the frequency distribution of chromas within a
+/// tonal context, modeled as the frequency distribution of chromas within a
 /// sliding window surrounding each note.
 public struct MeredithPitchSpeller {
 
@@ -32,6 +32,13 @@ public struct MeredithPitchSpeller {
 
     /// The number of preceding notes included in the context window.
     public let contextBefore: Int
+
+    // MARK: Private Type Aliases
+
+    private typealias Chroma = Int          // chromatic pitch mod 12
+    private typealias ChromaticPitch = Int  // A0 == 0, C4 == 39, MIDI note number == chromatic pitch + 21
+    private typealias Morph = Int           // morphetic pitch mod 7
+    private typealias MorpheticPitch = Int  // A0 == 0, Ab0 == 0, C4 == 23, C#4 == 23
 }
 
 // MARK: - PitchSpeller
@@ -43,13 +50,6 @@ extension MeredithPitchSpeller: PitchSpeller {
     public func spell(_ noteNumbers: [NoteNumber]) -> [Pitch] {
         _applyPS13S1(to: noteNumbers.map { Int($0.uintValue) - 21 })
     }
-
-    // MARK: Private Type Aliases
-
-    private typealias Chroma = Int          // chromatic pitch mod 12
-    private typealias ChromaticPitch = Int  // A0 == 0, C4 == 39, MIDI note number == chromatic pitch + 21
-    private typealias Morph = Int           // morphetic pitch mod 7
-    private typealias MorpheticPitch = Int  // A0 == 0, Ab0 == 0, C4 == 23, C#4 == 23
 
     // MARK: Private Type Properties
 

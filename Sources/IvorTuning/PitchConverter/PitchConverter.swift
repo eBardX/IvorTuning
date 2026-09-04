@@ -4,7 +4,7 @@
 public protocol PitchConverter: Equatable,
                                 Sendable {
 
-    // MARK: Associated Types
+    // MARK: Public Associated Types
 
     /// The source pitch type.
     associatedtype FromPitchType: PitchProtocol
@@ -12,7 +12,7 @@ public protocol PitchConverter: Equatable,
     /// The target pitch type.
     associatedtype ToPitchType: PitchProtocol
 
-    // MARK: Instance Methods
+    // MARK: Public Instance Methods
 
     /// Converts the given pitch to the target notation.
     ///

@@ -6,17 +6,20 @@ extension Interval {
     /// The quality of a musical interval.
     public enum Quality {
 
-        /// A quadruply diminished quality.
-        case quadruplyDiminished
+        /// An augmented quality.
+        case augmented
 
-        /// A triply diminished quality.
-        case triplyDiminished
+        /// A diminished quality.
+        case diminished
+
+        /// A doubly augmented quality.
+        case doublyAugmented
 
         /// A doubly diminished quality.
         case doublyDiminished
 
-        /// A diminished quality.
-        case diminished
+        /// A major quality.
+        case major
 
         /// A minor quality.
         case minor
@@ -24,20 +27,31 @@ extension Interval {
         /// A perfect quality, used for unisons, fourths, fifths, and octaves.
         case perfect
 
-        /// A major quality.
-        case major
+        /// A quadruply augmented quality.
+        case quadruplyAugmented
 
-        /// An augmented quality.
-        case augmented
-
-        /// A doubly augmented quality.
-        case doublyAugmented
+        /// A quadruply diminished quality.
+        case quadruplyDiminished
 
         /// A triply augmented quality.
         case triplyAugmented
 
-        /// A quadruply augmented quality.
-        case quadruplyAugmented
+        /// A triply diminished quality.
+        case triplyDiminished
+
+        // MARK: Public Initializers
+
+        /// Creates an interval quality from its string representation.
+        ///
+        /// - Parameter stringValue:    The string representation of the quality (e.g., `"P"`, `"m"`, `"M"`).
+        ///
+        /// - Throws:   `ParseError` if `stringValue` does not match a known quality symbol.
+        public init(stringValue: String) throws(ParseError) {
+            guard let quality = Self.qualities[stringValue]
+            else { throw ParseError.invalidIntervalQuality(stringValue) }
+
+            self = quality
+        }
     }
 }
 
@@ -45,42 +59,49 @@ extension Interval {
 
 extension Interval.Quality {
 
-    // MARK: Public Initializers
-
-    /// Creates an interval quality from its string representation.
-    ///
-    /// - Parameter stringValue:    The string representation of the quality (e.g., `"P"`, `"m"`, `"M"`).
-    ///
-    /// - Throws:   `ParseError` if `stringValue` does not match a known quality symbol.
-    public init(stringValue: String) throws {
-        guard let quality = Self.qualities[stringValue]
-        else { throw ParseError.invalidIntervalQuality(stringValue) }
-
-        self = quality
-    }
-
     // MARK: Public Instance Methods
 
     /// Returns the inversion of this quality.
     ///
     /// - Returns:  The inverted quality (e.g., major inverts to minor, augmented inverts to diminished).
     public func inverted() -> Self {
-        Self.inversions[self].require()
+        switch self {
+        case .augmented:
+            .diminished
+
+        case .diminished:
+            .augmented
+
+        case .doublyAugmented:
+            .doublyDiminished
+
+        case .doublyDiminished:
+            .doublyAugmented
+
+        case .major:
+            .minor
+
+        case .minor:
+            .major
+
+        case .perfect:
+            .perfect
+
+        case .quadruplyAugmented:
+            .quadruplyDiminished
+
+        case .quadruplyDiminished:
+            .quadruplyAugmented
+
+        case .triplyAugmented:
+            .triplyDiminished
+
+        case .triplyDiminished:
+            .triplyAugmented
+        }
     }
 
     // MARK: Private Type Properties
-
-    private static let inversions: [Self: Self] = [.quadruplyDiminished: .quadruplyAugmented,
-                                                   .triplyDiminished: .triplyAugmented,
-                                                   .doublyDiminished: .doublyAugmented,
-                                                   .diminished: .augmented,
-                                                   .minor: .major,
-                                                   .perfect: .perfect,
-                                                   .major: .minor,
-                                                   .augmented: .diminished,
-                                                   .doublyAugmented: .doublyDiminished,
-                                                   .triplyAugmented: .triplyDiminished,
-                                                   .quadruplyAugmented: .quadruplyDiminished]
 
     private static let qualities: [String: Self] = ["dddd": .quadruplyDiminished,
                                                     "ddd": .triplyDiminished,
@@ -93,18 +114,6 @@ extension Interval.Quality {
                                                     "AA": .doublyAugmented,
                                                     "AAA": .triplyAugmented,
                                                     "AAAA": .quadruplyAugmented]
-
-    private static let stringValues: [Self: String] = [.quadruplyDiminished: "dddd",
-                                                       .triplyDiminished: "ddd",
-                                                       .doublyDiminished: "dd",
-                                                       .diminished: "d",
-                                                       .minor: "m",
-                                                       .perfect: "P",
-                                                       .major: "M",
-                                                       .augmented: "A",
-                                                       .doublyAugmented: "AA",
-                                                       .triplyAugmented: "AAA",
-                                                       .quadruplyAugmented: "AAAA"]
 }
 
 // MARK: - Codable
@@ -115,10 +124,42 @@ extension Interval.Quality: Codable {
 // MARK: - CustomStringConvertible
 
 extension Interval.Quality: CustomStringConvertible {
-
     /// The string representation of this quality (e.g., `"P"`, `"m"`, `"M"`, `"d"`, `"A"`).
     public var description: String {
-        Self.stringValues[self].require()
+        switch self {
+        case .augmented:
+            "A"
+
+        case .diminished:
+            "d"
+
+        case .doublyAugmented:
+            "AA"
+
+        case .doublyDiminished:
+            "dd"
+
+        case .major:
+            "M"
+
+        case .minor:
+            "m"
+
+        case .perfect:
+            "P"
+
+        case .quadruplyAugmented:
+            "AAAA"
+
+        case .quadruplyDiminished:
+            "dddd"
+
+        case .triplyAugmented:
+            "AAA"
+
+        case .triplyDiminished:
+            "ddd"
+        }
     }
 }
 

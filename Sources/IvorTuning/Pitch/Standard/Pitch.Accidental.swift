@@ -13,6 +13,9 @@ extension Pitch {
         /// A double-flat accidental (𝄫), lowering a pitch by two semitones.
         case doubleFlat
 
+        /// A double-sharp accidental (𝄪), raising a pitch by two semitones.
+        case doubleSharp
+
         /// A flat accidental (♭), lowering a pitch by one semitone.
         case flat
 
@@ -22,8 +25,19 @@ extension Pitch {
         /// A sharp accidental (♯), raising a pitch by one semitone.
         case sharp
 
-        /// A double-sharp accidental (𝄪), raising a pitch by two semitones.
-        case doubleSharp
+        // MARK: Public Initializers
+
+        /// Creates an accidental from its string representation.
+        ///
+        /// - Parameter stringValue:    The string representation of the accidental.
+        ///
+        /// - Throws:   `ParseError` if `stringValue` does not match a known accidental symbol.
+        public init(stringValue: String) throws(ParseError) {
+            guard let accidental = Self.accidentals[stringValue]
+            else { throw ParseError.invalidPitchAccidental(stringValue) }
+
+            self = accidental
+        }
     }
 }
 
@@ -31,25 +45,26 @@ extension Pitch {
 
 extension Pitch.Accidental {
 
-    // MARK: Public Initializers
-
-    /// Creates an accidental from its string representation.
-    ///
-    /// - Parameter stringValue:    The string representation of the accidental.
-    ///
-    /// - Throws:   `ParseError` if `stringValue` does not match a known accidental symbol.
-    public init(stringValue: String) throws {
-        guard let accidental = Self.accidentals[stringValue]
-        else { throw ParseError.invalidPitchAccidental(stringValue) }
-
-        self = accidental
-    }
-
     // MARK: Public Instance Properties
 
     /// The numeric order of this accidental relative to natural.
     public var order: Int {
-        Self.orders[self].require()
+        switch self {
+        case .doubleFlat:
+            -2
+
+        case .doubleSharp:
+            2
+
+        case .flat:
+            -1
+
+        case .natural:
+            0
+
+        case .sharp:
+            1
+        }
     }
 
     // MARK: Private Type Properties
@@ -62,20 +77,9 @@ extension Pitch.Accidental {
                                                       "": .natural,
                                                       "♯": .sharp,
                                                       "#": .sharp,
+                                                      "##": .doubleSharp,
                                                       "𝄪": .doubleSharp,
                                                       "x": .doubleSharp]
-
-    private static let orders: [Self: Int] = [.doubleFlat: -2,
-                                              .flat: -1,
-                                              .natural: 0,
-                                              .sharp: 1,
-                                              .doubleSharp: 2]
-
-    private static let stringValues: [Self: String] = [.doubleFlat: "𝄫",
-                                                       .flat: "♭",
-                                                       .natural: "♮",
-                                                       .sharp: "♯",
-                                                       .doubleSharp: "𝄪"]
 }
 
 // MARK: - CaseIterable
@@ -89,7 +93,22 @@ extension Pitch.Accidental: CustomStringConvertible {
 
     /// The Unicode symbol for this accidental (e.g., `"♭"`, `"♯"`, `"♮"`, `"𝄫"`, `"𝄪"`).
     public var description: String {
-        Self.stringValues[self].require()
+        switch self {
+        case .doubleFlat:
+            "𝄫"
+
+        case .doubleSharp:
+            "𝄪"
+
+        case .flat:
+            "♭"
+
+        case .natural:
+            "♮"
+
+        case .sharp:
+            "♯"
+        }
     }
 }
 
