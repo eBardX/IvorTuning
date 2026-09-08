@@ -12,6 +12,12 @@ struct PitchTests {
 
 extension PitchTests {
     @Test
+    func description() {
+        #expect(Pitch.cSharp4.description == "C♯4")
+        #expect(Pitch.cSharp4.plain == "C♯4")
+    }
+
+    @Test
     func intervalFailure() {
     }
 
@@ -352,6 +358,24 @@ extension PitchTests {
         assertEqual(Pitch.aFlat2.interval(to: .a0), (.diminished15, .descending))
         assertEqual(Pitch.aFlat2.interval(to: .aFlat0), (.perfect15, .descending))
         assertEqual(Pitch.aFlat2.interval(to: .aDoubleFlat0), (.augmented15, .descending))
+    }
+
+    @Test
+    func plain_roundTrip() {
+        #expect(Pitch(plain: "C♯4") == .cSharp4)
+        #expect(Pitch(plain: "C#4") == .cSharp4)
+        #expect(Pitch(plain: "c4") == .c4)
+        #expect(Pitch(plain: "") == nil)
+        #expect(Pitch(plain: "H4") == nil)
+        #expect(Pitch(plain: "C") == nil)
+    }
+
+    @Test
+    func stringValue_ascii() {
+        #expect(Pitch.cSharp4.stringValue(ascii: true) == "C#4")
+        #expect(Pitch.cSharp4.stringValue(ascii: false) == "C♯4")
+        #expect(Pitch.c4.stringValue(ascii: true,
+                                     omitNatural: true) == "C4")
     }
 
     @Test

@@ -62,14 +62,19 @@ extension PitchClass {
 
     /// Returns the string representation of this pitch class.
     ///
+    /// - Parameter ascii:          When `true`, the accidental is rendered using its ASCII
+    ///                             representation (e.g., `"b"`, `"#"`) instead of its Unicode
+    ///                             symbol (e.g., `"♭"`, `"♯"`). Defaults to `false`.
     /// - Parameter omitNatural:    When `true`, the natural accidental symbol is omitted.
+    ///                             Defaults to `false`.
     ///
     /// - Returns:  The string representation of the pitch class.
-    public func stringValue(omitNatural: Bool) -> String {
+    public func stringValue(ascii: Bool = false,
+                            omitNatural: Bool = false) -> String {
         var result = letter.description
 
         if accidental != .natural || !omitNatural {
-            result += accidental.description
+            result += accidental.stringValue(ascii: ascii)
         }
 
         return result
@@ -160,7 +165,7 @@ extension PitchClass: CustomStringConvertible {
 
     /// The string representation of this pitch class, including the natural accidental symbol when present.
     public var description: String {
-        stringValue(omitNatural: false)
+        stringValue(ascii: false)
     }
 }
 

@@ -2,6 +2,7 @@
 
 @testable import IvorTuning
 import Testing
+import XestiNumbers
 
 struct RatioTests {
 }
@@ -230,6 +231,40 @@ extension RatioTests {
         assertEqual(Fixtures.perfect8.adding(Fixtures.minor7), Fixtures.minor14)
         assertEqual(Fixtures.perfect8.adding(Fixtures.major7), Fixtures.major14)
         assertEqual(Fixtures.perfect8.adding(Fixtures.perfect8), Fixtures.perfect15)
+    }
+
+    @Test
+    func description_exact() throws {
+        let ratio = try #require(Ratio(numberValue: Number(numerator: 3, denominator: 2)))
+
+        #expect(ratio.description == "3/2")
+        #expect(Ratio.octave.description == "2/1")
+    }
+
+    @Test
+    func description_inexact() {
+        let ratio = Ratio.octave.divided(by: 2)
+
+        #expect(ratio?.description == ratio?.doubleValue.description)
+    }
+
+    @Test
+    func plain_exact() throws {
+        let ratio = try #require(Ratio(numberValue: Number(numerator: 3, denominator: 2)))
+
+        #expect(ratio.plain == "3/2")
+        #expect(Ratio.octave.plain == "2")
+    }
+
+    @Test
+    func plain_roundTrip() {
+        #expect(Ratio(plain: "3/2") == Ratio(numberValue: Number(numerator: 3, denominator: 2)))
+        #expect(Ratio(plain: "2") == Ratio.octave)
+        #expect(Ratio(plain: "1") == Ratio.unison)
+        #expect(Ratio(plain: "1/2") == nil)
+        #expect(Ratio(plain: "0") == nil)
+        #expect(Ratio(plain: "") == nil)
+        #expect(Ratio(plain: "not a ratio") == nil)
     }
 
     @Test

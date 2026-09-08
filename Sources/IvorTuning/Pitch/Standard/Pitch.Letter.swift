@@ -34,11 +34,11 @@ extension Pitch {
 
         /// Creates a pitch letter from its string representation.
         ///
-        /// - Parameter stringValue:    The uppercase letter string (e.g., `"C"`).
+        /// - Parameter stringValue:    The letter string (e.g., `"C"`). Matching is case-insensitive.
         ///
         /// - Throws:   `ParseError` if `stringValue` does not match a known pitch letter.
         public init(stringValue: String) throws(ParseError) {
-            guard let letter = Self.letters[stringValue]
+            guard let letter = Self.letters[stringValue.uppercased()]
             else { throw ParseError.invalidPitchLetter(stringValue) }
 
             self = letter

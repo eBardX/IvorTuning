@@ -20,6 +20,19 @@ public struct Pitch {
         self.pitchClass = pitchClass
     }
 
+    /// Creates a pitch by parsing its plain string representation, returning `nil` if the string
+    /// cannot be parsed as a valid pitch.
+    ///
+    /// - Parameter plain:  The plain string representation of the pitch (as produced by `plain`;
+    ///                     e.g., `"C♯4"`).
+    public init?(plain: String) {
+        guard let result = Self._parse(Substring(plain))
+        else { return nil }
+
+        self.init(pitchClass: result.pitchClass,
+                  octave: result.octave)
+    }
+
     /// Creates a pitch from its string representation.
     ///
     /// - Parameter stringValue:    The string representation of the pitch (e.g., `"C♯4"`).
@@ -62,15 +75,26 @@ extension Pitch {
         pitchClass.letter
     }
 
+    /// The plain string representation of this pitch.
+    public var plain: String {
+        description
+    }
+
     // MARK: Public Instance Methods
 
     /// Returns the string representation of this pitch.
     ///
+    /// - Parameter ascii:          When `true`, the accidental is rendered using its ASCII
+    ///                             representation (e.g., `"b"`, `"#"`) instead of its Unicode
+    ///                             symbol (e.g., `"♭"`, `"♯"`). Defaults to `false`.
     /// - Parameter omitNatural:    When `true`, the natural accidental symbol is omitted.
+    ///                             Defaults to `false`.
     ///
     /// - Returns:  The string representation of the pitch.
-    public func stringValue(omitNatural: Bool) -> String {
-        pitchClass.stringValue(omitNatural: omitNatural) + octave.description
+    public func stringValue(ascii: Bool = false,
+                            omitNatural: Bool = false) -> String {
+        pitchClass.stringValue(ascii: ascii,
+                               omitNatural: omitNatural) + octave.description
     }
 
     // MARK: Private Type Properties
@@ -152,7 +176,7 @@ extension Pitch: CustomStringConvertible {
 
     /// The string representation of this pitch, including the natural accidental symbol when present.
     public var description: String {
-        stringValue(omitNatural: false)
+        stringValue(ascii: false)
     }
 }
 

@@ -435,6 +435,26 @@ extension IntervalTests {
     }
 
     @Test
+    func plain() {
+        #expect(Interval.perfect5.plain == "P5")
+        #expect(Interval.minor3.plain == "m3")
+    }
+
+    @Test
+    func plain_roundTrip() {
+        #expect(Interval(plain: "P5") == .perfect5)
+        #expect(Interval(plain: "m3") == .minor3)
+        #expect(Interval(plain: "M3") == .major3)
+        #expect(Interval(plain: "A1") == .augmented1)
+        #expect(Interval(plain: "d2") == .diminished2)
+        #expect(Interval(plain: "") == nil)
+        #expect(Interval(plain: "X5") == nil)
+        #expect(Interval(plain: "P") == nil)
+        #expect(Interval(plain: "p5") == nil)
+        #expect(Interval(plain: "d1") == nil)
+    }
+
+    @Test
     func simplify() {
         #expect(Interval.perfect1.simplified() == Interval.perfect1)
         #expect(Interval.augmented1.simplified() == Interval.augmented1)

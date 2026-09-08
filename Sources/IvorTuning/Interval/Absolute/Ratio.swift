@@ -2,6 +2,7 @@
 
 public import XestiNumbers
 
+private import Foundation
 private import XestiTools
 
 /// A frequency ratio representing a musical interval.
@@ -19,6 +20,17 @@ public struct Ratio: NumberRepresentable {
         else { return nil }
 
         self.numberValue = numberValue
+    }
+
+    /// Creates a ratio by parsing its plain string representation, returning `nil` if the string
+    /// cannot be parsed or is out of range.
+    ///
+    /// - Parameter plain:  The plain string representation of the ratio (as produced by `plain`).
+    public init?(plain: String) {
+        guard let numberValue = try? Self.plainParseStrategy.parse(plain)
+        else { return nil }
+
+        self.init(numberValue: numberValue)
     }
 
     // MARK: Public Instance Properties
@@ -66,6 +78,11 @@ extension Ratio {
     /// A Boolean value indicating whether this ratio is representable as an exact integer fraction.
     public var isExact: Bool {
         numberValue.isExact
+    }
+
+    /// The plain string representation of this ratio.
+    public var plain: String {
+        Self.plainFormatStyle.format(numberValue)
     }
 
     // MARK: Public Instance Methods
@@ -117,6 +134,17 @@ extension Ratio {
     internal func sub(_ other: Self) -> Self {
         subtracting(other).require()
     }
+
+    // MARK: Private Type Properties
+
+    private static let plainFormatStyle = Number.FormatStyle(locale: plainLocale)
+        .decimalPrecision(0...10)
+        .fractionDisplay(strategy: .simple(alwaysShowDenominator: false))
+        .grouping(false)
+
+    private static let plainLocale = Locale(identifier: "en_US_POSIX")
+
+    private static let plainParseStrategy = plainFormatStyle.parseStrategy
 }
 
 // MARK: - CustomStringConvertible

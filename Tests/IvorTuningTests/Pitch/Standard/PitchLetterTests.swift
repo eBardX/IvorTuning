@@ -23,13 +23,24 @@ extension PitchLetterTests {
 
     @Test
     func init_invalid() {
-        #expect(throws: ParseError.self) { try Pitch.Letter(stringValue: "c") }
         #expect(throws: ParseError.self) { try Pitch.Letter(stringValue: "H") }
+        #expect(throws: ParseError.self) { try Pitch.Letter(stringValue: "h") }
         #expect(throws: ParseError.self) { try Pitch.Letter(stringValue: "") }
     }
 
     @Test
-    func init_valid() throws {
+    func init_valid_lowercase() throws {
+        #expect(try Pitch.Letter(stringValue: "a") == .a)
+        #expect(try Pitch.Letter(stringValue: "b") == .b)
+        #expect(try Pitch.Letter(stringValue: "c") == .c)
+        #expect(try Pitch.Letter(stringValue: "d") == .d)
+        #expect(try Pitch.Letter(stringValue: "e") == .e)
+        #expect(try Pitch.Letter(stringValue: "f") == .f)
+        #expect(try Pitch.Letter(stringValue: "g") == .g)
+    }
+
+    @Test
+    func init_valid_uppercase() throws {
         #expect(try Pitch.Letter(stringValue: "A") == .a)
         #expect(try Pitch.Letter(stringValue: "B") == .b)
         #expect(try Pitch.Letter(stringValue: "C") == .c)

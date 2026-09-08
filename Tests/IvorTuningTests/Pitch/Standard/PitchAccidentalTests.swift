@@ -51,4 +51,19 @@ extension PitchAccidentalTests {
         #expect(Pitch.Accidental.sharp.order == 1)
         #expect(Pitch.Accidental.doubleSharp.order == 2)
     }
+
+    @Test
+    func stringValue_ascii() {
+        #expect(Pitch.Accidental.doubleFlat.stringValue(ascii: true) == "bb")
+        #expect(Pitch.Accidental.flat.stringValue(ascii: true) == "b")
+        #expect(Pitch.Accidental.natural.stringValue(ascii: true).isEmpty)
+        #expect(Pitch.Accidental.sharp.stringValue(ascii: true) == "#")
+        #expect(Pitch.Accidental.doubleSharp.stringValue(ascii: true) == "x")
+
+        #expect(Pitch.Accidental.doubleFlat.stringValue(ascii: false) == "𝄫")
+        #expect(Pitch.Accidental.flat.stringValue(ascii: false) == "♭")
+        #expect(Pitch.Accidental.natural.stringValue(ascii: false) == "♮")
+        #expect(Pitch.Accidental.sharp.stringValue(ascii: false) == "♯")
+        #expect(Pitch.Accidental.doubleSharp.stringValue(ascii: false) == "𝄪")
+    }
 }

@@ -63,11 +63,30 @@ extension PitchClassTests {
     }
 
     @Test
+    func init_valid_lowercaseLetter() throws {
+        let cNat = try PitchClass(stringValue: "c")
+        let cSharp = try PitchClass(stringValue: "c#")
+        let bFlat = try PitchClass(stringValue: "bb")
+
+        #expect(cNat == .c)
+        #expect(cSharp == .cSharp)
+        #expect(bFlat == .bFlat)
+    }
+
+    @Test
     func letterAndAccidental() {
         let pc = PitchClass.gSharp
 
         #expect(pc.letter == .g)
         #expect(pc.accidental == .sharp)
+    }
+
+    @Test
+    func stringValue_ascii() {
+        #expect(PitchClass.c.stringValue(ascii: true) == "C")
+        #expect(PitchClass.cSharp.stringValue(ascii: true) == "C#")
+        #expect(PitchClass.cSharp.stringValue(ascii: false) == "C♯")
+        #expect(PitchClass.cSharp.stringValue() == "C♯")
     }
 
     @Test

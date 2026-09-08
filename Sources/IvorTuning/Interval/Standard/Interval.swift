@@ -9,6 +9,19 @@ public struct Interval {
 
     // MARK: Public Initializers
 
+    /// Creates an interval by parsing its plain string representation, returning `nil` if the
+    /// string cannot be parsed as a valid interval.
+    ///
+    /// - Parameter plain:  The plain string representation of the interval (as produced by
+    ///                     `plain`; e.g., `"P5"`, `"m3"`).
+    public init?(plain: String) {
+        guard let result = Self._parse(Substring(plain))
+        else { return nil }
+
+        self.init(result.quality,
+                  result.size)
+    }
+
     /// Creates an interval from a quality and size.
     ///
     /// - Parameter quality:    The interval quality.
@@ -76,6 +89,11 @@ extension Interval {
     /// The number of complete octaves spanned by this interval.
     public var octaveSpan: Int {
         (size.intValue - 1) / 7
+    }
+
+    /// The plain string representation of this interval.
+    public var plain: String {
+        description
     }
 
     // MARK: Public Instance Methods

@@ -77,6 +77,25 @@ extension NoteDistanceTests {
     }
 
     @Test
+    func plain() throws {
+        let d12 = try #require(NoteDistance(uintValue: 12))
+
+        #expect(d12.plain == "12")
+    }
+
+    @Test
+    func plain_roundTrip() {
+        #expect(NoteDistance(plain: "0") == NoteDistance(uintValue: 0))
+        #expect(NoteDistance(plain: "12") == NoteDistance(uintValue: 12))
+        #expect(NoteDistance(plain: "127") == NoteDistance(uintValue: 127))
+        #expect(NoteDistance(plain: "128") == nil)
+        #expect(NoteDistance(plain: "-1") == nil)
+        #expect(NoteDistance(plain: "12.5") == nil)
+        #expect(NoteDistance(plain: "") == nil)
+        #expect(NoteDistance(plain: "not a number") == nil)
+    }
+
+    @Test
     func subtracting_valid() {
         let d: NoteDistance = 7
 

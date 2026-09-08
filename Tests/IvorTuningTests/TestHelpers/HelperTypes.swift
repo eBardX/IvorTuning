@@ -2,8 +2,8 @@
 
 import IvorTuning
 
-/// A minimal `IntervalProtocol` conformer that is neither `Interval`, `NoteDistance`, nor
-/// `Ratio` — used to exercise the fallback case of `IntervalProtocol.formatted()`.
+// A minimal `IntervalProtocol` conformer that is neither `Interval`, `NoteDistance`, nor
+// `Ratio` — used to exercise the fallback case of `IntervalProtocol.formatted()`.
 struct StubInterval: IntervalProtocol {
     var isUnison: Bool {
         false
@@ -18,8 +18,8 @@ struct StubInterval: IntervalProtocol {
     }
 }
 
-/// A minimal `PitchProtocol` conformer that is neither `Frequency`, `NoteNumber`, nor
-/// `Pitch` — used to exercise the fallback case of `PitchProtocol.formatted()`.
+// A minimal `PitchProtocol` conformer that is neither `Frequency`, `NoteNumber`, nor
+// `Pitch` — used to exercise the fallback case of `PitchProtocol.formatted()`.
 struct StubPitch: PitchProtocol {
     typealias IntervalType = NoteDistance
 
@@ -37,7 +37,7 @@ struct StubPitch: PitchProtocol {
     }
 }
 
-/// A minimal `TuningSystem` conformer that overrides neither `equivalenceRatio` nor
-/// `standardConversion(for:)` — used to exercise the protocol's default implementations.
+// A minimal `TuningSystem` conformer that overrides neither `equivalenceRatio` nor
+// `standardConversion(for:)` — used to exercise the protocol's default implementations.
 struct StubTuningSystem: TuningSystem {
 }

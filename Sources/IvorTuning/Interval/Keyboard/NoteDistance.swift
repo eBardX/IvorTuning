@@ -3,10 +3,27 @@
 public import XestiNumbers
 public import XestiTools
 
+private import Foundation
+
 /// A distance between MIDI note numbers, in the range `0...127`.
 public struct NoteDistance: UIntRepresentable {
 
     // MARK: Public Initializers
+
+    /// Creates a note distance by parsing its plain string representation, returning `nil` if
+    /// the string cannot be parsed or is out of range.
+    ///
+    /// - Parameter plain:  The plain string representation of the note distance (as produced by
+    ///                     `plain`).
+    public init?(plain: String) {
+        guard let numberValue = try? Self.plainParseStrategy.parse(plain),
+              numberValue.isExact,
+              numberValue.isInteger,
+              !numberValue.isNegative
+        else { return nil }
+
+        self.init(uintValue: numberValue.uintValue)
+    }
 
     /// Creates a note distance from an unsigned integer value.
     ///
@@ -57,6 +74,22 @@ extension NoteDistance {
     public var numberValue: Number {
         Number(uintValue)
     }
+
+    /// The plain string representation of this note distance.
+    public var plain: String {
+        Self.plainFormatStyle.format(numberValue)
+    }
+
+    // MARK: Private Type Properties
+
+    private static let plainFormatStyle = Number.FormatStyle(locale: plainLocale)
+        .decimalPrecision(0)
+        .fractionDisplay(strategy: .simple(alwaysShowDenominator: false))
+        .grouping(false)
+
+    private static let plainLocale = Locale(identifier: "en_US_POSIX")
+
+    private static let plainParseStrategy = plainFormatStyle.parseStrategy
 }
 
 // MARK: - IntervalProtocol

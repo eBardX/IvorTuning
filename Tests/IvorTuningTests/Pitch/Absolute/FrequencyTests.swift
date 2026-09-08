@@ -355,6 +355,21 @@ extension FrequencyTests {
     }
 
     @Test
+    func plain() throws {
+        let f440 = try #require(Frequency(uintValue: 440_000_000))
+
+        #expect(f440.plain == "440")
+    }
+
+    @Test
+    func plain_roundTrip() {
+        #expect(Frequency(plain: "440") == Frequency(uintValue: 440_000_000))
+        #expect(Frequency(plain: "440.5") == Frequency(uintValue: 440_500_000))
+        #expect(Frequency(plain: "0") == nil)
+        #expect(Frequency(plain: "not a number") == nil)
+    }
+
+    @Test
     func transposeAscFailure() {
     }
 

@@ -84,6 +84,25 @@ extension NoteNumberTests {
     }
 
     @Test
+    func plain() throws {
+        let n60 = try #require(NoteNumber(uintValue: 60))
+
+        #expect(n60.plain == "60")
+    }
+
+    @Test
+    func plain_roundTrip() {
+        #expect(NoteNumber(plain: "0") == NoteNumber(uintValue: 0))
+        #expect(NoteNumber(plain: "60") == NoteNumber(uintValue: 60))
+        #expect(NoteNumber(plain: "127") == NoteNumber(uintValue: 127))
+        #expect(NoteNumber(plain: "128") == nil)
+        #expect(NoteNumber(plain: "-1") == nil)
+        #expect(NoteNumber(plain: "60.5") == nil)
+        #expect(NoteNumber(plain: "") == nil)
+        #expect(NoteNumber(plain: "not a number") == nil)
+    }
+
+    @Test
     func transposed_ascending() {
         let n: NoteNumber = 60
         let d: NoteDistance = 12

@@ -67,6 +67,38 @@ extension Pitch.Accidental {
         }
     }
 
+    // MARK: Public Instance Methods
+
+    /// Returns the string representation of this accidental.
+    ///
+    /// - Parameter ascii:  When `true`, the ASCII representation of the accidental is returned
+    ///                     (e.g., `"bb"`, `"b"`, `""`, `"#"`, `"x"`). When `false`, the Unicode
+    ///                     symbol is returned (e.g., `"𝄫"`, `"♭"`, `"♮"`, `"♯"`, `"𝄪"`).
+    ///
+    /// - Returns:  The string representation of the accidental.
+    public func stringValue(ascii: Bool) -> String {
+        if ascii {
+            switch self {
+            case .doubleFlat:
+                "bb"
+
+            case .doubleSharp:
+                "x"
+
+            case .flat:
+                "b"
+
+            case .natural:
+                ""
+
+            case .sharp:
+                "#"
+            }
+        } else {
+            description
+        }
+    }
+
     // MARK: Private Type Properties
 
     private static let accidentals: [String: Self] = ["𝄫": .doubleFlat,
