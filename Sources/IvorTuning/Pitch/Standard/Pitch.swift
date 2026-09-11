@@ -77,7 +77,8 @@ extension Pitch {
 
     /// The plain string representation of this pitch.
     public var plain: String {
-        description
+        stringValue(ascii: true,
+                    omitNatural: true)
     }
 
     // MARK: Public Instance Methods

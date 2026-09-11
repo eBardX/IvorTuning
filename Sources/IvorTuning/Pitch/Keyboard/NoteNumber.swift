@@ -127,7 +127,9 @@ extension NoteNumber: PitchProtocol {
             Self(uintValue: uintValue + directedInterval.interval.uintValue)
 
         case .descending:
-            Self(uintValue: uintValue - directedInterval.interval.uintValue)
+            uintValue >= directedInterval.interval.uintValue
+                ? Self(uintValue: uintValue - directedInterval.interval.uintValue)
+                : nil
 
         case .same:
             self

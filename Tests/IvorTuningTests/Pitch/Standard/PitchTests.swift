@@ -14,7 +14,7 @@ extension PitchTests {
     @Test
     func description() {
         #expect(Pitch.cSharp4.description == "C♯4")
-        #expect(Pitch.cSharp4.plain == "C♯4")
+        #expect(Pitch.cSharp4.plain == "C#4")
     }
 
     @Test

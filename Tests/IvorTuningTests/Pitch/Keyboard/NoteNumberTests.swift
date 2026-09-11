@@ -119,6 +119,14 @@ extension NoteNumberTests {
     }
 
     @Test
+    func transposed_descending_underflow() {
+        let n: NoteNumber = 0
+        let d: NoteDistance = 1
+
+        #expect(n.transposed(by: DirectedInterval(interval: d, direction: .descending)) == nil)
+    }
+
+    @Test
     func transposed_same_unison() {
         let n: NoteNumber = 60
 
