@@ -1,13 +1,13 @@
 {
-  "originHash" : "a549763c1b5ef40e1a4ca60b233034f8cc6abe11bd369b06b9ebfdbcffee7d59",
+  "originHash" : "815bc3476374be24eb4c76a3908d7282c9e07afec78bca3ee0f6a4f6232588bd",
   "pins" : [
     {
       "identity" : "bigint",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/attaswift/BigInt.git",
       "state" : {
-        "revision" : "e07e00fa1fd435143a2dcf8b7eec9a7710b2fdfe",
-        "version" : "5.7.0"
+        "revision" : "63feef7820abb1a8fb08587d7da56bb0b7db8751",
+        "version" : "6.0.1"
       }
     },
     {
@@ -24,8 +24,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/eBardX/XestiNumbers.git",
       "state" : {
-        "revision" : "be06956ab8435ea8257ff038eec7a0bb65a3878d",
-        "version" : "1.3.0"
+        "revision" : "1df695e1a3fcc8f553c273b6231032a12386eecb",
+        "version" : "1.3.1"
       }
     },
     {
@@ -33,8 +33,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/eBardX/XestiTools.git",
       "state" : {
-        "revision" : "05991497b8c7cb5ccfd4c9440c5b8548f6989ab3",
-        "version" : "9.1.0"
+        "revision" : "35a4c43dde224aadcadad66dac7a35104537694d",
+        "version" : "10.0.0"
       }
     }
   ],
