@@ -8,9 +8,15 @@ public struct KeyboardToStandardPitchConverter<Speller: PitchSpeller> {
 
     /// Creates a converter with the given pitch speller.
     ///
+    /// This conversion is not yet supported, so this initializer always throws. Use
+    /// ``PitchNotation/isConversionSupported(to:)`` to check first.
+    ///
     /// - Parameter pitchSpeller:   The pitch speller used to assign spelled pitch names.
-    public init(pitchSpeller: Speller) {
-        self.pitchSpeller = pitchSpeller
+    ///
+    /// - Throws:   ``TuningError/unsupportedConversion(from:to:)``, always.
+    public init(pitchSpeller: Speller) throws(TuningError) {
+        throw TuningError.unsupportedConversion(from: .keyboard,
+                                                to: .standard)
     }
 
     // MARK: Private Instance Properties
@@ -32,6 +38,7 @@ extension KeyboardToStandardPitchConverter: PitchConverter {
     /// - Returns:  The spelled standard pitch.
     // swiftlint:disable:next unavailable_function
     public func convert(_ noteNumber: NoteNumber) -> Pitch {
+        // Unreachable: `init` always throws.
         fatalError("not yet implemented")
     }
 }

@@ -8,15 +8,19 @@ public struct StandardToKeyboardPitchConverter<System: TuningSystem> {
 
     /// Creates a converter with the given keyboard map, tuning system, and pitch standard.
     ///
+    /// This conversion is not yet supported, so this initializer always throws. Use
+    /// ``PitchNotation/isConversionSupported(to:)`` to check first.
+    ///
     /// - Parameter keyboardMap:    The keyboard map defining the key layout.
     /// - Parameter tuningSystem:   The tuning system used to map pitches to frequencies.
     /// - Parameter pitchStandard:  The reference pitch and its frequency. Defaults to `.a440`.
+    ///
+    /// - Throws:   ``TuningError/unsupportedConversion(from:to:)``, always.
     public init(keyboardMap: KeyboardMap,
                 tuningSystem: System,
-                pitchStandard: PitchStandard = .a440) {
-        self.keyboardMap = keyboardMap
-        self.pitchStandard = pitchStandard
-        self.tuningSystem = tuningSystem
+                pitchStandard: PitchStandard = .a440) throws(TuningError) {
+        throw TuningError.unsupportedConversion(from: .standard,
+                                                to: .keyboard)
     }
 
     // MARK: Private Instance Properties
@@ -40,6 +44,7 @@ extension StandardToKeyboardPitchConverter: PitchConverter {
     /// - Returns:  The nearest mapped note number.
     // swiftlint:disable:next unavailable_function
     public func convert(_ pitch: Pitch) -> NoteNumber {
+        // Unreachable: `init` always throws.
         fatalError("not yet implemented")
     }
 }

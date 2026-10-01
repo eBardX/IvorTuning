@@ -11,7 +11,6 @@ struct AbsoluteToStandardPitchConverterTests {
                                           middleNote: 69,
                                           equivalenceRatio: .octave,
                                           ratios: Fixtures.twelveETRatios)
-    private let speller = MeredithPitchSpeller()
 }
 
 // MARK: -
@@ -19,22 +18,11 @@ struct AbsoluteToStandardPitchConverterTests {
 extension AbsoluteToStandardPitchConverterTests {
 
     @Test
-    func equality() {
-        let lhs = AbsoluteToStandardPitchConverter(keyboardMap: keyboardMap,
-                                                   pitchSpeller: speller)
-        let rhs = AbsoluteToStandardPitchConverter(keyboardMap: keyboardMap,
-                                                   pitchSpeller: speller)
-
-        #expect(lhs == rhs)
-    }
-
-    @Test
-    func inequality() {
-        let lhs = AbsoluteToStandardPitchConverter(keyboardMap: keyboardMap,
-                                                   pitchSpeller: speller)
-        let rhs = AbsoluteToStandardPitchConverter(keyboardMap: keyboardMap,
-                                                   pitchSpeller: MeredithPitchSpeller(contextBefore: 5))
-
-        #expect(lhs != rhs)
+    func init_throwsUnsupportedConversion() {
+        #expect(throws: TuningError.unsupportedConversion(from: .absolute,
+                                                          to: .standard)) {
+            try AbsoluteToStandardPitchConverter(keyboardMap: keyboardMap,
+                                                 pitchSpeller: MeredithPitchSpeller())
+        }
     }
 }

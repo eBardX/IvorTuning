@@ -33,6 +33,30 @@ public enum PitchNotation {
 
 extension PitchNotation {
 
+    // MARK: Public Instance Methods
+
+    /// Returns a Boolean value indicating whether pitches can be converted from this notation to
+    /// the given notation.
+    ///
+    /// Only standard → absolute conversion is supported so far; the converters for the other
+    /// pairs (such as ``AbsoluteToKeyboardPitchConverter``) throw
+    /// ``TuningError/unsupportedConversion(from:to:)`` when created. Converting a notation to
+    /// itself is not a conversion, so it is never reported as supported.
+    ///
+    /// - Parameter target: The notation to convert to.
+    ///
+    /// - Returns:  `true` if a working pitch converter exists from this notation to `target`;
+    ///             otherwise, `false`.
+    public func isConversionSupported(to target: Self) -> Bool {
+        switch (self, target) {
+        case (.standard, .absolute):
+            true
+
+        default:
+            false
+        }
+    }
+
     // MARK: Private Type Properties
 
     private static let pitchNotations: [String: Self] = ["absolute": .absolute,

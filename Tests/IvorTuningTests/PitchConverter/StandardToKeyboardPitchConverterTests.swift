@@ -18,26 +18,11 @@ struct StandardToKeyboardPitchConverterTests {
 extension StandardToKeyboardPitchConverterTests {
 
     @Test
-    func equality() {
-        let lhs = StandardToKeyboardPitchConverter(keyboardMap: keyboardMap,
-                                                   tuningSystem: EqualTemperament.edo12,
-                                                   pitchStandard: .a440)
-        let rhs = StandardToKeyboardPitchConverter(keyboardMap: keyboardMap,
-                                                   tuningSystem: EqualTemperament.edo12,
-                                                   pitchStandard: .a440)
-
-        #expect(lhs == rhs)
-    }
-
-    @Test
-    func inequality() {
-        let lhs = StandardToKeyboardPitchConverter(keyboardMap: keyboardMap,
-                                                   tuningSystem: EqualTemperament.edo12,
-                                                   pitchStandard: .a440)
-        let rhs = StandardToKeyboardPitchConverter(keyboardMap: keyboardMap,
-                                                   tuningSystem: EqualTemperament.edo12,
-                                                   pitchStandard: .a432)
-
-        #expect(lhs != rhs)
+    func init_throwsUnsupportedConversion() {
+        #expect(throws: TuningError.unsupportedConversion(from: .standard,
+                                                          to: .keyboard)) {
+            try StandardToKeyboardPitchConverter(keyboardMap: keyboardMap,
+                                                 tuningSystem: EqualTemperament.edo12)
+        }
     }
 }

@@ -11,18 +11,10 @@ struct KeyboardToStandardPitchConverterTests {
 extension KeyboardToStandardPitchConverterTests {
 
     @Test
-    func equality() {
-        let lhs = KeyboardToStandardPitchConverter(pitchSpeller: MeredithPitchSpeller())
-        let rhs = KeyboardToStandardPitchConverter(pitchSpeller: MeredithPitchSpeller())
-
-        #expect(lhs == rhs)
-    }
-
-    @Test
-    func inequality() {
-        let lhs = KeyboardToStandardPitchConverter(pitchSpeller: MeredithPitchSpeller())
-        let rhs = KeyboardToStandardPitchConverter(pitchSpeller: MeredithPitchSpeller(contextBefore: 5))
-
-        #expect(lhs != rhs)
+    func init_throwsUnsupportedConversion() {
+        #expect(throws: TuningError.unsupportedConversion(from: .keyboard,
+                                                          to: .standard)) {
+            try KeyboardToStandardPitchConverter(pitchSpeller: MeredithPitchSpeller())
+        }
     }
 }

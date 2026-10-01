@@ -43,4 +43,26 @@ extension PitchNotationTests {
         #expect(try PitchNotation(stringValue: "keyboard") == .keyboard)
         #expect(try PitchNotation(stringValue: "standard") == .standard)
     }
+
+    @Test
+    func isConversionSupported_sameNotation_isUnsupported() {
+        for notation in [PitchNotation.absolute, .keyboard, .standard] {
+            #expect(!notation.isConversionSupported(to: notation))
+        }
+    }
+
+    @Test
+    func isConversionSupported_standardToAbsolute_isSupported() {
+        #expect(PitchNotation.standard.isConversionSupported(to: .absolute))
+    }
+
+    @Test(arguments: [(PitchNotation.absolute, PitchNotation.keyboard),
+                      (.absolute, .standard),
+                      (.keyboard, .absolute),
+                      (.keyboard, .standard),
+                      (.standard, .keyboard)])
+    func isConversionSupported_unimplementedConverter_isUnsupported(source: PitchNotation,
+                                                                    target: PitchNotation) {
+        #expect(!source.isConversionSupported(to: target))
+    }
 }

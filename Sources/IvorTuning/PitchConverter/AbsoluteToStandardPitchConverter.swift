@@ -8,12 +8,17 @@ public struct AbsoluteToStandardPitchConverter<Speller: PitchSpeller> {
 
     /// Creates a converter with the given keyboard map and pitch speller.
     ///
+    /// This conversion is not yet supported, so this initializer always throws. Use
+    /// ``PitchNotation/isConversionSupported(to:)`` to check first.
+    ///
     /// - Parameter keyboardMap:    The keyboard map defining the frequency-to-key layout.
     /// - Parameter pitchSpeller:   The pitch speller used to assign spelled pitch names.
+    ///
+    /// - Throws:   ``TuningError/unsupportedConversion(from:to:)``, always.
     public init(keyboardMap: KeyboardMap,
-                pitchSpeller: Speller) {
-        self.keyboardMap = keyboardMap
-        self.pitchSpeller = pitchSpeller
+                pitchSpeller: Speller) throws(TuningError) {
+        throw TuningError.unsupportedConversion(from: .absolute,
+                                                to: .standard)
     }
 
     // MARK: Private Instance Properties
@@ -36,6 +41,7 @@ extension AbsoluteToStandardPitchConverter: PitchConverter {
     /// - Returns:  The spelled standard pitch.
     // swiftlint:disable:next unavailable_function
     public func convert(_ frequency: Frequency) -> Pitch {
+        // Unreachable: `init` always throws.
         fatalError("not yet implemented")
     }
 }

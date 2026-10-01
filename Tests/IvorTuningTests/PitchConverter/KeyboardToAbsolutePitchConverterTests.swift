@@ -18,24 +18,10 @@ struct KeyboardToAbsolutePitchConverterTests {
 extension KeyboardToAbsolutePitchConverterTests {
 
     @Test
-    func equality() {
-        let lhs = KeyboardToAbsolutePitchConverter(keyboardMap: keyboardMap)
-        let rhs = KeyboardToAbsolutePitchConverter(keyboardMap: keyboardMap)
-
-        #expect(lhs == rhs)
-    }
-
-    @Test
-    func inequality() {
-        let other = KeyboardMap(referenceNote: 69,
-                                referenceFrequency: 440,
-                                middleNote: 60,
-                                equivalenceRatio: .octave,
-                                ratios: Fixtures.twelveETRatios)
-
-        let lhs = KeyboardToAbsolutePitchConverter(keyboardMap: keyboardMap)
-        let rhs = KeyboardToAbsolutePitchConverter(keyboardMap: other)
-
-        #expect(lhs != rhs)
+    func init_throwsUnsupportedConversion() {
+        #expect(throws: TuningError.unsupportedConversion(from: .keyboard,
+                                                          to: .absolute)) {
+            try KeyboardToAbsolutePitchConverter(keyboardMap: keyboardMap)
+        }
     }
 }

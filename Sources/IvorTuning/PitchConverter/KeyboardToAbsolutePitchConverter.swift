@@ -8,9 +8,15 @@ public struct KeyboardToAbsolutePitchConverter {
 
     /// Creates a converter with the given keyboard map.
     ///
+    /// This conversion is not yet supported, so this initializer always throws. Use
+    /// ``PitchNotation/isConversionSupported(to:)`` to check first.
+    ///
     /// - Parameter keyboardMap:    The keyboard map defining the key-to-frequency layout.
-    public init(keyboardMap: KeyboardMap) {
-        self.keyboardMap = keyboardMap
+    ///
+    /// - Throws:   ``TuningError/unsupportedConversion(from:to:)``, always.
+    public init(keyboardMap: KeyboardMap) throws(TuningError) {
+        throw TuningError.unsupportedConversion(from: .keyboard,
+                                                to: .absolute)
     }
 
     // MARK: Private Instance Properties
@@ -32,6 +38,7 @@ extension KeyboardToAbsolutePitchConverter: PitchConverter {
     /// - Returns:  The frequency of `noteNumber`.
     // swiftlint:disable:next unavailable_function
     public func convert(_ noteNumber: NoteNumber) -> Frequency {
+        // Unreachable: `init` always throws.
         fatalError("not yet implemented")
     }
 }
