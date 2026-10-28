@@ -56,11 +56,15 @@ extension PitchNotationTests {
         #expect(PitchNotation.standard.isConversionSupported(to: .absolute))
     }
 
+    @Test
+    func isConversionSupported_standardToKeyboard_isSupported() {
+        #expect(PitchNotation.standard.isConversionSupported(to: .keyboard))
+    }
+
     @Test(arguments: [(PitchNotation.absolute, PitchNotation.keyboard),
                       (.absolute, .standard),
                       (.keyboard, .absolute),
-                      (.keyboard, .standard),
-                      (.standard, .keyboard)])
+                      (.keyboard, .standard)])
     func isConversionSupported_unimplementedConverter_isUnsupported(source: PitchNotation,
                                                                     target: PitchNotation) {
         #expect(!source.isConversionSupported(to: target))

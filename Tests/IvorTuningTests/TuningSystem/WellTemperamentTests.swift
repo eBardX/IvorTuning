@@ -15,11 +15,11 @@ extension WellTemperamentTests {
     func standardConversion_doubleFlatEnharmonics() throws {
         let conversion = try #require(WellTemperament.werckmeisterIII.standardConversion(for: .a440))
 
-        // C𝄫 = B♭ = A♯
-        #expect(conversion[.cDoubleFlat]?.interval == conversion[.bFlat]?.interval)
-        #expect(conversion[.cDoubleFlat]?.direction == conversion[.bFlat]?.direction)
-        #expect(conversion[.cDoubleFlat]?.interval == conversion[.aSharp]?.interval)
-        #expect(conversion[.cDoubleFlat]?.direction == conversion[.aSharp]?.direction)
+        // C𝄫4 = B♭3 = A♯3 (an octave below B♭4 and A♯4)
+        let cDoubleFlat4 = try frequency(of: .cDoubleFlat, in: conversion)
+
+        try assertEqual(cDoubleFlat4, frequency(of: .bFlat, in: conversion, octaveShift: -1))
+        try assertEqual(cDoubleFlat4, frequency(of: .aSharp, in: conversion, octaveShift: -1))
 
         // D𝄫 = C
         #expect(conversion[.dDoubleFlat]?.interval == conversion[.c]?.interval)
@@ -76,11 +76,11 @@ extension WellTemperamentTests {
         #expect(conversion[.aDoubleSharp]?.interval == conversion[.b]?.interval)
         #expect(conversion[.aDoubleSharp]?.direction == conversion[.b]?.direction)
 
-        // B𝄪 = C♯ = D♭
-        #expect(conversion[.bDoubleSharp]?.interval == conversion[.cSharp]?.interval)
-        #expect(conversion[.bDoubleSharp]?.direction == conversion[.cSharp]?.direction)
-        #expect(conversion[.bDoubleSharp]?.interval == conversion[.dFlat]?.interval)
-        #expect(conversion[.bDoubleSharp]?.direction == conversion[.dFlat]?.direction)
+        // B𝄪4 = C♯5 = D♭5 (an octave above C♯4 and D♭4)
+        let bDoubleSharp4 = try frequency(of: .bDoubleSharp, in: conversion)
+
+        try assertEqual(bDoubleSharp4, frequency(of: .cSharp, in: conversion, octaveShift: 1))
+        try assertEqual(bDoubleSharp4, frequency(of: .dFlat, in: conversion, octaveShift: 1))
     }
 
     @Test
@@ -126,4 +126,21 @@ extension WellTemperamentTests {
 
         assertEqual(conversion[.e], (pureFourth, .descending))
     }
+}
+
+// MARK: - Private Functions
+
+private func frequency(of pitchClass: PitchClass,
+                       in conversion: [PitchClass: DirectedInterval<Ratio>],
+                       octaveShift: Int = 0) throws -> Frequency {
+    let entry = try #require(conversion[pitchClass])
+    let frequency = try #require(PitchStandard.a440.frequency.transposed(by: entry))
+
+    guard octaveShift != 0
+    else { return frequency }
+
+    let octave = DirectedInterval(interval: Ratio.octave,
+                                  direction: octaveShift > 0 ? .ascending : .descending)
+
+    return try #require(frequency.transposed(by: octave))
 }

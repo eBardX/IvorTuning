@@ -40,7 +40,7 @@ extension AbsoluteToStandardPitchConverter: PitchConverter {
     ///
     /// - Returns:  The spelled standard pitch.
     // swiftlint:disable:next unavailable_function
-    public func convert(_ frequency: Frequency) -> Pitch {
+    public func convert(_ frequency: Frequency) -> Pitch? {
         // Unreachable: `init` always throws.
         fatalError("not yet implemented")
     }

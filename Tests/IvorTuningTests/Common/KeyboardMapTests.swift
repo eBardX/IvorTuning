@@ -22,6 +22,58 @@ struct KeyboardMapTests {
 // MARK: -
 
 extension KeyboardMapTests {
+    @Test(arguments: [(KeyboardMap.a415, PitchStandard.a415),
+                      (.a432, .a432),
+                      (.a435, .a435),
+                      (.a440, .a440),
+                      (.c256, .c256)])
+    func twelveTone_matchesPitchStandard(kmap: KeyboardMap,
+                                         standard: PitchStandard) {
+        let referenceNote: NoteNumber = standard.pitch == .a4 ? 69 : 60
+
+        #expect(kmap.middleNote == 60)
+        #expect(kmap.equivalenceRatio == .octave)
+        #expect(kmap.ratios == Fixtures.twelveETRatios)
+        #expect(kmap.referenceNote == referenceNote)
+        #expect(kmap.referenceFrequency == standard.frequency)
+        assertEqual(kmap.realize(noteNumber: referenceNote), standard.frequency)
+        #expect(kmap.unrealize(frequency: standard.frequency) == referenceNote)
+    }
+
+    @Test
+    func bohlenPierce_tritaveLayout() throws {
+        let kmap = KeyboardMap.bohlenPierce
+        let middleC = try #require(KeyboardMap.a440.realize(noteNumber: 60))
+        let tritaveUp = try #require(middleC.transposed(by: DirectedInterval(interval: .tritave,
+                                                                             direction: .ascending)))
+        let step = Ratio(cents: Number(1_200) * log(Number(3)) / log(Number(2)) / Number(13))
+        let oneStepUp = try #require(middleC.transposed(by: DirectedInterval(interval: step,
+                                                                             direction: .ascending)))
+
+        #expect(kmap.middleNote == 60)
+        #expect(kmap.equivalenceRatio == .tritave)
+        #expect(kmap.ratios.count == 13)
+        #expect(kmap.referenceNote == 60)
+        assertEqual(kmap.realize(noteNumber: 60), middleC)
+        assertEqual(kmap.realize(noteNumber: 61), oneStepUp)
+        assertEqual(kmap.realize(noteNumber: 73), tritaveUp)
+        #expect(kmap.unrealize(frequency: tritaveUp) == 73)
+    }
+
+    @Test
+    func a440_pianoLayout() {
+        let kmap = KeyboardMap.a440
+
+        #expect(kmap.middleNote == 60)
+        #expect(kmap.equivalenceRatio == .octave)
+        #expect(kmap.ratios.count == 12)
+        #expect(kmap.referenceFrequency == 440)
+        #expect(kmap.referenceNote == 69)
+        assertEqual(kmap.realize(noteNumber: 60), Frequency(Number(261.625565)))
+        assertEqual(kmap.realize(noteNumber: 69), 440)
+        #expect(kmap.unrealize(frequency: 440) == 69)
+    }
+
     @Test
     func init_storesProperties() {
         let kmap = KeyboardMap(referenceNote: 69,
@@ -154,6 +206,16 @@ extension KeyboardMapTests {
     }
 
     @Test
+    func unrealize_frequency_outOfRange() throws {
+        let justBelowLowest = try #require(Frequency(uintValue: 7_900_000))   // ≈ 59 ¢ below MIDI 0
+
+        #expect(cRooted.unrealize(frequency: 8) == 0)                        // ≈ 38 ¢ below MIDI 0
+        #expect(cRooted.unrealize(frequency: justBelowLowest) == nil)
+        #expect(cRooted.unrealize(frequency: 12_900) == 127)                 // ≈ 49 ¢ above MIDI 127
+        #expect(cRooted.unrealize(frequency: 13_000) == nil)                 // ≈ 62 ¢ above MIDI 127
+    }
+
+    @Test
     func unrealize_frequency_referenceFrequency() {
         #expect(standard.unrealize(frequency: 220) == 57)
         #expect(standard.unrealize(frequency: 440) == 69)
@@ -175,6 +237,12 @@ extension KeyboardMapTests {
                                ratios: [nil, nil] as [Ratio?])
 
         #expect(kmap.unrealize(ratio: .unison) == nil)
+    }
+
+    @Test
+    func unrealize_ratio_outOfRange() {
+        #expect(standard.unrealize(ratio: Ratio(cents: 12_740)) == 127)
+        #expect(standard.unrealize(ratio: Ratio(cents: 12_760)) == nil)
     }
 
     @Test

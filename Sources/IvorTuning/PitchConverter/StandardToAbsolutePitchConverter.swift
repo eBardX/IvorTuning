@@ -49,7 +49,8 @@ extension StandardToAbsolutePitchConverter: PitchConverter {
     /// - Parameter pitch:  The pitch to convert.
     ///
     /// - Returns:  The frequency of `pitch` in the tuning system used to initialize this converter.
-    public func convert(_ pitch: Pitch) -> Frequency {
+    ///             Never `nil`.
+    public func convert(_ pitch: Pitch) -> Frequency? {
         let directedInterval = conversion[pitch.pitchClass].require()
         let baseFrequency = referenceFrequency.transposed(by: directedInterval).require()
         let octaveShift = pitch.octave.intValue - referenceOctave.intValue

@@ -4,6 +4,9 @@ public import XestiTools
 
 /// An error that can occur when constructing a tuning-based converter.
 public enum TuningError {
+    /// The keyboard map does not map any MIDI note number to a frequency.
+    case emptyKeyboardMap
+
     /// Converting pitches between the two notations is not supported.
     case unsupportedConversion(from: PitchNotation, to: PitchNotation)
 
@@ -22,6 +25,9 @@ extension TuningError: EnhancedError {
     /// A human-readable description of this error.
     public var message: String {
         switch self {
+        case .emptyKeyboardMap:
+            "Keyboard map does not map any MIDI note number"
+
         case let .unsupportedConversion(from, to):
             "Conversion from \(from) pitch notation to \(to) pitch notation is not supported"
 

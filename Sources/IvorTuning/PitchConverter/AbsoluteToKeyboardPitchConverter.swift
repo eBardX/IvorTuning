@@ -37,7 +37,7 @@ extension AbsoluteToKeyboardPitchConverter: PitchConverter {
     ///
     /// - Returns:  The nearest mapped note number.
     // swiftlint:disable:next unavailable_function
-    public func convert(_ frequency: Frequency) -> NoteNumber {
+    public func convert(_ frequency: Frequency) -> NoteNumber? {
         // Unreachable: `init` always throws.
         fatalError("not yet implemented")
     }

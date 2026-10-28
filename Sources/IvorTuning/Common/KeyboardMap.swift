@@ -131,58 +131,102 @@ extension KeyboardMap {
 
     /// Returns the nearest mapped note number for the given frequency.
     ///
+    /// A frequency below the lowest mapped note, or above the highest, still
+    /// matches that note if it lies within half the step to the note’s inner
+    /// neighbor; farther out, it matches nothing.
+    ///
     /// - Parameter frequency:  The frequency to match.
     ///
     /// - Returns:  The nearest mapped note number, or `nil` if no note is
-    ///             mapped.
+    ///             mapped or `frequency` is out of range.
     public func unrealize(frequency: Frequency) -> NoteNumber? {
-        let target = frequency.numberValue
-        var bestNote: NoteNumber?
-        var bestErr: Number?
-
-        for i: UInt in 0...127 {
-            guard let note = NoteNumber(uintValue: i),
+        let candidates = (UInt(0)...127).compactMap { uintValue -> (NoteNumber, Number)? in
+            guard let note = NoteNumber(uintValue: uintValue),
                   let realized = realize(noteNumber: note)
-            else { continue }
+            else { return nil }
 
-            let a = realized.numberValue
-            let err = a >= target ? a / target : target / a
-
-            if let current = bestErr, err >= current { continue }
-
-            bestErr = err
-            bestNote = note
+            return (note, realized.numberValue)
         }
 
-        return bestNote
+        return Self._nearest(to: frequency.numberValue,
+                             in: candidates)
     }
 
     /// Returns the nearest mapped note distance for the given frequency ratio.
     ///
+    /// A ratio below the smallest mapped distance, or above the largest, still
+    /// matches that distance if it lies within half the step to the distance’s
+    /// inner neighbor; farther out, it matches nothing.
+    ///
     /// - Parameter ratio:  The frequency ratio to match.
     ///
     /// - Returns:  The nearest mapped note distance, or `nil` if no distance is
-    ///             mapped.
+    ///             mapped or `ratio` is out of range.
     public func unrealize(ratio: Ratio) -> NoteDistance? {
-        let target = ratio.numberValue
-        var bestDistance: NoteDistance?
-        var bestErr: Number?
-
-        for i: UInt in 0...127 {
-            guard let distance = NoteDistance(uintValue: i),
+        let candidates = (UInt(0)...127).compactMap { uintValue -> (NoteDistance, Number)? in
+            guard let distance = NoteDistance(uintValue: uintValue),
                   let realized = realize(noteDistance: distance)
-            else { continue }
+            else { return nil }
 
-            let a = realized.numberValue
-            let err = a >= target ? a / target : target / a
-
-            if let current = bestErr, err >= current { continue }
-
-            bestErr = err
-            bestDistance = distance
+            return (distance, realized.numberValue)
         }
 
-        return bestDistance
+        return Self._nearest(to: ratio.numberValue,
+                             in: candidates)
+    }
+
+    // MARK: Internal Instance Properties
+
+    /// A Boolean value indicating whether at least one MIDI note number is
+    /// mapped to a frequency.
+    internal var hasMappedNotes: Bool {
+        (UInt(0)...127).contains {
+            guard let note = NoteNumber(uintValue: $0)
+            else { return false }
+
+            return realize(noteNumber: note) != nil
+        }
+    }
+
+    // MARK: Private Type Methods
+
+    private static func _nearest<T>(to target: Number,
+                                    in candidates: [(T, Number)]) -> T? {
+        var best: (item: T, error: Number)?
+
+        for (item, value) in candidates {
+            let error = value >= target ? value / target : target / value
+
+            if let current = best, error >= current.error { continue }
+
+            best = (item, error)
+        }
+
+        guard let best
+        else { return nil }
+
+        let values = candidates.map(\.1).sorted()
+
+        guard values.count > 1
+        else { return best.item }
+
+        // Beyond the outermost value, the catchment extends half a step
+        // (geometrically) toward the outside: t² · inner ≥ outer³ below, and
+        // t² · inner ≤ outer³ above.
+        let lowest = values[0]
+        let highest = values[values.count - 1]
+
+        if target < lowest,
+           target * target * values[1] < lowest * lowest * lowest {
+            return nil
+        }
+
+        if target > highest,
+           target * target * values[values.count - 2] > highest * highest * highest {
+            return nil
+        }
+
+        return best.item
     }
 
     // MARK: Private Instance Methods

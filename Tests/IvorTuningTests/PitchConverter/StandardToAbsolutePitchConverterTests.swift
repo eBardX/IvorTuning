@@ -18,6 +18,19 @@ struct StandardToAbsolutePitchConverterTests {
 extension StandardToAbsolutePitchConverterTests {
 
     @Test
+    func convert_crossesLetterOctaveBoundary() throws {
+        // Spellings whose letter octave differs from the octave they sound in
+        let b3 = try #require(converter.convert("B3"))
+        let c4 = try #require(converter.convert("C4"))
+        let cSharp4 = try #require(converter.convert("C#4"))
+
+        assertEqual(converter.convert("Cb4"), b3)
+        assertEqual(converter.convert("B#3"), c4)
+        assertEqual(converter.convert("Dbb4"), c4)
+        assertEqual(converter.convert("Bx3"), cSharp4)
+    }
+
+    @Test
     func convert_crossOctave() throws {
         // C5 is 3 semitones above A4 (same-SPN-octave maps C to C4, then shift +1)
         let di = DirectedInterval(interval: Ratio(cents: 300), direction: .ascending)

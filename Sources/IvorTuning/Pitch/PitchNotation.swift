@@ -38,8 +38,8 @@ extension PitchNotation {
     /// Returns a Boolean value indicating whether pitches can be converted from this notation to
     /// the given notation.
     ///
-    /// Only standard → absolute conversion is supported so far; the converters for the other
-    /// pairs (such as ``AbsoluteToKeyboardPitchConverter``) throw
+    /// Only standard → absolute and standard → keyboard conversions are supported so far; the
+    /// converters for the other pairs (such as ``AbsoluteToKeyboardPitchConverter``) throw
     /// ``TuningError/unsupportedConversion(from:to:)`` when created. Converting a notation to
     /// itself is not a conversion, so it is never reported as supported.
     ///
@@ -49,7 +49,8 @@ extension PitchNotation {
     ///             otherwise, `false`.
     public func isConversionSupported(to target: Self) -> Bool {
         switch (self, target) {
-        case (.standard, .absolute):
+        case (.standard, .absolute),
+             (.standard, .keyboard):
             true
 
         default:

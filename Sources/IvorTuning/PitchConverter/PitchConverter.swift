@@ -18,6 +18,7 @@ public protocol PitchConverter: Equatable,
     ///
     /// - Parameter pitch:  The source pitch to convert.
     ///
-    /// - Returns:  The converted pitch in the target notation.
-    func convert(_ pitch: FromPitchType) -> ToPitchType
+    /// - Returns:  The converted pitch in the target notation, or `nil` if `pitch` has no
+    ///             counterpart in the target notation.
+    func convert(_ pitch: FromPitchType) -> ToPitchType?
 }

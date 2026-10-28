@@ -1,5 +1,6 @@
 // © 2025–2026 John Gary Pusey (see LICENSE.md)
 
+private import XestiNumbers
 private import XestiTools
 
 // MARK: Internal Functions
@@ -32,7 +33,8 @@ internal func buildStandardConversion(for standard: PitchStandard,
 // ratioAt(idx) must return the octave-reduced ratio at fifth-chain position idx (C=0 = unison).
 internal func buildStandardConversion(for standard: PitchStandard,
                                       ratioAt: (Int) -> Ratio) -> [PitchClass: DirectedInterval<Ratio>] {
-    let refRatio = ratioAt(standard.pitch.pitchClass.fifthChainPosition)
+    let refValue = _spnOctaveValue(at: standard.pitch.pitchClass.fifthChainPosition,
+                                   ratioAt: ratioAt)
 
     var result: [PitchClass: DirectedInterval<Ratio>] = [:]
 
@@ -40,13 +42,14 @@ internal func buildStandardConversion(for standard: PitchStandard,
         for accidental in Pitch.Accidental.allCases {
             let pc = PitchClass(letter: letter,
                                 accidental: accidental)
-            let pcRatio = ratioAt(pc.fifthChainPosition)
+            let pcValue = _spnOctaveValue(at: pc.fifthChainPosition,
+                                          ratioAt: ratioAt)
 
-            result[pc] = if pcRatio > refRatio {
-                DirectedInterval(interval: pcRatio.sub(refRatio),
+            result[pc] = if pcValue > refValue {
+                DirectedInterval(interval: Ratio(pcValue / refValue),
                                  direction: .ascending)
-            } else if pcRatio < refRatio {
-                DirectedInterval(interval: refRatio.sub(pcRatio),
+            } else if pcValue < refValue {
+                DirectedInterval(interval: Ratio(refValue / pcValue),
                                  direction: .descending)
             } else {
                 DirectedInterval(interval: .unison,
@@ -56,4 +59,25 @@ internal func buildStandardConversion(for standard: PitchStandard,
     }
 
     return result
+}
+
+// MARK: Private Functions
+
+// Returns the frequency ratio above C of the pitch class at fifth-chain position idx,
+// placed in the SPN octave of its letter rather than octave-reduced by sound: Cb lies
+// just below C (< 1) and B# just above B (≥ 2). The pitch class sits nominally
+// 7·idx − 12·⌊4·idx/7⌋ semitones above C (Cb = −1, B# = 12, B𝄪 = 13); the octave
+// shift that brings the tuned ratio nearest that nominal position is chosen.
+private func _spnOctaveValue(at idx: Int,
+                             ratioAt: (Int) -> Ratio) -> Number {
+    let letterOctaves = (4 * idx - (4 * idx).modulo(7)) / 7
+    let nominalSemitones = 7 * idx - 12 * letterOctaves
+    let value = ratioAt(idx).numberValue
+    let logOctave = log(Number(2))
+    let target = logOctave * Number(nominalSemitones) / Number(12)
+
+    let half = Number(1) / Number(2)
+    let candidates = [value * half, value, value * Number(2)]
+
+    return candidates.min { abs(log($0) - target) < abs(log($1) - target) }.require()
 }

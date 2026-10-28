@@ -16,6 +16,11 @@ extension TuningErrorTests {
     }
 
     @Test
+    func message_emptyKeyboardMap() {
+        #expect(TuningError.emptyKeyboardMap.message == "Keyboard map does not map any MIDI note number")
+    }
+
+    @Test
     func message_unsupportedConversion() {
         let error = TuningError.unsupportedConversion(from: .absolute,
                                                       to: .keyboard)

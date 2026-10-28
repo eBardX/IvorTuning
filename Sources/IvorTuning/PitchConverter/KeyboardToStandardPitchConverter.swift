@@ -37,7 +37,7 @@ extension KeyboardToStandardPitchConverter: PitchConverter {
     ///
     /// - Returns:  The spelled standard pitch.
     // swiftlint:disable:next unavailable_function
-    public func convert(_ noteNumber: NoteNumber) -> Pitch {
+    public func convert(_ noteNumber: NoteNumber) -> Pitch? {
         // Unreachable: `init` always throws.
         fatalError("not yet implemented")
     }
