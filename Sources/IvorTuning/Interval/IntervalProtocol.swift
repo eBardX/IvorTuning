@@ -3,7 +3,12 @@
 public import Foundation
 
 /// A type that represents a musical interval between two pitches.
+///
+/// Intervals have a consistent ordering, so that they can be sorted. It isn’t necessarily an
+/// ordering by width: the width of an ``Interval`` depends on the tuning system, so its ordering
+/// follows its notation instead.
 public protocol IntervalProtocol: Codable,
+                                  Comparable,
                                   Equatable,
                                   Hashable,
                                   Sendable {

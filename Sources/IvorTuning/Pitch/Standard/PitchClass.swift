@@ -159,6 +159,25 @@ extension PitchClass: Codable {
     }
 }
 
+// MARK: - Comparable
+
+extension PitchClass: Comparable {
+
+    /// Returns a Boolean value indicating whether the first pitch class comes before the second.
+    ///
+    /// Pitch classes are ordered as pitches within one octave are: by letter from C to B, then by
+    /// accidental from double flat to double sharp.
+    ///
+    /// - Parameter lhs:    The left-hand pitch class.
+    /// - Parameter rhs:    The right-hand pitch class.
+    ///
+    /// - Returns:  `true` if `lhs` comes before `rhs`; otherwise, `false`.
+    public static func < (lhs: Self,
+                          rhs: Self) -> Bool {
+        (lhs.letter.order, lhs.accidental.order) < (rhs.letter.order, rhs.accidental.order)
+    }
+}
+
 // MARK: - CustomStringConvertible
 
 extension PitchClass: CustomStringConvertible {

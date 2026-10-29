@@ -157,7 +157,6 @@ The following tuning systems support `standardConversion(for:)`:
 
 - Well temperaments and linear temperaments (meantone, Pythagorean)
 - EDOs with at most 35 divisions and a 2:1 period (12-EDO, 19-EDO, 31-EDO)
-- 5-limit just intonation (`JustIntonation.fiveLimit`)
 
 The following return `nil`:
 
@@ -165,11 +164,91 @@ The following return `nil`:
   assumes 2:1
 - Tuning systems with more than 35 distinct pitch classes (e.g., 53-EDO)
 - Extended linear temperaments
-- Just intonations beyond 5-limit (e.g., `sevenLimit`, `partch43`), which diverge
-  too far from Pythagorean and may also exceed the 35-class limit
+- Every just intonation (e.g., `fiveLimitJI`, `sevenLimitJI`, `partch43`): even
+  5-limit scales have enharmonic pairs that are distinct in just intonation but
+  share one spelling, and higher limits diverge further from Pythagorean or exceed
+  the 35-class limit
 
 Some other EDOs that pass these checks may still produce unexpected spellings
 (e.g., 17-EDO).
+
+### Proposal: restricted gamut for linear temperaments
+
+**Status:** deferred 2026-10-28; not designed in detail.
+
+#### Problem
+
+A linear temperament gives each of the 35 spellings its own pitch. In quarter-comma
+meantone, G♯ lies about 41¢ (a diesis, 128:125) below A♭. That is right for voices,
+strings and winds, which tune each spelling as written, and it is what
+`LinearTemperament` does today. A historical keyboard instrument tuned in meantone
+has only 12 keys per octave, though. It can sound only a 12-note window of the chain
+of fifths, usually E♭–G♯. A score that asks for D♯ on that instrument gets the E♭
+key, a diesis off. Some instruments add split keys for a few extra spellings
+(commonly D♯/E♭ and G♯/A♭). There is currently no way to model these limits.
+
+A plain limit on the number of distinct pitches is not enough. The model needs three
+things:
+
+1. **Size.** How many chain positions the instrument has: 12, or 14 with two split
+   keys, and so on.
+2. **Placement.** Where the window sits on the chain of fifths: E♭–G♯ (positions −3
+   to 8, with C = 0), A♭–C♯ (−4 to 7), A♭–D♯ with split keys (−4 to 9), etc.
+3. **Folding.** What happens to a spelling outside the window: it takes the pitch of
+   its enharmonic inside the window, a multiple of 12 fifths away (D♯ takes E♭'s
+   pitch in an E♭–G♯ window).
+
+Limits of 19 or 31 pitches would rarely matter: third-comma meantone is close to
+19-EDO and quarter-comma to 31-EDO, and scores seldom use spellings that far out on
+the chain. The useful cases are 12 keys, perhaps plus a few split keys. Well
+temperaments need nothing: they already fold every spelling onto their 12-note
+circle (`circleRatios[idx mod 12]`), so their window is fixed by definition.
+
+#### Sketch
+
+Add an optional gamut to `LinearTemperament`, given as a range of fifth-chain
+positions:
+
+```swift
+public struct LinearTemperament {
+    public init(narrowingRatio: Ratio = .unison,
+                gamut: ClosedRange<Int>? = nil)   // nil: every spelling its own pitch
+
+    public let gamut: ClosedRange<Int>?
+    public let narrowingRatio: Ratio
+}
+```
+
+`standardConversion(for:)` would still return 35 entries. The only change is the
+`ratioAt` closure it passes to `buildStandardConversion(for:ratioAt:)`: it folds each
+position into the gamut by multiples of 12 before looking up the chain ratio, the
+same way `WellTemperament` folds onto its circle. `_spnOctaveValue` still places each
+spelling by its own letter's octave, so a folded B♯4 sounds as the C5 key, not C4.
+
+Predefined windows could be named for the instruments they model, such as E♭–G♯,
+A♭–C♯ and A♭–D♯ with split keys.
+
+#### Questions to settle
+
+- **Minimum size.** A gamut shorter than 12 positions leaves some spellings with no
+  enharmonic in the window. Reject it with a precondition, or return `nil` from
+  `standardConversion(for:)`?
+- **Folding in windows longer than 12.** A spelling may then have two enharmonics
+  in the window. In A♭–D♯ (−4 to 9), F𝄫 (−15) could fold to E♭ (−3) or D♯ (9).
+  Pick the one with the fewest 12-fifth shifts?
+- **Where it belongs.** A property on `LinearTemperament` (as sketched), or a
+  wrapper that applies a gamut to any fifth-based tuning system. The wrapper needs
+  a way to reach the underlying chain ratios, and today `LinearTemperament` is the
+  only such system with an open chain.
+- **Equality and coding.** Adding a stored property changes `LinearTemperament`'s
+  `Equatable`/`Hashable` behavior and any coded form. The predefined constants
+  would keep `gamut: nil`.
+
+#### Motivating caller
+
+The IvorApp Convert sheet converts standard pitch to absolute pitch with any of the
+predefined linear temperaments. With a gamut available, it would offer a Gamut
+picker (Full, or one of the named windows) shown only for linear temperaments.
 
 ---
 
@@ -456,6 +535,10 @@ the sequence form for real spelling.
 ---
 
 ## Open Questions
+
+- **Restricted gamut for linear temperaments.** Modelling keyboards with a fixed
+  window of the chain of fifths; see
+  [Proposal: restricted gamut for linear temperaments](#proposal-restricted-gamut-for-linear-temperaments).
 
 - **Keyboard maps for other EDOs.** 19-EDO and 31-EDO support standard notation but
   have no predefined keyboard map. Their layouts vary between instruments

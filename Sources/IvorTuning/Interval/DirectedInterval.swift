@@ -1,7 +1,7 @@
 // © 2026 John Gary Pusey (see LICENSE.md)
 
-/// A musical interval combined with a direction, indicating whether it moves
-/// upward, downward, or stays in place.
+/// A musical interval combined with a direction, indicating whether it ascends,
+/// descends, or stays in place (see ``PitchDirection``).
 ///
 /// A unison interval must always pair with ``PitchDirection/same``; a non-unison
 /// interval must pair with ``PitchDirection/ascending`` or
@@ -41,9 +41,66 @@ public struct DirectedInterval<IntervalType: IntervalProtocol> {
 extension DirectedInterval: Codable {
 }
 
+// MARK: - Comparable
+
+extension DirectedInterval: Comparable {
+
+    /// Returns a Boolean value indicating whether the first directed interval comes before the
+    /// second.
+    ///
+    /// Descending intervals come first, in the reverse of their intervals’ order; then the unison;
+    /// then ascending intervals, in their intervals’ order. So with ``Interval``, which is ordered
+    /// by notation, a descending fifth comes before a descending third, which comes before an
+    /// ascending third.
+    ///
+    /// - Parameter lhs:    The left-hand directed interval.
+    /// - Parameter rhs:    The right-hand directed interval.
+    ///
+    /// - Returns:  `true` if `lhs` comes before `rhs`; otherwise, `false`.
+    public static func < (lhs: Self,
+                          rhs: Self) -> Bool {
+        let lhsRank = Self._rank(of: lhs.direction)
+        let rhsRank = Self._rank(of: rhs.direction)
+
+        guard lhsRank == rhsRank
+        else { return lhsRank < rhsRank }
+
+        return switch lhs.direction {
+        case .ascending:
+            lhs.interval < rhs.interval
+
+        case .descending:
+            rhs.interval < lhs.interval
+
+        case .same:
+            false
+        }
+    }
+
+    // MARK: Private Type Methods
+
+    private static func _rank(of direction: PitchDirection) -> Int {
+        switch direction {
+        case .ascending:
+            1
+
+        case .descending:
+            -1
+
+        case .same:
+            0
+        }
+    }
+}
+
 // MARK: - Equatable
 
 extension DirectedInterval: Equatable {
+}
+
+// MARK: - Hashable
+
+extension DirectedInterval: Hashable {
 }
 
 // MARK: - Sendable

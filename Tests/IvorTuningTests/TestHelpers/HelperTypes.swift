@@ -9,6 +9,11 @@ struct StubInterval: IntervalProtocol {
         false
     }
 
+    static func < (lhs: Self,
+                   rhs: Self) -> Bool {
+        false
+    }
+
     func adding(_ other: Self) -> Self? {
         nil
     }

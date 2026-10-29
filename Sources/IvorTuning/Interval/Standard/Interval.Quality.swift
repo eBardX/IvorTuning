@@ -59,6 +59,49 @@ extension Interval {
 
 extension Interval.Quality {
 
+    // MARK: Internal Instance Properties
+
+    //
+    // From diminished to augmented, for ordering intervals of the same size by their notation —
+    // see `Interval`'s `Comparable` conformance.
+    //
+    internal var rank: Int {
+        switch self {
+        case .quadruplyDiminished:
+            -5
+
+        case .triplyDiminished:
+            -4
+
+        case .doublyDiminished:
+            -3
+
+        case .diminished:
+            -2
+
+        case .minor:
+            -1
+
+        case .perfect:
+            0
+
+        case .major:
+            1
+
+        case .augmented:
+            2
+
+        case .doublyAugmented:
+            3
+
+        case .triplyAugmented:
+            4
+
+        case .quadruplyAugmented:
+            5
+        }
+    }
+
     // MARK: Public Instance Methods
 
     /// Returns the inversion of this quality.

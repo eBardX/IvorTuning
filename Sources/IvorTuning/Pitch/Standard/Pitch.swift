@@ -159,12 +159,17 @@ extension Pitch: Codable {
 
 extension Pitch: Comparable {
 
-    /// Returns a Boolean value indicating whether the first pitch is lower than the second.
+    /// Returns a Boolean value indicating whether the first pitch comes before the second.
+    ///
+    /// Pitches are ordered by their notation: by octave, then by letter from C to B, then by
+    /// accidental from double flat to double sharp. This is a consistent ordering for sorting,
+    /// not a comparison of how high the pitches sound, which depends on the tuning system. For
+    /// example, C𝄪4 comes before D♭4, although it sounds higher in equal temperament.
     ///
     /// - Parameter lhs:    The left-hand pitch.
     /// - Parameter rhs:    The right-hand pitch.
     ///
-    /// - Returns:  `true` if `lhs` is lower in pitch than `rhs`; otherwise, `false`.
+    /// - Returns:  `true` if `lhs` comes before `rhs`; otherwise, `false`.
     public static func < (lhs: Self,
                           rhs: Self) -> Bool {
         _determineDirection(lhs, rhs) == .ascending
@@ -215,6 +220,8 @@ extension Pitch: PitchProtocol {
     // MARK: Public Instance Methods
 
     /// Returns the directed interval from this pitch to another pitch.
+    ///
+    /// The direction follows notation, as the ordering of pitches does (see ``PitchDirection``).
     ///
     /// - Parameter pitch:  The target pitch.
     ///

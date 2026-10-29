@@ -11,6 +11,14 @@ struct PitchClassTests {
 
 extension PitchClassTests {
     @Test
+    func comparable_byLetterThenAccidental() {
+        #expect(PitchClass.c < PitchClass.cSharp)
+        #expect(PitchClass.cSharp < PitchClass.dFlat)
+        #expect(PitchClass.dFlat < PitchClass.b)
+        #expect(!(PitchClass.b < PitchClass(letter: .b, accidental: .natural)))
+    }
+
+    @Test
     func codable() throws {
         let original = PitchClass.cSharp
         let data = try JSONEncoder().encode(original)

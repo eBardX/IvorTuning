@@ -242,6 +242,27 @@ extension Interval: CustomStringConvertible {
     }
 }
 
+// MARK: - Comparable
+
+extension Interval: Comparable {
+
+    /// Returns a Boolean value indicating whether the first interval comes before the second.
+    ///
+    /// Intervals are ordered by their notation: by size, then by quality from diminished to
+    /// augmented. This is a consistent ordering for sorting, not a comparison of width, which
+    /// depends on the tuning system. For example, an augmented fourth comes before a diminished
+    /// fifth, even in tunings where it is wider.
+    ///
+    /// - Parameter lhs:    The left-hand interval.
+    /// - Parameter rhs:    The right-hand interval.
+    ///
+    /// - Returns:  `true` if `lhs` comes before `rhs`; otherwise, `false`.
+    public static func < (lhs: Self,
+                          rhs: Self) -> Bool {
+        (lhs.size.intValue, lhs.quality.rank) < (rhs.size.intValue, rhs.quality.rank)
+    }
+}
+
 // MARK: - Equatable
 
 extension Interval: Equatable {

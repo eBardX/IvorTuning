@@ -11,6 +11,25 @@ struct DirectedIntervalTests {
 
 extension DirectedIntervalTests {
     @Test
+    func comparable_asSignedDistance() {
+        let downFifth = DirectedInterval(interval: Interval.perfect5, direction: .descending)
+        let downThird = DirectedInterval(interval: Interval.major3, direction: .descending)
+        let unison = DirectedInterval(interval: Interval.perfect1, direction: .same)
+        let upThird = DirectedInterval(interval: Interval.major3, direction: .ascending)
+        let upFifth = DirectedInterval(interval: Interval.perfect5, direction: .ascending)
+
+        #expect([upFifth, unison, downThird, upThird, downFifth].sorted() == [downFifth, downThird, unison, upThird, upFifth])
+    }
+
+    @Test
+    func hashable_matchesEquality() {
+        let upThird = DirectedInterval(interval: Interval.major3, direction: .ascending)
+        let downThird = DirectedInterval(interval: Interval.major3, direction: .descending)
+
+        #expect(Set([upThird, upThird, downThird]).count == 2)
+    }
+
+    @Test
     func codable_ascending() throws {
         let original = DirectedInterval(interval: Interval.major2, direction: .ascending)
         let data = try JSONEncoder().encode(original)
