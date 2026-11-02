@@ -39,7 +39,33 @@ extension WellTemperament: TuningSystem {
 
     // MARK: Public Instance Methods
 
+    /// Returns the frequency ratio of the given key above C, within one octave.
+    ///
+    /// Degrees are the 12 keys of the octave in ascending order: degree 0 is C, degree 1 is C♯,
+    /// and so on up to degree 11, B.
+    ///
+    /// - Parameter degree: The degree, counted from 0 (C).
+    ///
+    /// - Returns:  The ratio of `degree` above C, or `nil` if `degree` is outside `0..<12`.
+    public func ratio(forDegree degree: Int) -> Ratio? {
+        guard (0..<12) ~= degree
+        else { return nil }
+
+        // Semitone d lies 7d fifths up the circle (mod 12).
+        return _circleRatios()[(degree * 7) % 12]
+    }
+
     public func standardConversion(for standard: PitchStandard) -> [PitchClass: DirectedInterval<Ratio>]? {
+        let circleRatios = _circleRatios()
+
+        // Chain position idx maps to the same circle index as (idx mod 12), so enharmonically
+        // equivalent pitch classes always receive the exact same ratio value.
+        return buildStandardConversion(for: standard) { circleRatios[(($0 % 12) + 12) % 12] }
+    }
+
+    // MARK: Private Instance Methods
+
+    private func _circleRatios() -> [Ratio] {
         let pureFifth = Ratio(3, 2)
 
         // The 11 circle-of-fifths steps from position 0 (C) upward through position 11 (F).
@@ -69,8 +95,6 @@ extension WellTemperament: TuningSystem {
                                      : next)
         }
 
-        // Chain position idx maps to the same circle index as (idx mod 12), so enharmonically
-        // equivalent pitch classes always receive the exact same ratio value.
-        return buildStandardConversion(for: standard) { circleRatios[(($0 % 12) + 12) % 12] }
+        return circleRatios
     }
 }

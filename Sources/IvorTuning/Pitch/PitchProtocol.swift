@@ -35,6 +35,8 @@ public protocol PitchProtocol<IntervalType>: Codable,
 
 extension PitchProtocol {
 
+    // MARK: Public Instance Methods
+
     /// Returns an attributed string representation of this pitch.
     public func formatted() -> AttributedString {
         switch self {

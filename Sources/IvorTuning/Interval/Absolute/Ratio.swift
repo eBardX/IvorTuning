@@ -6,7 +6,7 @@ private import Foundation
 private import XestiTools
 
 /// A frequency ratio representing a musical interval.
-public struct Ratio: NumberRepresentable {
+public struct Ratio {
 
     // MARK: Public Initializers
 
@@ -193,4 +193,9 @@ extension Ratio: IntervalProtocol {
     public func subtracting(_ other: Self) -> Self? {
         Self(numberValue: numberValue / other.numberValue)
     }
+}
+
+// MARK: - NumberRepresentable
+
+extension Ratio: NumberRepresentable {
 }

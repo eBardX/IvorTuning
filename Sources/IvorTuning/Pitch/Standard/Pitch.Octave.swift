@@ -8,7 +8,7 @@ extension Pitch {
 
     /// An octave number in scientific pitch notation. The octave number increments at C, not at
     /// A: B3 is immediately below C4. Valid range is −1 to 9.
-    public struct Octave: IntRepresentable {
+    public struct Octave {
 
         // MARK: Public Initializers
 
@@ -45,4 +45,9 @@ extension Pitch.Octave {
     public static func isValid(_ intValue: Int) -> Bool {
         (-1...9) ~= intValue
     }
+}
+
+// MARK: - IntRepresentable
+
+extension Pitch.Octave: IntRepresentable {
 }

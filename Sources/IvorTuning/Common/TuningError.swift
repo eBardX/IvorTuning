@@ -4,8 +4,8 @@ public import XestiTools
 
 /// An error that can occur when constructing a tuning-based converter.
 public enum TuningError {
-    /// The keyboard map does not map any MIDI note number to a frequency.
-    case emptyKeyboardMap
+    /// The keyboard layout is invalid, for the given reason.
+    case invalidKeyboardLayout(KeyboardLayout.Problem)
 
     /// Converting pitches between the two notations is not supported.
     case unsupportedConversion(from: PitchNotation, to: PitchNotation)
@@ -17,6 +17,9 @@ public enum TuningError {
 // MARK: - EnhancedError
 
 extension TuningError: EnhancedError {
+
+    // MARK: Public Instance Properties
+
     /// The error category identifying the source module.
     public var category: Category? {
         Category("IvorTuning")
@@ -25,8 +28,8 @@ extension TuningError: EnhancedError {
     /// A human-readable description of this error.
     public var message: String {
         switch self {
-        case .emptyKeyboardMap:
-            "Keyboard map does not map any MIDI note number"
+        case let .invalidKeyboardLayout(problem):
+            "Keyboard layout is invalid: \(problem.message)"
 
         case let .unsupportedConversion(from, to):
             "Conversion from \(from) pitch notation to \(to) pitch notation is not supported"

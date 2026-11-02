@@ -56,6 +56,8 @@ extension NoteDistance.FormatStyle: FormatStyle {
 
 extension NoteDistance {
 
+    // MARK: Public Instance Methods
+
     /// Returns an attributed string representation of this note distance.
     public func formatted() -> AttributedString {
         FormatStyle().format(self)

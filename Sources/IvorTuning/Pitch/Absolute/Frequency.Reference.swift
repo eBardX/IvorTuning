@@ -6,8 +6,8 @@ extension Frequency {
 
     // MARK: Public Nested Types
 
-    /// Anchors a logarithmic ``Ratio/Unit`` to hertz, so that frequencies can be measured as values
-    /// in that unit.
+    /// An anchor that ties a logarithmic ``Ratio/Unit`` to hertz, so that frequencies can be
+    /// measured as values in that unit.
     ///
     /// The reference ``frequency`` measures as ``value``. Every other frequency measures as
     /// ``value`` plus the size of its interval from ``frequency`` in ``unit``: more above it, less

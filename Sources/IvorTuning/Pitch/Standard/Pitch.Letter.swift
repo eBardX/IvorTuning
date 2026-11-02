@@ -98,6 +98,8 @@ extension Pitch.Letter: CaseIterable {
 
 extension Pitch.Letter: CustomStringConvertible {
 
+    // MARK: Public Instance Properties
+
     /// The uppercase string representation of this pitch letter (e.g., `"C"`, `"D"`, `"E"`).
     public var description: String {
         switch self {

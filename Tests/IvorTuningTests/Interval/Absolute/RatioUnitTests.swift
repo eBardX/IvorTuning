@@ -17,6 +17,14 @@ extension RatioUnitTests {
     }
 
     @Test
+    func cents_roundTrip() {
+        let value = Number(700)
+        let ratio = Ratio(cents: value)
+
+        assertEqual(ratio.cents, value)
+    }
+
+    @Test
     func codable() throws {
         let encoder = JSONEncoder()
         let decoder = JSONDecoder()
@@ -39,18 +47,6 @@ extension RatioUnitTests {
         #expect(unit.period == period)
         assertEqual(Ratio(divisions, in: unit), period)
     }
-}
-
-// MARK: - Conversion Shorthands
-
-extension RatioUnitTests {
-    @Test
-    func cents_roundTrip() {
-        let value = Number(700)
-        let ratio = Ratio(cents: value)
-
-        assertEqual(ratio.cents, value)
-    }
 
     @Test
     func hekts_roundTrip() {
@@ -61,25 +57,13 @@ extension RatioUnitTests {
     }
 
     @Test
-    func millioctaves_roundTrip() {
-        let value = Number(583)
-        let ratio = Ratio(millioctaves: value)
-
-        assertEqual(ratio.millioctaves, value)
+    func init_matchesConveniences() {
+        assertEqual(Ratio(700, in: .cents), Ratio(cents: 700))
+        assertEqual(Ratio(867, in: .hekts), Ratio(hekts: 867))
+        assertEqual(Ratio(583, in: .millioctaves), Ratio(millioctaves: 583))
+        assertEqual(Ratio(301, in: .savarts), Ratio(savarts: 301))
     }
 
-    @Test
-    func savarts_roundTrip() {
-        let value = Number(301)
-        let ratio = Ratio(savarts: value)
-
-        assertEqual(ratio.savarts, value)
-    }
-}
-
-// MARK: - Conversions
-
-extension RatioUnitTests {
     @Test(arguments: Ratio.Unit.allCases)
     func init_negative_returnsNil(unit: Ratio.Unit) {
         #expect(Ratio(-1, in: unit) == nil)
@@ -96,11 +80,19 @@ extension RatioUnitTests {
     }
 
     @Test
-    func init_matchesConveniences() {
-        assertEqual(Ratio(700, in: .cents), Ratio(cents: 700))
-        assertEqual(Ratio(867, in: .hekts), Ratio(hekts: 867))
-        assertEqual(Ratio(583, in: .millioctaves), Ratio(millioctaves: 583))
-        assertEqual(Ratio(301, in: .savarts), Ratio(savarts: 301))
+    func millioctaves_roundTrip() {
+        let value = Number(583)
+        let ratio = Ratio(millioctaves: value)
+
+        assertEqual(ratio.millioctaves, value)
+    }
+
+    @Test
+    func savarts_roundTrip() {
+        let value = Number(301)
+        let ratio = Ratio(savarts: value)
+
+        assertEqual(ratio.savarts, value)
     }
 
     @Test(arguments: Ratio.Unit.allCases)

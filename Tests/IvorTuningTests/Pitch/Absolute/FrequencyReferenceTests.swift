@@ -10,16 +10,6 @@ struct FrequencyReferenceTests {
 // MARK: -
 
 extension FrequencyReferenceTests {
-    @Test
-    func equatable() {
-        let reference = Frequency.Reference(frequency: 440, value: 0, unit: .cents)
-
-        #expect(reference == Frequency.Reference(frequency: 440, value: 0, unit: .cents))
-        #expect(reference != Frequency.Reference(frequency: 441, value: 0, unit: .cents))
-        #expect(reference != Frequency.Reference(frequency: 440, value: 1, unit: .cents))
-        #expect(reference != Frequency.Reference(frequency: 440, value: 0, unit: .savarts))
-    }
-
     @Test(arguments: [(Ratio.Unit.cents, Number(6_900)),
                       (.hekts, Number(4_700)),
                       (.millioctaves, Number(5_700)),
@@ -34,18 +24,15 @@ extension FrequencyReferenceTests {
     }
 
     @Test
-    func init_keepsValues() {
-        let reference = Frequency.Reference(frequency: 432, value: Number(-12.5), unit: .hekts)
+    func equatable() {
+        let reference = Frequency.Reference(frequency: 440, value: 0, unit: .cents)
 
-        #expect(reference.frequency == 432)
-        #expect(reference.unit == .hekts)
-        #expect(reference.value == Number(-12.5))
+        #expect(reference == Frequency.Reference(frequency: 440, value: 0, unit: .cents))
+        #expect(reference != Frequency.Reference(frequency: 441, value: 0, unit: .cents))
+        #expect(reference != Frequency.Reference(frequency: 440, value: 1, unit: .cents))
+        #expect(reference != Frequency.Reference(frequency: 440, value: 0, unit: .savarts))
     }
-}
 
-// MARK: - Conversions
-
-extension FrequencyReferenceTests {
     @Test(arguments: Ratio.Unit.allCases)
     func frequency_atReferenceValue_isReferenceFrequency(unit: Ratio.Unit) {
         let reference = Frequency.Reference.default(in: unit)
@@ -74,6 +61,15 @@ extension FrequencyReferenceTests {
     @Test(arguments: Ratio.Unit.allCases)
     func frequency_tooFarBelow_returnsNil(unit: Ratio.Unit) {
         #expect(Frequency.Reference.default(in: unit).frequency(at: Number(-1e9)) == nil)
+    }
+
+    @Test
+    func init_keepsValues() {
+        let reference = Frequency.Reference(frequency: 432, value: Number(-12.5), unit: .hekts)
+
+        #expect(reference.frequency == 432)
+        #expect(reference.unit == .hekts)
+        #expect(reference.value == Number(-12.5))
     }
 
     @Test(arguments: Ratio.Unit.allCases)

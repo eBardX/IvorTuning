@@ -159,6 +159,12 @@ extension Interval {
     private static func _isValid(_ quality: Quality,
                                  _ size: Size) -> Bool {
         switch quality {
+        case .augmented,
+                .doublyAugmented,
+                .quadruplyAugmented,
+                .triplyAugmented:
+            true
+
         case .diminished,
                 .doublyDiminished,
                 .quadruplyDiminished,
@@ -171,12 +177,6 @@ extension Interval {
 
         case .perfect:
             [1, 4, 5].contains(_diatonicDegree(for: size))
-
-        case .augmented,
-                .doublyAugmented,
-                .quadruplyAugmented,
-                .triplyAugmented:
-            true
         }
     }
 
@@ -236,6 +236,8 @@ extension Interval: Codable {
 
 extension Interval: CustomStringConvertible {
 
+    // MARK: Public Instance Properties
+
     /// The string representation of this interval (e.g., `"P5"`, `"m3"`).
     public var description: String {
         quality.description + size.description
@@ -245,6 +247,8 @@ extension Interval: CustomStringConvertible {
 // MARK: - Comparable
 
 extension Interval: Comparable {
+
+    // MARK: Public Type Methods
 
     /// Returns a Boolean value indicating whether the first interval comes before the second.
     ///

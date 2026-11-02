@@ -39,6 +39,8 @@ public protocol IntervalProtocol: Codable,
 
 extension IntervalProtocol {
 
+    // MARK: Public Instance Methods
+
     /// Returns an attributed string representation of this interval.
     public func formatted() -> AttributedString {
         switch self {

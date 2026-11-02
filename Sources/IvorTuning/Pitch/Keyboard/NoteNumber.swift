@@ -6,7 +6,7 @@ public import XestiTools
 private import Foundation
 
 /// A MIDI note number in the range `0...127`.
-public struct NoteNumber: UIntRepresentable {
+public struct NoteNumber {
 
     // MARK: Public Initializers
 
@@ -135,4 +135,9 @@ extension NoteNumber: PitchProtocol {
             self
         }
     }
+}
+
+// MARK: - UIntRepresentable
+
+extension NoteNumber: UIntRepresentable {
 }

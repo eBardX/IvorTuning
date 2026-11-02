@@ -13,17 +13,6 @@ struct IntervalTests {
 
 extension IntervalTests {
     @Test
-    func comparable_bySizeThenQuality() throws {
-        #expect(Interval.perfect1 < Interval.minor3)
-        #expect(Interval.minor3 < Interval.major3)
-        #expect(Interval.major3 < Interval.perfect4)
-        #expect(Interval.perfect4 < Interval.augmented4)
-        #expect(Interval.augmented4 < Interval.diminished5)
-        #expect(Interval.diminished5 < Interval.perfect5)
-        #expect(try !(Interval.perfect5 < Interval(quality: .perfect, size: 5)))
-    }
-
-    @Test
     func adding_failure() {
         // Fifth-chain sum overflows the ±33 range
         #expect(Interval.quadruplyAugmented7.adding(.augmented1) == nil)
@@ -249,6 +238,17 @@ extension IntervalTests {
         #expect(Interval.perfect8.adding(.minor7) == .minor14)
         #expect(Interval.perfect8.adding(.major7) == .major14)
         #expect(Interval.perfect8.adding(.perfect8) == .perfect15)
+    }
+
+    @Test
+    func comparable_bySizeThenQuality() throws {
+        #expect(Interval.perfect1 < Interval.minor3)
+        #expect(Interval.minor3 < Interval.major3)
+        #expect(Interval.major3 < Interval.perfect4)
+        #expect(Interval.perfect4 < Interval.augmented4)
+        #expect(Interval.augmented4 < Interval.diminished5)
+        #expect(Interval.diminished5 < Interval.perfect5)
+        #expect(try !(Interval.perfect5 < Interval(quality: .perfect, size: 5)))
     }
 
     @Test

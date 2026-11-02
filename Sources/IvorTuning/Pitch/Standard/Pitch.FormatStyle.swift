@@ -46,6 +46,8 @@ extension Pitch.FormatStyle: FormatStyle {
 
 extension Pitch {
 
+    // MARK: Public Instance Methods
+
     /// Returns an attributed string representation of this pitch.
     public func formatted() -> AttributedString {
         FormatStyle().format(self)

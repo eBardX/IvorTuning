@@ -21,6 +21,8 @@ extension Interval {
 
 extension Interval.InvalidCombinationError: CustomStringConvertible {
 
+    // MARK: Public Instance Properties
+
     /// A human-readable description of the invalid combination.
     public var description: String {
         "Quality \"\(quality)\" is not valid for size \(size)"

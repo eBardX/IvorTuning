@@ -12,6 +12,19 @@ struct WellTemperamentTests {
 extension WellTemperamentTests {
 
     @Test
+    func ratioForDegree_matchesStandardConversion() throws {
+        // Degree d is the d-th key of the octave above C; with C4 as the reference, each entry of
+        // the standard conversion is that key's ratio above C.
+        let conversion = try #require(WellTemperament.werckmeisterIII.standardConversion(for: .c256))
+        let keys: [PitchClass] = [.c, .cSharp, .d, .eFlat, .e, .f, .fSharp, .g, .aFlat, .a, .bFlat, .b]
+
+        for (degree, key) in keys.enumerated() {
+            try assertEqual(WellTemperament.werckmeisterIII.ratio(forDegree: degree),
+                            #require(conversion[key]?.interval))
+        }
+    }
+
+    @Test
     func standardConversion_doubleFlatEnharmonics() throws {
         let conversion = try #require(WellTemperament.werckmeisterIII.standardConversion(for: .a440))
 
@@ -126,21 +139,4 @@ extension WellTemperamentTests {
 
         assertEqual(conversion[.e], (pureFourth, .descending))
     }
-}
-
-// MARK: - Private Functions
-
-private func frequency(of pitchClass: PitchClass,
-                       in conversion: [PitchClass: DirectedInterval<Ratio>],
-                       octaveShift: Int = 0) throws -> Frequency {
-    let entry = try #require(conversion[pitchClass])
-    let frequency = try #require(PitchStandard.a440.frequency.transposed(by: entry))
-
-    guard octaveShift != 0
-    else { return frequency }
-
-    let octave = DirectedInterval(interval: Ratio.octave,
-                                  direction: octaveShift > 0 ? .ascending : .descending)
-
-    return try #require(frequency.transposed(by: octave))
 }

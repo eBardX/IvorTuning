@@ -47,6 +47,25 @@ extension EqualTemperament: TuningSystem {
 
     // MARK: Public Instance Methods
 
+    /// Returns the frequency ratio of the given step above the unison, within one period.
+    ///
+    /// Degree `d` is `d` equal steps above the unison, for `d` in `0..<divisions`.
+    ///
+    /// - Parameter degree: The degree, counted from 0 (the unison).
+    ///
+    /// - Returns:  The ratio of `degree` above the unison, or `nil` if `degree` is outside
+    ///             `0..<divisions`.
+    public func ratio(forDegree degree: Int) -> Ratio? {
+        guard degree >= 0,
+              UInt(degree) < divisions
+        else { return nil }
+
+        guard degree > 0
+        else { return .unison }
+
+        return equivalenceRatio.mul(UInt(degree), divisions)
+    }
+
     public func standardConversion(for standard: PitchStandard) -> [PitchClass: DirectedInterval<Ratio>]? {
         guard equivalenceRatio == .octave
         else { return nil }

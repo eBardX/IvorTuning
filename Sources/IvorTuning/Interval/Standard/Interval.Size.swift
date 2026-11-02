@@ -7,7 +7,7 @@ extension Interval {
     // MARK: Public Nested Types
 
     /// The diatonic size of a musical interval, expressed as a positive integer.
-    public struct Size: IntRepresentable {
+    public struct Size {
 
         // MARK: Public Initializers
 
@@ -44,4 +44,9 @@ extension Interval.Size {
     public static func isValid(_ intValue: Int) -> Bool {
         intValue > 0
     }
+}
+
+// MARK: - IntRepresentable
+
+extension Interval.Size: IntRepresentable {
 }

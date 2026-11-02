@@ -6,7 +6,7 @@ public import XestiTools
 private import Foundation
 
 /// A distance between MIDI note numbers, in the range `0...127`.
-public struct NoteDistance: UIntRepresentable {
+public struct NoteDistance {
 
     // MARK: Public Initializers
 
@@ -122,4 +122,9 @@ extension NoteDistance: IntervalProtocol {
     public func subtracting(_ other: Self) -> Self? {
         Self(uintValue: uintValue - other.uintValue)
     }
+}
+
+// MARK: - UIntRepresentable
+
+extension NoteDistance: UIntRepresentable {
 }

@@ -163,6 +163,8 @@ extension PitchClass: Codable {
 
 extension PitchClass: Comparable {
 
+    // MARK: Public Type Methods
+
     /// Returns a Boolean value indicating whether the first pitch class comes before the second.
     ///
     /// Pitch classes are ordered as pitches within one octave are: by letter from C to B, then by
@@ -181,6 +183,8 @@ extension PitchClass: Comparable {
 // MARK: - CustomStringConvertible
 
 extension PitchClass: CustomStringConvertible {
+
+    // MARK: Public Instance Properties
 
     /// The string representation of this pitch class, including the natural accidental symbol when present.
     public var description: String {

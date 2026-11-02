@@ -56,6 +56,8 @@ extension NoteNumber.FormatStyle: FormatStyle {
 
 extension NoteNumber {
 
+    // MARK: Public Instance Methods
+
     /// Returns an attributed string representation of this note number.
     public func formatted() -> AttributedString {
         FormatStyle().format(self)

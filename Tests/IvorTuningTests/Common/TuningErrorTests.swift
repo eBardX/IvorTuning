@@ -16,8 +16,10 @@ extension TuningErrorTests {
     }
 
     @Test
-    func message_emptyKeyboardMap() {
-        #expect(TuningError.emptyKeyboardMap.message == "Keyboard map does not map any MIDI note number")
+    func message_invalidKeyboardLayout() {
+        let error = TuningError.invalidKeyboardLayout(.duplicateSlot(index: 3))
+
+        #expect(error.message == "Keyboard layout is invalid: slot 3 has the same value as an earlier slot")
     }
 
     @Test

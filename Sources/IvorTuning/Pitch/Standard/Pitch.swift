@@ -159,6 +159,8 @@ extension Pitch: Codable {
 
 extension Pitch: Comparable {
 
+    // MARK: Public Type Methods
+
     /// Returns a Boolean value indicating whether the first pitch comes before the second.
     ///
     /// Pitches are ordered by their notation: by octave, then by letter from C to B, then by
@@ -180,6 +182,8 @@ extension Pitch: Comparable {
 
 extension Pitch: CustomStringConvertible {
 
+    // MARK: Public Instance Properties
+
     /// The string representation of this pitch, including the natural accidental symbol when present.
     public var description: String {
         stringValue(ascii: false)
@@ -194,6 +198,8 @@ extension Pitch: Equatable {
 // MARK: - ExpressibleByStringLiteral
 
 extension Pitch: ExpressibleByStringLiteral {
+
+    // MARK: Public Initializers
 
     /// Creates a pitch from a string literal.
     ///

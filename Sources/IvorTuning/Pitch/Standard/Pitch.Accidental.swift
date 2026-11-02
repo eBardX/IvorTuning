@@ -123,6 +123,8 @@ extension Pitch.Accidental: CaseIterable {
 
 extension Pitch.Accidental: CustomStringConvertible {
 
+    // MARK: Public Instance Properties
+
     /// The Unicode symbol for this accidental (e.g., `"♭"`, `"♯"`, `"♮"`, `"𝄫"`, `"𝄪"`).
     public var description: String {
         switch self {

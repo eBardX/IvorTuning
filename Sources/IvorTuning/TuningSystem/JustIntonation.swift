@@ -91,4 +91,26 @@ extension JustIntonation {
 // MARK: - TuningSystem
 
 extension JustIntonation: TuningSystem {
+
+    // MARK: Public Instance Methods
+
+    /// Returns the frequency ratio of the given scale degree above the tonic.
+    ///
+    /// Degree `d` is `ratios[d]`, for `d` in `0..<(ratios.count − 1)`: degree 0 is the tonic,
+    /// and the interval of equivalence (the last element of ``ratios``) is not a degree.
+    ///
+    /// - Parameter degree: The degree, counted from 0 (the tonic).
+    ///
+    /// - Returns:  The ratio of `degree` above the tonic, or `nil` if there is no such degree.
+    public func ratio(forDegree degree: Int) -> Ratio? {
+        guard degree >= 0
+        else { return nil }
+
+        guard degree > 0
+        else { return .unison }
+
+        let index = degree - 1
+
+        return index < interiorRatios.count ? interiorRatios[index] : nil
+    }
 }

@@ -45,6 +45,8 @@ extension DirectedInterval: Codable {
 
 extension DirectedInterval: Comparable {
 
+    // MARK: Public Type Methods
+
     /// Returns a Boolean value indicating whether the first directed interval comes before the
     /// second.
     ///

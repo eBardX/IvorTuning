@@ -56,6 +56,8 @@ extension Ratio.FormatStyle: FormatStyle {
 
 extension Ratio {
 
+    // MARK: Public Instance Methods
+
     /// Returns an attributed string representation of this ratio.
     public func formatted() -> AttributedString {
         FormatStyle().format(self)

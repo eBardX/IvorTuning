@@ -13,6 +13,8 @@ public struct Frequency {
     /// Creates a frequency from a number value.
     ///
     /// - Parameter numberValue:    A positive number representing the frequency in hertz.
+    ///
+    /// - Precondition: `numberValue` is positive.
     public init(_ numberValue: Number) {
         self.init(numberValue: numberValue)!    // swiftlint:disable:this force_unwrapping
     }
@@ -45,6 +47,8 @@ public struct Frequency {
     /// Creates a ``Frequency`` from a microhertz count.
     ///
     /// - Parameter uintValue:  The number of microhertz.
+    ///
+    /// - Returns:  `nil` if `uintValue` is zero.
     public init?(uintValue: UInt) {
         guard Self.isValid(uintValue)
         else { return nil }
@@ -112,10 +116,11 @@ extension Frequency {
 
 // MARK: - CustomStringConvertible
 
-extension Frequency {
+extension Frequency: CustomStringConvertible {
 
     // MARK: Public Instance Properties
 
+    /// The string representation of this frequency, in hertz.
     public var description: String {
         String(describing: numberValue)
     }
@@ -130,6 +135,8 @@ extension Frequency: ExpressibleByIntegerLiteral {
     /// Creates a frequency from an integer literal, interpreted as a whole number of hertz.
     ///
     /// - Parameter value:  The number of hertz.
+    ///
+    /// - Precondition: `value` is positive.
     public init(integerLiteral value: UInt) {
         self.init(numberValue: Number(value))!    // swiftlint:disable:this force_unwrapping
     }

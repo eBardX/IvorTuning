@@ -46,6 +46,8 @@ extension Interval.FormatStyle: FormatStyle {
 
 extension Interval {
 
+    // MARK: Public Instance Methods
+
     /// Returns an attributed string representation of this interval.
     public func formatted() -> AttributedString {
         FormatStyle().format(self)

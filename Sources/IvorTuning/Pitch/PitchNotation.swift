@@ -38,24 +38,15 @@ extension PitchNotation {
     /// Returns a Boolean value indicating whether pitches can be converted from this notation to
     /// the given notation.
     ///
-    /// Only standard → absolute and standard → keyboard conversions are supported so far; the
-    /// converters for the other pairs (such as ``AbsoluteToKeyboardPitchConverter``) throw
-    /// ``TuningError/unsupportedConversion(from:to:)`` when created. Converting a notation to
+    /// Every conversion between two different notations is supported. Converting a notation to
     /// itself is not a conversion, so it is never reported as supported.
     ///
     /// - Parameter target: The notation to convert to.
     ///
-    /// - Returns:  `true` if a working pitch converter exists from this notation to `target`;
-    ///             otherwise, `false`.
+    /// - Returns:  `true` if a pitch converter exists from this notation to `target`; otherwise,
+    ///             `false`.
     public func isConversionSupported(to target: Self) -> Bool {
-        switch (self, target) {
-        case (.standard, .absolute),
-             (.standard, .keyboard):
-            true
-
-        default:
-            false
-        }
+        self != target
     }
 
     // MARK: Private Type Properties
@@ -111,6 +102,8 @@ extension PitchNotation: Comparable {
 // MARK: - CustomStringConvertible
 
 extension PitchNotation: CustomStringConvertible {
+
+    // MARK: Public Instance Properties
 
     /// The string representation of this pitch notation (e.g., `"absolute"`, `"keyboard"`, `"standard"`).
     public var description: String {

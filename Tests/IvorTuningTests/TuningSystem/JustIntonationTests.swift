@@ -24,6 +24,27 @@ extension JustIntonationTests {
     }
 
     @Test
+    func ratioForDegree_matchesRatios() throws {
+        let majorThird = try #require(Ratio(numberValue: Number(5) / Number(4)))
+        let fifth = try #require(Ratio(numberValue: Number(3) / Number(2)))
+        let ji = JustIntonation(ratios: [fifth, majorThird])
+
+        #expect(ji.ratio(forDegree: 0) == .unison)
+        #expect(ji.ratio(forDegree: 1) == majorThird)
+        #expect(ji.ratio(forDegree: 2) == fifth)
+        #expect(ji.ratio(forDegree: 3) == nil)     // the equivalence ratio is not a degree
+        #expect(ji.ratio(forDegree: -1) == nil)
+    }
+
+    @Test
+    func ratioForDegree_unisonOnly() {
+        let ji = JustIntonation(ratios: [])
+
+        #expect(ji.ratio(forDegree: 0) == .unison)
+        #expect(ji.ratio(forDegree: 1) == nil)
+    }
+
+    @Test
     func ratios_equivalenceRatioDiscarded() {
         // Passing the equivalence ratio explicitly should not create an interior entry
         let ji = JustIntonation(ratios: [.octave])

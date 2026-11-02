@@ -2,8 +2,8 @@
 
 private import XestiTools
 
-/// Converts pitches in standard notation (``Pitch``) to absolute frequencies (``Frequency``)
-/// using a pre-computed tuning table.
+/// A converter from pitches in standard notation (``Pitch``) to absolute frequencies
+/// (``Frequency``), using a pre-computed tuning table.
 ///
 /// The converter is initialized from a ``TuningSystem`` that supports standard pitch notation
 /// and a ``PitchStandard`` that anchors the conversion. The tuning system maps all 35 standard

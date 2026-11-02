@@ -18,6 +18,21 @@ extension EqualTemperamentTests {
     }
 
     @Test
+    func ratioForDegree_bohlenPierce() {
+        // Degree 9 of 13 equal steps of the tritave.
+        assertEqual(EqualTemperament.bohlenPierce.ratio(forDegree: 9),
+                    Ratio(cents: 9 * 1_200 * log(Number(3)) / log(Number(2)) / 13))
+        #expect(EqualTemperament.bohlenPierce.ratio(forDegree: 13) == nil)
+    }
+
+    @Test
+    func ratioForDegree_edo12() {
+        assertEqual(EqualTemperament.edo12.ratio(forDegree: 1), Ratio(cents: 100))
+        assertEqual(EqualTemperament.edo12.ratio(forDegree: 7), Ratio(cents: 700))
+        assertEqual(EqualTemperament.edo12.ratio(forDegree: 11), Ratio(cents: 1_100))
+    }
+
+    @Test
     func standardConversion_edo19() throws {
         let conversion = try #require(EqualTemperament.edo19.standardConversion(for: .a440))
 

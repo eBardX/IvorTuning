@@ -3,6 +3,9 @@
 private import XestiTools
 
 extension Interval {
+
+    // MARK: Public Nested Types
+
     /// The quality of a musical interval.
     public enum Quality {
 
@@ -59,49 +62,6 @@ extension Interval {
 
 extension Interval.Quality {
 
-    // MARK: Internal Instance Properties
-
-    //
-    // From diminished to augmented, for ordering intervals of the same size by their notation —
-    // see `Interval`'s `Comparable` conformance.
-    //
-    internal var rank: Int {
-        switch self {
-        case .quadruplyDiminished:
-            -5
-
-        case .triplyDiminished:
-            -4
-
-        case .doublyDiminished:
-            -3
-
-        case .diminished:
-            -2
-
-        case .minor:
-            -1
-
-        case .perfect:
-            0
-
-        case .major:
-            1
-
-        case .augmented:
-            2
-
-        case .doublyAugmented:
-            3
-
-        case .triplyAugmented:
-            4
-
-        case .quadruplyAugmented:
-            5
-        }
-    }
-
     // MARK: Public Instance Methods
 
     /// Returns the inversion of this quality.
@@ -144,6 +104,49 @@ extension Interval.Quality {
         }
     }
 
+    // MARK: Internal Instance Properties
+
+    //
+    // From diminished to augmented, for ordering intervals of the same size by their notation —
+    // see `Interval`'s `Comparable` conformance.
+    //
+    internal var rank: Int {
+        switch self {
+        case .augmented:
+            2
+
+        case .diminished:
+            -2
+
+        case .doublyAugmented:
+            3
+
+        case .doublyDiminished:
+            -3
+
+        case .major:
+            1
+
+        case .minor:
+            -1
+
+        case .perfect:
+            0
+
+        case .quadruplyAugmented:
+            5
+
+        case .quadruplyDiminished:
+            -5
+
+        case .triplyAugmented:
+            4
+
+        case .triplyDiminished:
+            -4
+        }
+    }
+
     // MARK: Private Type Properties
 
     private static let qualities: [String: Self] = ["dddd": .quadruplyDiminished,
@@ -167,6 +170,9 @@ extension Interval.Quality: Codable {
 // MARK: - CustomStringConvertible
 
 extension Interval.Quality: CustomStringConvertible {
+
+    // MARK: Public Instance Properties
+
     /// The string representation of this quality (e.g., `"P"`, `"m"`, `"M"`, `"d"`, `"A"`).
     public var description: String {
         switch self {

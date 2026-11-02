@@ -16,6 +16,22 @@ public protocol TuningSystem: Equatable,
 
     // MARK: Public Instance Methods
 
+    /// Returns the frequency ratio of the given degree above the unison, within one period.
+    ///
+    /// Degrees are numbered `0..<n`, where `n` is the number of degrees in one period (one
+    /// ``equivalenceRatio``). Degree 0 is the unison, and degrees ascend in sound, so
+    /// `ratio(forDegree: d + 1)` is greater than `ratio(forDegree: d)` for every `d` in
+    /// `0..<n − 1`. There is no folding by periods: any degree outside `0..<n` returns `nil`.
+    ///
+    /// Returns `nil` for every degree if this tuning system has no finite set of degrees (for
+    /// example, a linear temperament, whose chain of fifths is open).
+    ///
+    /// - Parameter degree: The degree, counted from 0 (the unison).
+    ///
+    /// - Returns:  The ratio of `degree` above the unison, in [1, ``equivalenceRatio``), or `nil`
+    ///             if this tuning system has no such degree.
+    func ratio(forDegree degree: Int) -> Ratio?
+
     /// Returns a pitch-class mapping for converting standard pitches to absolute frequencies.
     ///
     /// Returns `nil` if this tuning system does not support standard pitch notation (e.g., because
@@ -50,6 +66,11 @@ extension TuningSystem {
     }
 
     // MARK: Public Instance Methods
+
+    /// Returns `nil` by default; override to support degrees.
+    public func ratio(forDegree degree: Int) -> Ratio? {
+        nil
+    }
 
     /// Returns `nil` by default; override to support standard pitch notation.
     public func standardConversion(for standard: PitchStandard) -> [PitchClass: DirectedInterval<Ratio>]? {
