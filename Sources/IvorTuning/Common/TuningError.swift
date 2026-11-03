@@ -7,9 +7,6 @@ public enum TuningError {
     /// The keyboard layout is invalid, for the given reason.
     case invalidKeyboardLayout(KeyboardLayout.Problem)
 
-    /// Converting pitches between the two notations is not supported.
-    case unsupportedConversion(from: PitchNotation, to: PitchNotation)
-
     /// The tuning system does not support standard pitch notation.
     case unsupportedStandardConversion
 }
@@ -30,9 +27,6 @@ extension TuningError: EnhancedError {
         switch self {
         case let .invalidKeyboardLayout(problem):
             "Keyboard layout is invalid: \(problem.message)"
-
-        case let .unsupportedConversion(from, to):
-            "Conversion from \(from) pitch notation to \(to) pitch notation is not supported"
 
         case .unsupportedStandardConversion:
             "Tuning system does not support standard pitch notation"
