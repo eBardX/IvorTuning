@@ -79,16 +79,28 @@ within one period, through ``TuningSystem/ratio(forDegree:)``.
 
  Family                    | Presets                                                                                   | Standard notation         | Degrees
 :-----                     |:-------                                                                                   |:-----------------         |:-------
- ``EqualTemperament``      | `edo12`, `edo19`, `edo22`, `edo24`, `edo31`, `edo53`, `bohlenPierce`, `carlosAlpha`, `carlosBeta`, `carlosGamma` | Octave periods of at most 35 steps | Yes
+ ``EqualTemperament``      | `edo12`, `edo19`, `edo22`, `edo24`, `edo31`, `edo53`, `bohlenPierce`, `carlosAlpha`, `carlosBeta`, `carlosGamma` | Octave periods, with some limits | Yes
  ``LinearTemperament``     | `pythagorean`, `quarterCommaMeantone`, `thirdCommaMeantone`, `sixthCommaMeantone`, `twoSeventhCommaMeantone` | Yes                       | No
  ``WellTemperament``       | `kellner`, `kirnbergerII`, `kirnbergerIII`, `neidhardtI`, `neidhardtII`, `neidhardtIII`, `vallotti`, `werckmeisterIII`, `youngI`, `youngII` | Yes                       | Yes (12)
  ``JustIntonation``        | `fiveLimitJI`, `sevenLimitJI`, `partch43`                                                 | No                        | Yes
 
-Standard notation needs an octave period and at most 35 distinct pitch
-classes, so Bohlen-Pierce (which repeats at the tritave) and 53-EDO cannot
-use it. Just intonation never does: even a 5-limit scale has enharmonic pairs
-that sound different but share one spelling. A few other equal temperaments
-that pass the checks, such as 17-EDO, may spell unexpectedly. A linear
+Standard notation needs an octave period, so Bohlen-Pierce (which repeats at
+the tritave) cannot use it. An equal temperament also needs letters that ascend
+in pitch and a sharp that raises the pitch, so 13-EDO, where E lies above F,
+5-EDO, where they coincide, and 7-EDO, where a sharp changes nothing, have no
+conversion. Standard notation has only 35 pitch classes, so it can’t represent
+every step of an equal temperament with more divisions. 53-EDO still has a
+conversion, but only for the steps its spellings land on, so a work must stay
+within those. The same applies to 24-EDO, whose spellings land on only 12
+pitches, because its chain of fifths closes early. Just intonation never uses
+standard notation: even a 5-limit scale has enharmonic pairs that sound
+different but share one spelling.
+
+Accidentals can surprise, too. Whenever a sharp is larger than a diatonic
+semitone, as in Pythagorean tuning and 53-EDO, E♯ lies above F, by 22–24¢ in
+those two. In 17-EDO it lies about 70¢ above F, as far as F is above E, and in
+22-EDO about 109¢. These spellings are consistent, but they may not be what a
+reader expects. A linear
 temperament has an open chain of fifths, so it gives each of the 35 spellings
 its own pitch — in quarter-comma meantone, G♯ lies about 41¢ below A♭ — but
 has no finite set of degrees.

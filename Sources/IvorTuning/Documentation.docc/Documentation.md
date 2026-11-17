@@ -50,6 +50,10 @@ tuning systems, conversion between notations, keyboard layouts, and spelling.
 - ``PitchClass``
 - ``Interval``
 
+### Key signatures
+
+- ``KeySignature``
+
 ### Absolute notation
 
 - ``Frequency``

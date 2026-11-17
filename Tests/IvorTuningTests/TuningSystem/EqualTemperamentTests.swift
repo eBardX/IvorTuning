@@ -48,6 +48,16 @@ extension EqualTemperamentTests {
         #expect(EqualTemperament.edo12.standardConversion(for: .a440)?.count == 35)
     }
 
+    @Test(arguments: [5, 10, 15, 20, 25, 30] as [UInt])
+    func standardConversion_lettersCoincide_isNil(divisions: UInt) {
+        #expect(EqualTemperament(divisions: divisions).standardConversion(for: .a440) == nil)
+    }
+
+    @Test(arguments: [3, 6, 8, 13, 18] as [UInt])
+    func standardConversion_lettersReversed_isNil(divisions: UInt) {
+        #expect(EqualTemperament(divisions: divisions).standardConversion(for: .a440) == nil)
+    }
+
     @Test
     func standardConversion_nonOctave_isNil() {
         #expect(EqualTemperament.bohlenPierce.standardConversion(for: .a440) == nil)
@@ -72,5 +82,15 @@ extension EqualTemperamentTests {
 
         assertEqual(conversion[.b], (Ratio(cents: 200), .ascending))
         assertEqual(conversion[.c], (Ratio(cents: 900), .descending))
+    }
+
+    @Test(arguments: [2, 4, 7, 9, 11, 14, 16, 21, 23, 28, 35] as [UInt])
+    func standardConversion_sharpDoesNotRaise_isNil(divisions: UInt) {
+        #expect(EqualTemperament(divisions: divisions).standardConversion(for: .a440) == nil)
+    }
+
+    @Test(arguments: [12, 17, 19, 22, 24, 31, 53] as [UInt])
+    func standardConversion_supported(divisions: UInt) {
+        #expect(EqualTemperament(divisions: divisions).standardConversion(for: .a440) != nil)
     }
 }
