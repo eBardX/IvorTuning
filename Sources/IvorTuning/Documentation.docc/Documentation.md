@@ -50,9 +50,9 @@ tuning systems, conversion between notations, keyboard layouts, and spelling.
 - ``PitchClass``
 - ``Interval``
 
-### Key signatures
+### Keys
 
-- ``KeySignature``
+- ``Key``
 
 ### Absolute notation
 
